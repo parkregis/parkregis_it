@@ -20,6 +20,7 @@
   --red:#E24B4A;--rl:#FCEBEB;--rd:#A32D2D;
   --blue:#378ADD;--bl:#E6F1FB;--bd3:#185FA5;
   --purple:#7F77DD;--pl:#EEEDFE;--pd2:#3C3489;
+  --teal:#1A9E8F;--tl:#D5F5F1;--td:#0D5049;
   --navy:#0a1628;
 }
 @media(prefers-color-scheme:dark){
@@ -29,6 +30,7 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
 .app{display:flex;height:100vh;}
+/* Sidebar */
 .sb{width:220px;min-width:220px;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto;}
 .sb-logo{padding:18px 16px 14px;border-bottom:0.5px solid rgba(255,255,255,0.07);}
 .logo-mark{width:34px;height:34px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
@@ -43,7 +45,9 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .nb-red{background:var(--red);color:#fff;}
 .nb-green{background:var(--green);color:#fff;}
 .nb-amber{background:var(--amber);color:#fff;}
+.nb-teal{background:var(--teal);color:#fff;}
 .sb-foot{margin-top:auto;padding:8px;border-top:0.5px solid rgba(255,255,255,0.06);}
+/* Main */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 .topbar{background:var(--bg);border-bottom:0.5px solid var(--bd);padding:0 20px;height:54px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .topbar-title{font-size:15px;font-weight:500;flex:1;}
@@ -55,17 +59,21 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .btn-green{background:var(--green);color:#fff;}
 .btn-red{background:var(--red);color:#fff;}
 .btn-ghost{background:var(--bg2);color:var(--tx2);border:0.5px solid var(--bd);}
+.btn-teal{background:var(--teal);color:#fff;}
 .content{flex:1;overflow-y:auto;padding:16px 20px 24px;}
+/* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .stat-card{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--rlg);padding:14px 16px;}
 .stat-label{font-size:11px;color:var(--tx2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
 .stat-val{font-size:28px;font-weight:500;line-height:1;}
 .stat-sub{font-size:11px;color:var(--tx2);margin-top:4px;}
 .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:1px;}
+/* Panel */
 .panel{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--rlg);overflow:hidden;margin-bottom:12px;}
 .ph{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:0.5px solid var(--bd);}
 .ph-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;}
 .ph-act{font-size:12px;color:var(--green);cursor:pointer;background:none;border:none;font-family:var(--font);}
+/* Badges */
 .badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;white-space:nowrap;}
 .b-open{background:var(--al);color:var(--ad);}
 .b-progress{background:var(--bl);color:var(--bd3);}
@@ -82,16 +90,35 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .b-renewed{background:var(--pl);color:var(--pd2);}
 .b-pending{background:#F1EFE8;color:#5F5E5A;}
 .b-cancelled{background:#F1EFE8;color:#5F5E5A;}
+.b-assigned{background:var(--gl);color:var(--gd);}
+.b-available{background:var(--bl);color:var(--bd3);}
+.b-maintenance{background:var(--al);color:var(--ad);}
+.b-retired{background:#F1EFE8;color:#5F5E5A;}
+.b-lost{background:var(--rl);color:var(--rd);}
+/* Asset type icons map */
+.asset-icon{width:36px;height:36px;border-radius:var(--rmd);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.ai-computer{background:#E6F1FB;color:var(--blue);}
+.ai-laptop{background:#EAF3DE;color:var(--green);}
+.ai-mobile{background:#EEEDFE;color:var(--purple);}
+.ai-printer{background:#FAEEDA;color:var(--amber);}
+.ai-telephone{background:#D5F5F1;color:var(--teal);}
+.ai-keyboard{background:#F1EFE8;color:#5F5E5A;}
+.ai-mouse{background:#F1EFE8;color:#5F5E5A;}
+.ai-sim{background:#FCEBEB;color:var(--red);}
+.ai-other{background:#F5F5F3;color:var(--tx2);}
+/* Priority dot */
 .pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .pd-urgent{background:var(--red);}
 .pd-high{background:var(--amber);}
 .pd-medium{background:var(--blue);}
 .pd-low{background:var(--green);}
+/* Rows */
 .row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--bd);transition:background .1s;}
 .row:hover{background:var(--bg2);}
 .row:last-child{border-bottom:none;}
 .row-clickable{cursor:pointer;}
-.tid{font-size:11px;color:var(--tx3);min-width:54px;font-family:var(--mono);}
+.tid{font-size:11px;color:var(--tx3);min-width:60px;font-family:var(--mono);}
+/* Avatar */
 .avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
 .av0{background:#B5D4F4;color:#0C447C;}
 .av1{background:#C0DD97;color:#27500A;}
@@ -99,12 +126,13 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .av3{background:#CECBF6;color:#3C3489;}
 .av4{background:#F5C4B3;color:#712B13;}
 .av5{background:#9FE1CB;color:#085041;}
+/* Progress */
 .prog-track{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:3px;}
 .pf-green{background:var(--green);}
 .pf-amber{background:var(--amber);}
 .pf-red{background:var(--red);}
-.pf-purple{background:var(--purple);}
+/* AI panel */
 .ai-panel{background:var(--navy);border-radius:var(--rlg);padding:16px;margin-bottom:14px;}
 .ai-lbl{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .ai-row{display:flex;gap:8px;}
@@ -116,60 +144,81 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
 .chip{background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.11);border-radius:20px;padding:4px 11px;font-size:11px;color:rgba(255,255,255,0.52);cursor:pointer;transition:all .15s;}
 .chip:hover{background:rgba(99,153,34,0.18);color:#a8d96c;border-color:rgba(99,153,34,0.3);}
-.tabs{display:flex;gap:2px;background:var(--bg2);border-radius:var(--rmd);padding:3px;}
-.tab{padding:5px 13px;border-radius:6px;font-size:12px;cursor:pointer;color:var(--tx2);border:none;background:none;font-family:var(--font);transition:all .15s;}
+/* Tabs */
+.tabs{display:flex;gap:2px;background:var(--bg2);border-radius:var(--rmd);padding:3px;flex-wrap:wrap;}
+.tab{padding:5px 11px;border-radius:6px;font-size:12px;cursor:pointer;color:var(--tx2);border:none;background:none;font-family:var(--font);transition:all .15s;}
 .tab.active{background:var(--bg);color:var(--tx);font-weight:500;}
+/* Modal */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
 .overlay.show{display:flex;}
-.modal{background:var(--bg);border-radius:var(--rxl);padding:22px;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;border:0.5px solid var(--bd);}
+.modal{background:var(--bg);border-radius:var(--rxl);padding:22px;width:520px;max-width:95vw;max-height:92vh;overflow-y:auto;border:0.5px solid var(--bd);}
+.modal-wide{width:700px;}
 .mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
 .mt{font-size:15px;font-weight:500;}
 .mc{background:none;border:none;font-size:22px;cursor:pointer;color:var(--tx2);line-height:1;padding:0 2px;}
 .fr{margin-bottom:13px;}
 .fr2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px;}
+.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:13px;}
 .fl{font-size:12px;color:var(--tx2);margin-bottom:5px;display:block;}
 .fi,.fs,.fta{width:100%;padding:9px 11px;border:0.5px solid var(--bd2);border-radius:var(--rmd);background:var(--bg);color:var(--tx);font-size:13px;font-family:var(--font);outline:none;transition:border-color .15s;}
 .fi:focus,.fs:focus,.fta:focus{border-color:var(--green);}
 .fta{resize:vertical;min-height:72px;}
 .mf{display:flex;gap:8px;justify-content:flex-end;margin-top:6px;}
+/* Empty */
 .empty{padding:40px 20px;text-align:center;color:var(--tx3);}
 .empty i{font-size:36px;margin-bottom:10px;display:block;}
 .empty p{font-size:13px;}
+/* Dropdown menu */
 .action-menu{position:relative;display:inline-block;}
 .action-btn{background:none;border:0.5px solid var(--bd);border-radius:var(--rmd);padding:5px 9px;cursor:pointer;font-size:11px;color:var(--tx2);font-family:var(--font);display:flex;align-items:center;gap:4px;}
 .action-btn:hover{background:var(--bg2);}
-.dropdown{position:absolute;right:0;top:calc(100% + 4px);background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--rmd);min-width:170px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.14);}
+.dropdown{position:absolute;right:0;top:calc(100% + 4px);background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--rmd);min-width:180px;z-index:500;box-shadow:0 4px 16px rgba(0,0,0,0.14);}
 .dd-item{padding:9px 14px;font-size:12px;cursor:pointer;color:var(--tx);display:flex;align-items:center;gap:8px;transition:background .1s;}
 .dd-item:hover{background:var(--bg2);}
 .dd-item.danger{color:var(--red);}
 .dd-sep{height:0.5px;background:var(--bd);margin:3px 0;}
-/* Save indicator */
+/* Asset detail grid */
+.asset-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
+.asset-detail-item{background:var(--bg2);border-radius:var(--rmd);padding:10px 12px;}
+.adl{font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.adv{font-size:13px;font-weight:500;color:var(--tx);}
+/* Toast */
 .save-toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#a8d96c;padding:8px 16px;border-radius:var(--rmd);font-size:12px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
 .save-toast.show{opacity:1;}
-/* Loading screen */
+/* Loading */
 .loading-screen{position:fixed;inset:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s;}
 .loading-screen.hide{opacity:0;pointer-events:none;}
 .spin{width:32px;height:32px;border:3px solid rgba(255,255,255,0.15);border-top-color:#a8d96c;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:14px;}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* Asset table */
+.asset-table{width:100%;border-collapse:collapse;}
+.asset-table th{font-size:11px;color:var(--tx2);padding:9px 12px;border-bottom:0.5px solid var(--bd);text-align:left;font-weight:500;background:var(--bg2);}
+.asset-table td{font-size:12px;padding:10px 12px;border-bottom:0.5px solid var(--bd);vertical-align:middle;}
+.asset-table tr:last-child td{border-bottom:none;}
+.asset-table tr:hover td{background:var(--bg2);}
+/* Search */
+.search-box{display:flex;align-items:center;gap:8px;background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--rmd);padding:7px 12px;flex:1;max-width:260px;}
+.search-box i{color:var(--tx3);font-size:15px;}
+.search-box input{border:none;background:none;outline:none;font-size:13px;color:var(--tx);font-family:var(--font);width:100%;}
+.search-box input::placeholder{color:var(--tx3);}
 @media(max-width:768px){
   .sb{width:54px;min-width:54px;}
   .hotel-name,.hotel-sub,.sb-sec,.nav span,.nbadge{display:none;}
   .nav{justify-content:center;padding:11px;margin:2px 4px;}
   .nav i{font-size:20px;}
   .stats-row{grid-template-columns:repeat(2,1fr);}
+  .modal-wide{width:95vw;}
 }
 </style>
 </head>
 <body>
 
-<!-- Loading screen -->
 <div class="loading-screen" id="loading-screen">
   <div style="width:40px;height:40px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;margin-bottom:16px;">PR</div>
   <div class="spin"></div>
   <div style="color:rgba(255,255,255,0.6);font-size:13px;">Loading your data...</div>
 </div>
 
-<!-- Save toast -->
 <div class="save-toast" id="save-toast">✓ Saved</div>
 
 <div class="app">
@@ -189,7 +238,8 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
     <div class="sb-sec">Operations</div>
     <div class="nav" onclick="go('tickets')"><i class="ti ti-ticket"></i><span>Tickets</span><span class="nbadge nb-red" id="nb-tickets">0</span></div>
     <div class="nav" onclick="go('tasks')"><i class="ti ti-checklist"></i><span>Tasks</span><span class="nbadge nb-amber" id="nb-tasks">0</span></div>
-    <div class="sb-sec">Contracts</div>
+    <div class="sb-sec">Assets & Contracts</div>
+    <div class="nav" onclick="go('assets')"><i class="ti ti-devices"></i><span>IT Assets</span><span class="nbadge nb-teal" id="nb-assets">0</span></div>
     <div class="nav" onclick="go('amc')"><i class="ti ti-file-certificate"></i><span>AMC Contracts</span><span class="nbadge nb-red" id="nb-amc">0</span></div>
     <div class="nav" onclick="go('suppliers')"><i class="ti ti-building-store"></i><span>Suppliers</span></div>
     <div class="sb-sec">People</div>
@@ -204,6 +254,7 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
       <div class="topbar-title" id="topbar-title">Dashboard</div>
       <div class="topbar-date" id="topbar-date"></div>
       <button class="btn btn-navy" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button>
+      <button class="btn btn-teal" onclick="openModal('asset')"><i class="ti ti-plus"></i> Add Asset</button>
       <button class="btn btn-ai" onclick="openModal('ai-full')"><i class="ti ti-robot"></i> Ask AI</button>
     </div>
     <div class="content" id="content"></div>
@@ -215,181 +266,212 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════
-// PERSISTENCE — localStorage (works on any hosted site)
-// ═══════════════════════════════════════════════════════════════
-const DB_KEY = 'parkregis_it_v2';
-
-function dbLoad() {
-  try {
-    const raw = localStorage.getItem(DB_KEY);
-    if (raw) return JSON.parse(raw);
-  } catch(e) {}
-  return null;
-}
+// ═══════════════════════════════════════════════════════════
+// PERSISTENCE
+// ═══════════════════════════════════════════════════════════
+const DB_KEY = 'parkregis_it_v3';
 
 function dbSave() {
   try {
     localStorage.setItem(DB_KEY, JSON.stringify({
-      tickets: S.tickets,
-      tasks: S.tasks,
-      amc: S.amc,
-      suppliers: S.suppliers,
-      contacts: S.contacts,
-      _tid: S._tid,
-      _tsid: S._tsid,
-      _aid: S._aid,
-      _sid: S._sid,
-      _cid: S._cid
+      tickets:S.tickets, tasks:S.tasks, amc:S.amc,
+      suppliers:S.suppliers, contacts:S.contacts, assets:S.assets,
+      _tid:S._tid,_tsid:S._tsid,_aid:S._aid,
+      _sid:S._sid,_cid:S._cid,_asid:S._asid
     }));
     showToast('✓ Saved');
-  } catch(e) {
-    showToast('⚠ Save failed');
-  }
+  } catch(e){ showToast('⚠ Save failed'); }
 }
 
-function showToast(msg) {
-  const t = document.getElementById('save-toast');
-  t.textContent = msg;
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2000);
+function showToast(msg){
+  const t=document.getElementById('save-toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2200);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // STATE
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 const S = {
-  view: 'dashboard',
-  ticketFilter: 'all',
-  taskFilter: 'all',
-  amcFilter: 'all',
-  tickets: [],
-  tasks: [],
-  amc: [],
-  suppliers: [],
-  contacts: [],
-  _tid: 0, _tsid: 0, _aid: 0, _sid: 0, _cid: 0
+  view:'dashboard',
+  ticketFilter:'all', taskFilter:'all', amcFilter:'all', assetFilter:'all',
+  assetSearch:'',
+  tickets:[], tasks:[], amc:[], suppliers:[], contacts:[], assets:[],
+  _tid:0,_tsid:0,_aid:0,_sid:0,_cid:0,_asid:0
 };
 
-// Load saved data on startup
-(function initDB() {
-  const saved = dbLoad();
-  if (saved) {
-    S.tickets   = saved.tickets   || [];
-    S.tasks     = saved.tasks     || [];
-    S.amc       = saved.amc       || [];
-    S.suppliers = saved.suppliers || [];
-    S.contacts  = saved.contacts  || [];
-    S._tid  = saved._tid  || 0;
-    S._tsid = saved._tsid || 0;
-    S._aid  = saved._aid  || 0;
-    S._sid  = saved._sid  || 0;
-    S._cid  = saved._cid  || 0;
-  }
-  // Hide loading screen
-  setTimeout(() => {
-    const ls = document.getElementById('loading-screen');
+(function initDB(){
+  try{
+    const raw=localStorage.getItem(DB_KEY);
+    if(raw){
+      const d=JSON.parse(raw);
+      ['tickets','tasks','amc','suppliers','contacts','assets'].forEach(k=>{ if(d[k]) S[k]=d[k]; });
+      ['_tid','_tsid','_aid','_sid','_cid','_asid'].forEach(k=>{ if(d[k]) S[k]=d[k]; });
+    }
+  }catch(e){}
+  setTimeout(()=>{
+    const ls=document.getElementById('loading-screen');
     ls.classList.add('hide');
-    setTimeout(() => ls.remove(), 400);
-  }, 600);
+    setTimeout(()=>ls.remove(),400);
+  },600);
 })();
 
-// ═══════════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════════
-const avCls = ['av0','av1','av2','av3','av4','av5'];
-function uid(prefix, key) { S[key]++; return `${prefix}-${String(S[key]).padStart(3,'0')}`; }
-function fmtDate(raw) {
-  if (!raw) return 'TBD';
-  const d = new Date(raw);
-  return isNaN(d) ? raw : d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
-}
-function today() { return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); }
-function initials(name) { return (name||'?').trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
-function av(idx) { return avCls[idx % avCls.length]; }
-document.getElementById('topbar-date').textContent = today();
+// ═══════════════════════════════════════════════════════════
+// ASSET CONFIG
+// ═══════════════════════════════════════════════════════════
+const ASSET_TYPES = [
+  'Computer (Desktop)','Laptop','Mobile Phone','Telephone',
+  'Printer','Keyboard','Mouse','SIM Card','Tablet',
+  'Monitor','UPS','Switch/Router','CCTV Camera',
+  'Access Point (WiFi)','Hard Drive / Storage','Other'
+];
 
-// ═══════════════════════════════════════════════════════════════
+const ASSET_TYPE_ICONS = {
+  'Computer (Desktop)':'ti ti-device-desktop',
+  'Laptop':'ti ti-device-laptop',
+  'Mobile Phone':'ti ti-device-mobile',
+  'Telephone':'ti ti-phone',
+  'Printer':'ti ti-printer',
+  'Keyboard':'ti ti-keyboard',
+  'Mouse':'ti ti-mouse',
+  'SIM Card':'ti ti-sim',
+  'Tablet':'ti ti-device-tablet',
+  'Monitor':'ti ti-device-tv',
+  'UPS':'ti ti-battery-charging',
+  'Switch/Router':'ti ti-network',
+  'CCTV Camera':'ti ti-camera',
+  'Access Point (WiFi)':'ti ti-wifi',
+  'Hard Drive / Storage':'ti ti-device-floppy',
+  'Other':'ti ti-box'
+};
+
+const ASSET_TYPE_CLASSES = {
+  'Computer (Desktop)':'ai-computer',
+  'Laptop':'ai-laptop',
+  'Mobile Phone':'ai-mobile',
+  'Telephone':'ai-telephone',
+  'Printer':'ai-printer',
+  'Keyboard':'ai-keyboard',
+  'Mouse':'ai-mouse',
+  'SIM Card':'ai-sim',
+  'Tablet':'ai-mobile',
+  'Monitor':'ai-computer',
+  'UPS':'ai-other',
+  'Switch/Router':'ai-computer',
+  'CCTV Camera':'ai-other',
+  'Access Point (WiFi)':'ai-computer',
+  'Hard Drive / Storage':'ai-other',
+  'Other':'ai-other'
+};
+
+const DEPARTMENTS = [
+  'Information Technology','Front Office','Food & Beverage',
+  'Housekeeping','Engineering','Finance','Human Resources',
+  'Sales & Marketing','Security','Management','Spa & Wellness','Other'
+];
+
+const LOCATIONS = [
+  'Server Room','Reception / Front Desk','IT Office',
+  'General Manager Office','Finance Office','HR Office',
+  'Sales Office','F&B Office','Engineering Office',
+  'Security Office','Executive Lounge','Business Centre',
+  'Poolside','Spa','Kitchen','Housekeeping Office',
+  'Floor 1','Floor 2','Floor 3','Floor 4','Floor 5',
+  'Floor 6','Floor 7','Floor 8','Floor 9','Floor 10',
+  'Floor 11','Floor 12','Basement','Car Park','Other'
+];
+
+const ASSET_STATUSES = ['Assigned','Available','In Maintenance','Retired','Lost / Stolen'];
+
+// ═══════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════
+const avCls=['av0','av1','av2','av3','av4','av5'];
+function uid(p,k){S[k]++;return `${p}-${String(S[k]).padStart(3,'0')}`;}
+function fmtDate(raw){if(!raw)return 'TBD';const d=new Date(raw);return isNaN(d)?raw:d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});}
+function today(){return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});}
+function initials(name){return (name||'?').trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();}
+function av(idx){return avCls[idx%avCls.length];}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+document.getElementById('topbar-date').textContent=today();
+
+function assetStatusKey(s){
+  const m={'Assigned':'assigned','Available':'available','In Maintenance':'maintenance','Retired':'retired','Lost / Stolen':'lost'};
+  return m[s]||'available';
+}
+
+// ═══════════════════════════════════════════════════════════
 // NAVIGATION
-// ═══════════════════════════════════════════════════════════════
-function go(v) {
-  S.view = v;
-  document.querySelectorAll('.nav').forEach(el => el.classList.remove('active'));
-  const views = ['dashboard','tickets','tasks','amc','suppliers','contacts','settings'];
-  const navEls = document.querySelectorAll('.nav');
-  const i = views.indexOf(v);
-  if (i >= 0 && navEls[i]) navEls[i].classList.add('active');
-  const titles = {dashboard:'Dashboard',tickets:'IT Tickets',tasks:'IT Tasks',amc:'AMC Contracts',suppliers:'Suppliers',contacts:'Contacts',settings:'Settings'};
-  document.getElementById('topbar-title').textContent = titles[v] || v;
+// ═══════════════════════════════════════════════════════════
+function go(v){
+  S.view=v;
+  document.querySelectorAll('.nav').forEach(el=>el.classList.remove('active'));
+  const views=['dashboard','tickets','tasks','assets','amc','suppliers','contacts','settings'];
+  const navEls=document.querySelectorAll('.nav');
+  const i=views.indexOf(v);
+  if(i>=0&&navEls[i]) navEls[i].classList.add('active');
+  const titles={dashboard:'Dashboard',tickets:'IT Tickets',tasks:'IT Tasks',assets:'IT Assets',amc:'AMC Contracts',suppliers:'Suppliers',contacts:'Contacts',settings:'Settings'};
+  document.getElementById('topbar-title').textContent=titles[v]||v;
   render();
 }
 
-function updateBadges() {
-  document.getElementById('nb-tickets').textContent = S.tickets.filter(t => t.status==='open'||t.status==='delayed').length;
-  document.getElementById('nb-tasks').textContent = S.tasks.filter(t => t.status!=='done'&&t.status!=='cancelled').length;
-  document.getElementById('nb-amc').textContent = S.amc.filter(a => a.status==='expiring'||a.status==='expired').length;
+function updateBadges(){
+  document.getElementById('nb-tickets').textContent=S.tickets.filter(t=>t.status==='open'||t.status==='delayed').length;
+  document.getElementById('nb-tasks').textContent=S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length;
+  document.getElementById('nb-amc').textContent=S.amc.filter(a=>a.status==='expiring'||a.status==='expired').length;
+  document.getElementById('nb-assets').textContent=S.assets.length;
 }
 
-function render() {
+function render(){
   updateBadges();
-  const fn = {dashboard:renderDashboard,tickets:renderTickets,tasks:renderTasks,amc:renderAMC,suppliers:renderSuppliers,contacts:renderContacts,settings:renderSettings};
-  document.getElementById('content').innerHTML = (fn[S.view]||renderDashboard)();
+  const fn={dashboard:renderDashboard,tickets:renderTickets,tasks:renderTasks,assets:renderAssets,amc:renderAMC,suppliers:renderSuppliers,contacts:renderContacts,settings:renderSettings};
+  document.getElementById('content').innerHTML=(fn[S.view]||renderDashboard)();
 }
 
-// ═══════════════════════════════════════════════════════════════
-// STATUS HELPERS
-// ═══════════════════════════════════════════════════════════════
-function statusLabel(s) {
-  return {open:'Open',progress:'In Progress',done:'Done',delayed:'Delayed',closed:'Closed'}[s]||s;
-}
-function amcStatusLabel(s) {
-  return {active:'Active',expiring:'Expiring Soon',expired:'Expired',renewed:'Renewed'}[s]||s;
-}
-function amcPct(a) {
-  if (!a.startRaw || !a.endRaw) return 0;
-  const start = new Date(a.startRaw).getTime();
-  const end   = new Date(a.endRaw).getTime();
-  const now   = Date.now();
-  if (now >= end) return 100;
-  if (now <= start) return 0;
-  return Math.round((now - start) / (end - start) * 100);
+// ═══════════════════════════════════════════════════════════
+// STATUS LABELS
+// ═══════════════════════════════════════════════════════════
+function statusLabel(s){return{open:'Open',progress:'In Progress',done:'Done',delayed:'Delayed',closed:'Closed'}[s]||s;}
+function amcStatusLabel(s){return{active:'Active',expiring:'Expiring Soon',expired:'Expired',renewed:'Renewed'}[s]||s;}
+function amcPct(a){
+  if(!a.startRaw||!a.endRaw)return 0;
+  const s=new Date(a.startRaw).getTime(),e=new Date(a.endRaw).getTime(),n=Date.now();
+  if(n>=e)return 100;if(n<=s)return 0;
+  return Math.round((n-s)/(e-s)*100);
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // DASHBOARD
-// ═══════════════════════════════════════════════════════════════
-function renderDashboard() {
-  const open    = S.tickets.filter(t=>t.status==='open').length;
-  const delayed = S.tickets.filter(t=>t.status==='delayed').length;
-  const prog    = S.tickets.filter(t=>t.status==='progress').length;
-  const done    = S.tickets.filter(t=>t.status==='done').length;
-  const amcAlert = S.amc.filter(a=>a.status==='expiring'||a.status==='expired').length;
-  const taskPending = S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length;
-  const total = S.tickets.length+S.tasks.length+S.amc.length+S.suppliers.length+S.contacts.length;
+// ═══════════════════════════════════════════════════════════
+function renderDashboard(){
+  const open=S.tickets.filter(t=>t.status==='open').length;
+  const delayed=S.tickets.filter(t=>t.status==='delayed').length;
+  const prog=S.tickets.filter(t=>t.status==='progress').length;
+  const done=S.tickets.filter(t=>t.status==='done').length;
+  const amcAlert=S.amc.filter(a=>a.status==='expiring'||a.status==='expired').length;
+  const taskPending=S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length;
+  const totalAssets=S.assets.length;
+  const assignedAssets=S.assets.filter(a=>a.status==='Assigned').length;
+  const total=S.tickets.length+S.tasks.length+S.amc.length+S.suppliers.length+S.contacts.length+S.assets.length;
 
   return `
   <div class="ai-panel">
     <div class="ai-lbl"><i class="ti ti-robot" style="font-size:13px"></i> AI Assistant — ask anything about Park Regis IT operations</div>
     <div class="ai-row">
-      <input class="ai-inp" id="ai-q" placeholder="e.g. Which tickets are urgent? Summarise expiring AMCs..." onkeydown="if(event.key==='Enter')askAI()">
+      <input class="ai-inp" id="ai-q" placeholder="e.g. Which assets are assigned to HR? List all laptops..." onkeydown="if(event.key==='Enter')askAI()">
       <button class="ai-send" onclick="askAI()">Ask ↗</button>
     </div>
     <div class="chips">
-      <div class="chip" onclick="fillAI('List all open and delayed tickets with their priority')">🔴 Open tickets</div>
-      <div class="chip" onclick="fillAI('Which AMC contracts are expiring or expired and what action is needed?')">⚠️ AMC alerts</div>
-      <div class="chip" onclick="fillAI('What tasks are pending or overdue?')">📋 Pending tasks</div>
-      <div class="chip" onclick="fillAI('List all contacts with their phone numbers')">👤 Contacts</div>
+      <div class="chip" onclick="fillAI('List all open and delayed tickets with priority')">🔴 Open tickets</div>
+      <div class="chip" onclick="fillAI('Which AMC contracts are expiring or expired?')">⚠️ AMC alerts</div>
+      <div class="chip" onclick="fillAI('List all assets with who they are assigned to and their location')">💻 Asset list</div>
+      <div class="chip" onclick="fillAI('Which department has the most IT assets assigned?')">📊 Asset by dept</div>
       <div class="chip" onclick="fillAI('What should I prioritise today as IT manager?')">🎯 Today focus</div>
     </div>
     <div class="ai-resp" id="ai-resp"></div>
   </div>
 
-  ${total===0 ? `
-  <div class="panel"><div class="empty">
-    <i class="ti ti-database-off"></i>
-    <p style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px;">Dashboard is empty</p>
-    <p>Start adding tickets, tasks, AMC contracts, suppliers or contacts.<br>All data saves automatically to your browser.</p>
-  </div></div>` : `
+  ${total===0?`<div class="panel"><div class="empty"><i class="ti ti-database-off"></i><p style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px;">Dashboard is empty</p><p>Start by adding tickets, assets, AMC contracts, suppliers or contacts.</p></div></div>`:`
   <div class="stats-row">
     <div class="stat-card">
       <div class="stat-label">Open Tickets</div>
@@ -397,9 +479,9 @@ function renderDashboard() {
       <div class="stat-sub"><span class="dot" style="background:var(--amber)"></span>${delayed} delayed</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">In Progress</div>
-      <div class="stat-val" style="color:var(--blue)">${prog}</div>
-      <div class="stat-sub"><span class="dot" style="background:var(--green)"></span>${done} resolved</div>
+      <div class="stat-label">Total Assets</div>
+      <div class="stat-val" style="color:var(--teal)">${totalAssets}</div>
+      <div class="stat-sub"><span class="dot" style="background:var(--green)"></span>${assignedAssets} assigned</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Pending Tasks</div>
@@ -413,6 +495,21 @@ function renderDashboard() {
     </div>
   </div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+    ${S.assets.length>0?`
+    <div class="panel">
+      <div class="ph"><span class="ph-title"><i class="ti ti-devices" style="font-size:14px"></i> Recent Assets</span><button class="ph-act" onclick="go('assets')">View all →</button></div>
+      ${S.assets.slice(0,5).map(a=>`
+      <div class="row row-clickable" onclick="assetDetail('${a.id}')">
+        <div class="asset-icon ${ASSET_TYPE_CLASSES[a.type]||'ai-other'}" style="width:28px;height:28px;font-size:14px;border-radius:6px;">
+          <i class="${ASSET_TYPE_ICONS[a.type]||'ti ti-box'}"></i>
+        </div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13px;">${esc(a.name)}</div>
+          <div style="font-size:11px;color:var(--tx2);">${esc(a.type)}${a.assignedTo?' · '+esc(a.assignedTo):''}</div>
+        </div>
+        <span class="badge b-${assetStatusKey(a.status)}">${esc(a.status)}</span>
+      </div>`).join('')}
+    </div>`:`<div class="panel"><div class="empty" style="padding:24px"><i class="ti ti-devices" style="font-size:24px"></i><p>No assets yet</p></div></div>`}
     ${S.tickets.length>0?`
     <div class="panel">
       <div class="ph"><span class="ph-title"><i class="ti ti-ticket" style="font-size:14px"></i> Recent Tickets</span><button class="ph-act" onclick="go('tickets')">View all →</button></div>
@@ -420,43 +517,176 @@ function renderDashboard() {
       <div class="row row-clickable" onclick="ticketDetail('${t.id}')">
         <div class="pdot pd-${t.priority}"></div>
         <div class="tid">${t.id}</div>
-        <div style="flex:1;font-size:13px;">${t.title}</div>
+        <div style="flex:1;font-size:13px;">${esc(t.title)}</div>
         <span class="badge b-${t.status}">${statusLabel(t.status)}</span>
       </div>`).join('')}
     </div>`:`<div class="panel"><div class="empty" style="padding:24px"><i class="ti ti-ticket" style="font-size:24px"></i><p>No tickets yet</p></div></div>`}
-    <div>
-      ${S.amc.length>0?`
-      <div class="panel" style="margin-bottom:12px;">
-        <div class="ph"><span class="ph-title"><i class="ti ti-file-certificate" style="font-size:14px"></i> AMC Contracts</span><button class="ph-act" onclick="go('amc')">View all →</button></div>
-        ${S.amc.slice(0,3).map(a=>`
-        <div style="padding:10px 16px;border-bottom:0.5px solid var(--bd);">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-            <span style="font-size:12px;font-weight:500;">${a.vendor}</span>
-            <span class="badge b-${a.status}">${amcStatusLabel(a.status)}</span>
-          </div>
-          <div style="font-size:11px;color:var(--tx2);margin-bottom:6px;">${a.scope} · ${a.end}</div>
-          <div class="prog-track"><div class="prog-fill ${amcPct(a)>=100?'pf-red':amcPct(a)>=80?'pf-amber':'pf-green'}" style="width:${Math.min(amcPct(a),100)}%"></div></div>
-        </div>`).join('')}
-      </div>`:`<div class="panel" style="margin-bottom:12px;"><div class="empty" style="padding:24px"><i class="ti ti-file-certificate" style="font-size:24px"></i><p>No AMC contracts yet</p></div></div>`}
-      ${S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length>0?`
-      <div class="panel">
-        <div class="ph"><span class="ph-title"><i class="ti ti-checklist" style="font-size:14px"></i> Pending Tasks</span><button class="ph-act" onclick="go('tasks')">View all →</button></div>
-        ${S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').slice(0,3).map(t=>`
-        <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--bd);">
-          <i class="ti ti-circle" style="font-size:13px;color:var(--tx3)"></i>
-          <div style="flex:1;"><div style="font-size:13px;">${t.title}</div><div style="font-size:11px;color:var(--tx2);">Due ${t.due} · ${t.assignee}</div></div>
-        </div>`).join('')}
-      </div>`:''}
-    </div>
   </div>`}`;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
+// ASSETS
+// ═══════════════════════════════════════════════════════════
+function renderAssets(){
+  const f=S.assetFilter;
+  const q=(S.assetSearch||'').toLowerCase();
+  let list=f==='all'?S.assets:S.assets.filter(a=>a.status===f);
+  if(q) list=list.filter(a=>(a.name||'').toLowerCase().includes(q)||(a.type||'').toLowerCase().includes(q)||(a.assignedTo||'').toLowerCase().includes(q)||(a.department||'').toLowerCase().includes(q)||(a.location||'').toLowerCase().includes(q)||(a.serialNo||'').toLowerCase().includes(q));
+
+  // Summary by type
+  const typeCounts={};
+  S.assets.forEach(a=>{typeCounts[a.type]=(typeCounts[a.type]||0)+1;});
+
+  return `
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap;">
+    <div class="tabs">
+      ${['all','Assigned','Available','In Maintenance','Retired','Lost / Stolen'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.assetFilter='${x}';render()">${x==='all'?'All':x}</button>`).join('')}
+    </div>
+    <div class="search-box" style="margin-left:auto;">
+      <i class="ti ti-search"></i>
+      <input id="asset-search" placeholder="Search assets..." value="${esc(S.assetSearch)}" oninput="S.assetSearch=this.value;render()">
+    </div>
+    <button class="btn btn-teal" onclick="openModal('asset')"><i class="ti ti-plus"></i> Add Asset</button>
+  </div>
+
+  ${S.assets.length>0?`
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;">
+    <div class="stat-card"><div class="stat-label">Total Assets</div><div class="stat-val" style="color:var(--teal)">${S.assets.length}</div></div>
+    <div class="stat-card"><div class="stat-label">Assigned</div><div class="stat-val" style="color:var(--green)">${S.assets.filter(a=>a.status==='Assigned').length}</div></div>
+    <div class="stat-card"><div class="stat-label">Available</div><div class="stat-val" style="color:var(--blue)">${S.assets.filter(a=>a.status==='Available').length}</div></div>
+    <div class="stat-card"><div class="stat-label">In Maintenance</div><div class="stat-val" style="color:var(--amber)">${S.assets.filter(a=>a.status==='In Maintenance').length}</div></div>
+  </div>`:''}
+
+  <div class="panel">
+    ${list.length===0?`<div class="empty"><i class="ti ti-devices"></i><p>No assets${f!=='all'?' with status: '+f:q?' matching "'+q+'"':''}.</p></div>`:`
+    <table class="asset-table">
+      <thead>
+        <tr>
+          <th>Asset ID</th>
+          <th>Item</th>
+          <th>Type</th>
+          <th>Serial / Tag</th>
+          <th>Assigned To</th>
+          <th>Designation</th>
+          <th>Department</th>
+          <th>Location</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${list.map(a=>`
+        <tr style="cursor:pointer;" onclick="assetDetail('${a.id}')">
+          <td><span style="font-family:var(--mono);font-size:11px;color:var(--tx3)">${a.id}</span></td>
+          <td>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <div class="asset-icon ${ASSET_TYPE_CLASSES[a.type]||'ai-other'}" style="width:28px;height:28px;font-size:13px;border-radius:6px;">
+                <i class="${ASSET_TYPE_ICONS[a.type]||'ti ti-box'}"></i>
+              </div>
+              <span style="font-weight:500;">${esc(a.name)}</span>
+            </div>
+          </td>
+          <td>${esc(a.type)}</td>
+          <td><span style="font-family:var(--mono);font-size:11px;">${esc(a.serialNo)||'—'}</span></td>
+          <td>${a.assignedTo?`<div style="font-weight:500;">${esc(a.assignedTo)}</div>`:'<span style="color:var(--tx3)">—</span>'}</td>
+          <td><span style="color:var(--tx2)">${esc(a.designation)||'—'}</span></td>
+          <td><span style="color:var(--tx2)">${esc(a.department)||'—'}</span></td>
+          <td><span style="color:var(--tx2)">${esc(a.location)||'—'}</span></td>
+          <td><span class="badge b-${assetStatusKey(a.status)}">${esc(a.status)}</span></td>
+          <td onclick="event.stopPropagation()">${assetMenu(a.id,a.status)}</td>
+        </tr>`).join('')}
+      </tbody>
+    </table>`}
+  </div>`;
+}
+
+function assetMenu(id,status){
+  const mid='asm-'+id;
+  const statuses=ASSET_STATUSES.filter(s=>s!==status);
+  const statusItems=statuses.map(s=>`<div class="dd-item" onclick="setAssetStatus('${id}','${s}');closeDD()"><i class="${ASSET_TYPE_ICONS['Other']} ti ti-circle-dot" style="font-size:13px"></i>${s}</div>`).join('');
+  return `<div class="action-menu" id="${mid}">
+    <button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button>
+    <div class="dropdown" id="dd-${mid}" style="display:none">
+      <div class="dd-item" onclick="assetDetail('${id}');closeDD()"><i class="ti ti-eye" style="font-size:13px"></i>View Details</div>
+      <div class="dd-item" onclick="editAsset('${id}');closeDD()"><i class="ti ti-pencil" style="font-size:13px"></i>Edit Asset</div>
+      <div class="dd-sep"></div>
+      <div style="padding:6px 14px 3px;font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;">Change Status</div>
+      ${ASSET_STATUSES.filter(s=>s!==status).map(s=>`
+      <div class="dd-item" onclick="setAssetStatus('${id}','${s}');closeDD()">
+        <i class="ti ${s==='Assigned'?'ti-user-check':s==='Available'?'ti-circle-check':s==='In Maintenance'?'ti-tool':s==='Retired'?'ti-archive':'ti-alert-triangle'}" style="font-size:13px;color:${s==='Assigned'?'var(--green)':s==='Available'?'var(--blue)':s==='In Maintenance'?'var(--amber)':s==='Retired'?'var(--tx2)':'var(--red)'}"></i>
+        ${s}
+      </div>`).join('')}
+      <div class="dd-sep"></div>
+      <div class="dd-item danger" onclick="delItem('assets','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete Asset</div>
+    </div>
+  </div>`;
+}
+
+function setAssetStatus(id,status){
+  const a=S.assets.find(x=>x.id===id);
+  if(a){a.status=status;a.updatedAt=today();}
+  dbSave();render();
+}
+
+function assetDetail(id){
+  const a=S.assets.find(x=>x.id===id);
+  if(!a)return;
+  const box=document.getElementById('modal-box');
+  box.className='modal';
+  box.innerHTML=`
+  <div class="mh">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="asset-icon ${ASSET_TYPE_CLASSES[a.type]||'ai-other'}" style="width:40px;height:40px;font-size:20px;border-radius:9px;">
+        <i class="${ASSET_TYPE_ICONS[a.type]||'ti ti-box'}"></i>
+      </div>
+      <div>
+        <div class="mt">${esc(a.name)}</div>
+        <div style="font-size:12px;color:var(--tx2);">${esc(a.type)} · ${a.id}</div>
+      </div>
+    </div>
+    <button class="mc" onclick="closeModal()">×</button>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;">
+    <span class="badge b-${assetStatusKey(a.status)}">${esc(a.status)}</span>
+    ${a.purchaseDate?`<span class="badge b-pending">Purchased: ${esc(a.purchaseDate)}</span>`:''}
+    ${a.warrantyEnd?`<span class="badge b-medium">Warranty: ${esc(a.warrantyEnd)}</span>`:''}
+  </div>
+  <div class="asset-detail-grid">
+    <div class="asset-detail-item"><div class="adl">Assigned To</div><div class="adv">${esc(a.assignedTo)||'—'}</div></div>
+    <div class="asset-detail-item"><div class="adl">Designation</div><div class="adv">${esc(a.designation)||'—'}</div></div>
+    <div class="asset-detail-item"><div class="adl">Department</div><div class="adv">${esc(a.department)||'—'}</div></div>
+    <div class="asset-detail-item"><div class="adl">Location</div><div class="adv">${esc(a.location)||'—'}</div></div>
+    <div class="asset-detail-item"><div class="adl">Serial / Asset Tag</div><div class="adv" style="font-family:var(--mono)">${esc(a.serialNo)||'—'}</div></div>
+    <div class="asset-detail-item"><div class="adl">Brand / Model</div><div class="adv">${esc(a.brand)||'—'}</div></div>
+  </div>
+  ${a.notes?`<div style="padding:10px 12px;background:var(--bg2);border-radius:var(--rmd);font-size:13px;color:var(--tx2);margin-bottom:14px;line-height:1.6;">${esc(a.notes)}</div>`:''}
+  <div style="font-size:11px;color:var(--tx3);margin-bottom:16px;">Added: ${a.addedOn||'—'}${a.updatedAt?' · Updated: '+a.updatedAt:''}</div>
+  <div style="margin-bottom:16px;">
+    <div style="font-size:12px;font-weight:500;margin-bottom:8px;">Change status:</div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+      ${ASSET_STATUSES.map(s=>`<button class="btn" style="background:${s==='Assigned'?'var(--gl)':s==='Available'?'var(--bl)':s==='In Maintenance'?'var(--al)':s==='Retired'?'var(--bg2)':'var(--rl)'};color:${s==='Assigned'?'var(--gd)':s==='Available'?'var(--bd3)':s==='In Maintenance'?'var(--ad)':s==='Retired'?'var(--tx2)':'var(--rd)'};" onclick="setAssetStatus('${a.id}','${s}');closeModal()">${s}</button>`).join('')}
+    </div>
+  </div>
+  <div class="mf">
+    <button class="btn btn-ghost" onclick="editAsset('${a.id}')"><i class="ti ti-pencil"></i> Edit</button>
+    <button class="btn btn-red" onclick="delItem('assets','${a.id}');closeModal()"><i class="ti ti-trash"></i> Delete</button>
+  </div>`;
+  document.getElementById('overlay').classList.add('show');
+}
+
+function editAsset(id){
+  const a=S.assets.find(x=>x.id===id);
+  if(!a)return;
+  document.getElementById('overlay').classList.remove('show');
+  setTimeout(()=>openModal('asset',a),50);
+}
+
+// ═══════════════════════════════════════════════════════════
 // TICKETS
-// ═══════════════════════════════════════════════════════════════
-function renderTickets() {
-  const f = S.ticketFilter;
-  const list = f==='all' ? S.tickets : S.tickets.filter(t=>t.status===f);
+// ═══════════════════════════════════════════════════════════
+function renderTickets(){
+  const f=S.ticketFilter;
+  const list=f==='all'?S.tickets:S.tickets.filter(t=>t.status===f);
   return `
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
     <div class="tabs">
@@ -471,8 +701,8 @@ function renderTickets() {
       <div class="pdot pd-${t.priority}"></div>
       <div class="tid">${t.id}</div>
       <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;">${t.title}</div>
-        <div style="font-size:11px;color:var(--tx2);">${t.dept} · ${t.assignee||'Unassigned'} · ${t.created}</div>
+        <div style="font-size:13px;">${esc(t.title)}</div>
+        <div style="font-size:11px;color:var(--tx2);">${esc(t.dept)} · ${esc(t.assignee||'Unassigned')} · ${t.created}</div>
       </div>
       <span class="badge b-${t.priority}" style="margin-right:4px;">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
       <span class="badge b-${t.status}">${statusLabel(t.status)}</span>
@@ -481,30 +711,30 @@ function renderTickets() {
   </div>`;
 }
 
-function ticketMenu(id,status) {
+function ticketMenu(id,status){
   const mid='tm-'+id;
   const opts=[
-    status!=='open'?`<div class="dd-item" onclick="setTicketStatus('${id}','open');closeDD()"><i class="ti ti-circle" style="font-size:14px"></i>Mark Open</div>`:'',
-    status!=='progress'?`<div class="dd-item" onclick="setTicketStatus('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:14px"></i>In Progress</div>`:'',
-    status!=='delayed'?`<div class="dd-item" onclick="setTicketStatus('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:14px;color:var(--amber)"></i>Mark Delayed</div>`:'',
-    status!=='done'?`<div class="dd-item" onclick="setTicketStatus('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i>Mark Done</div>`:'',
-    status!=='closed'?`<div class="dd-item" onclick="setTicketStatus('${id}','closed');closeDD()"><i class="ti ti-archive" style="font-size:14px"></i>Close Ticket</div>`:'',
+    status!=='open'?`<div class="dd-item" onclick="setTStatus('${id}','open');closeDD()"><i class="ti ti-circle" style="font-size:13px"></i>Mark Open</div>`:'',
+    status!=='progress'?`<div class="dd-item" onclick="setTStatus('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:13px"></i>In Progress</div>`:'',
+    status!=='delayed'?`<div class="dd-item" onclick="setTStatus('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:13px;color:var(--amber)"></i>Mark Delayed</div>`:'',
+    status!=='done'?`<div class="dd-item" onclick="setTStatus('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Done</div>`:'',
+    status!=='closed'?`<div class="dd-item" onclick="setTStatus('${id}','closed');closeDD()"><i class="ti ti-archive" style="font-size:13px"></i>Close Ticket</div>`:'',
     `<div class="dd-sep"></div>`,
-    `<div class="dd-item danger" onclick="delItem('tickets','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>`
+    `<div class="dd-item danger" onclick="delItem('tickets','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`
   ].filter(Boolean).join('');
   return `<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${opts}</div></div>`;
 }
 
-function setTicketStatus(id,status) {
+function setTStatus(id,status){
   const t=S.tickets.find(x=>x.id===id);
   if(t){t.status=status;t.updatedAt=today();}
-  dbSave(); render();
+  dbSave();render();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // TASKS
-// ═══════════════════════════════════════════════════════════════
-function renderTasks() {
+// ═══════════════════════════════════════════════════════════
+function renderTasks(){
   const f=S.taskFilter;
   const list=f==='all'?S.tasks:S.tasks.filter(t=>t.status===f);
   const done=S.tasks.filter(t=>t.status==='done').length;
@@ -527,8 +757,8 @@ function renderTasks() {
     <div class="row">
       <input type="checkbox" ${t.status==='done'?'checked':''} style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;flex-shrink:0;" onchange="toggleTask('${t.id}')">
       <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;${t.status==='done'?'text-decoration:line-through;color:var(--tx3);':''}">${t.title}</div>
-        <div style="font-size:11px;color:var(--tx2);margin-top:2px;"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px"></i> ${t.due} · ${t.assignee}</div>
+        <div style="font-size:13px;${t.status==='done'?'text-decoration:line-through;color:var(--tx3);':''}">${esc(t.title)}</div>
+        <div style="font-size:11px;color:var(--tx2);margin-top:2px;"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px"></i> ${t.due} · ${esc(t.assignee)}</div>
       </div>
       <span class="badge b-${t.status}">${{pending:'Pending',progress:'In Progress',done:'Done',cancelled:'Cancelled',delayed:'Delayed'}[t.status]||t.status}</span>
       <div onclick="event.stopPropagation()" style="margin-left:8px;">${taskMenu(t.id,t.status)}</div>
@@ -536,36 +766,36 @@ function renderTasks() {
   </div>`;
 }
 
-function taskMenu(id,status) {
+function taskMenu(id,status){
   const mid='tkm-'+id;
   const opts=[
-    status!=='pending'?`<div class="dd-item" onclick="setTaskStatus('${id}','pending');closeDD()"><i class="ti ti-circle" style="font-size:14px"></i>Mark Pending</div>`:'',
-    status!=='progress'?`<div class="dd-item" onclick="setTaskStatus('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:14px"></i>In Progress</div>`:'',
-    status!=='done'?`<div class="dd-item" onclick="setTaskStatus('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i>Mark Done</div>`:'',
-    status!=='delayed'?`<div class="dd-item" onclick="setTaskStatus('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:14px;color:var(--amber)"></i>Mark Delayed</div>`:'',
-    status!=='cancelled'?`<div class="dd-item" onclick="setTaskStatus('${id}','cancelled');closeDD()"><i class="ti ti-ban" style="font-size:14px"></i>Cancel Task</div>`:'',
+    status!=='pending'?`<div class="dd-item" onclick="setTkStatus('${id}','pending');closeDD()"><i class="ti ti-circle" style="font-size:13px"></i>Mark Pending</div>`:'',
+    status!=='progress'?`<div class="dd-item" onclick="setTkStatus('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:13px"></i>In Progress</div>`:'',
+    status!=='done'?`<div class="dd-item" onclick="setTkStatus('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Done</div>`:'',
+    status!=='delayed'?`<div class="dd-item" onclick="setTkStatus('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:13px;color:var(--amber)"></i>Mark Delayed</div>`:'',
+    status!=='cancelled'?`<div class="dd-item" onclick="setTkStatus('${id}','cancelled');closeDD()"><i class="ti ti-ban" style="font-size:13px"></i>Cancel Task</div>`:'',
     `<div class="dd-sep"></div>`,
-    `<div class="dd-item danger" onclick="delItem('tasks','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>`
+    `<div class="dd-item danger" onclick="delItem('tasks','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`
   ].filter(Boolean).join('');
   return `<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${opts}</div></div>`;
 }
 
-function setTaskStatus(id,status) {
+function setTkStatus(id,status){
   const t=S.tasks.find(x=>x.id===id);
   if(t) t.status=status;
-  dbSave(); render();
+  dbSave();render();
 }
 
-function toggleTask(id) {
+function toggleTask(id){
   const t=S.tasks.find(x=>x.id===id);
   if(t) t.status=t.status==='done'?'pending':'done';
-  dbSave(); render();
+  dbSave();render();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // AMC
-// ═══════════════════════════════════════════════════════════════
-function renderAMC() {
+// ═══════════════════════════════════════════════════════════
+function renderAMC(){
   const f=S.amcFilter;
   const list=f==='all'?S.amc:S.amc.filter(a=>a.status===f);
   const total=S.amc.reduce((s,a)=>s+parseInt(a.valueNum||0),0);
@@ -585,11 +815,11 @@ function renderAMC() {
     <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:15px 16px 10px;">
       <div style="flex:1;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap;">
-          <span style="font-size:14px;font-weight:500;">${a.vendor}</span>
+          <span style="font-size:14px;font-weight:500;">${esc(a.vendor)}</span>
           <span class="badge b-${a.status}">${amcStatusLabel(a.status)}</span>
           <span style="font-size:10px;color:var(--tx3);font-family:var(--mono)">${a.id}</span>
         </div>
-        <div style="font-size:12px;color:var(--tx2);margin-bottom:10px;">${a.scope}</div>
+        <div style="font-size:12px;color:var(--tx2);margin-bottom:10px;">${esc(a.scope)}</div>
         <div style="display:flex;gap:20px;flex-wrap:wrap;">
           <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Start</div><div style="font-size:12px;">${a.start}</div></div>
           <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Expiry</div><div style="font-size:12px;font-weight:500;color:${a.status==='expired'?'var(--red)':a.status==='expiring'?'var(--amber)':'var(--tx)'}">${a.end}</div></div>
@@ -611,34 +841,34 @@ function renderAMC() {
   </div>`).join('')}`;
 }
 
-function amcMenu(id,status) {
+function amcMenu(id,status){
   const mid='am-'+id;
   const opts=[
-    status!=='active'?`<div class="dd-item" onclick="setAMCStatus('${id}','active');closeDD()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i>Mark Active</div>`:'',
-    `<div class="dd-item" onclick="renewAMC('${id}');closeDD()"><i class="ti ti-refresh" style="font-size:14px;color:var(--purple)"></i>Renew Contract</div>`,
-    status!=='expiring'?`<div class="dd-item" onclick="setAMCStatus('${id}','expiring');closeDD()"><i class="ti ti-alert-triangle" style="font-size:14px;color:var(--amber)"></i>Mark Expiring</div>`:'',
-    status!=='expired'?`<div class="dd-item" onclick="setAMCStatus('${id}','expired');closeDD()"><i class="ti ti-x" style="font-size:14px;color:var(--red)"></i>Mark Expired</div>`:'',
+    status!=='active'?`<div class="dd-item" onclick="setAMCStatus('${id}','active');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Active</div>`:'',
+    `<div class="dd-item" onclick="renewAMC('${id}');closeDD()"><i class="ti ti-refresh" style="font-size:13px;color:var(--purple)"></i>Renew Contract</div>`,
+    status!=='expiring'?`<div class="dd-item" onclick="setAMCStatus('${id}','expiring');closeDD()"><i class="ti ti-alert-triangle" style="font-size:13px;color:var(--amber)"></i>Mark Expiring</div>`:'',
+    status!=='expired'?`<div class="dd-item" onclick="setAMCStatus('${id}','expired');closeDD()"><i class="ti ti-x" style="font-size:13px;color:var(--red)"></i>Mark Expired</div>`:'',
     `<div class="dd-sep"></div>`,
-    `<div class="dd-item danger" onclick="delItem('amc','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>`
+    `<div class="dd-item danger" onclick="delItem('amc','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`
   ].filter(Boolean).join('');
   return `<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i> Actions</button><div class="dropdown" id="dd-${mid}" style="display:none">${opts}</div></div>`;
 }
 
-function setAMCStatus(id,status) {
+function setAMCStatus(id,status){
   const a=S.amc.find(x=>x.id===id);
   if(a) a.status=status;
-  dbSave(); render();
+  dbSave();render();
 }
 
-function renewAMC(id) {
+function renewAMC(id){
   const a=S.amc.find(x=>x.id===id);
-  if(!a) return;
+  if(!a)return;
   const box=document.getElementById('modal-box');
   box.innerHTML=`
-  <div class="mh"><span class="mt"><i class="ti ti-refresh" style="font-size:14px;margin-right:6px;color:var(--purple)"></i>Renew — ${a.vendor}</span><button class="mc" onclick="closeModal()">×</button></div>
+  <div class="mh"><span class="mt"><i class="ti ti-refresh" style="font-size:14px;margin-right:6px;color:var(--purple)"></i>Renew — ${esc(a.vendor)}</span><button class="mc" onclick="closeModal()">×</button></div>
   <div style="padding:12px;background:var(--bg2);border-radius:var(--rmd);margin-bottom:14px;font-size:13px;">
     <div style="color:var(--tx2);margin-bottom:4px;">Current contract</div>
-    <div style="font-weight:500;">${a.scope}</div>
+    <div style="font-weight:500;">${esc(a.scope)}</div>
     <div style="font-size:12px;color:var(--tx2);margin-top:4px;">${a.start} → ${a.end}</div>
   </div>
   <div class="fr2">
@@ -646,7 +876,6 @@ function renewAMC(id) {
     <div><label class="fl">New end date *</label><input type="date" class="fi" id="rn-end"></div>
   </div>
   <div class="fr"><label class="fl">New annual value (AED)</label><input type="number" class="fi" id="rn-val" placeholder="${a.valueNum||0}"></div>
-  <div class="fr"><label class="fl">Notes (optional)</label><input class="fi" id="rn-notes" placeholder="e.g. Same terms, price increased by 5%"></div>
   <div class="mf">
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
     <button class="btn" style="background:var(--purple);color:#fff;" onclick="confirmRenew('${id}')"><i class="ti ti-refresh"></i> Confirm Renewal</button>
@@ -654,24 +883,24 @@ function renewAMC(id) {
   document.getElementById('overlay').classList.add('show');
 }
 
-function confirmRenew(id) {
+function confirmRenew(id){
   const a=S.amc.find(x=>x.id===id);
-  if(!a) return;
+  if(!a)return;
   const startRaw=document.getElementById('rn-start').value;
   const endRaw=document.getElementById('rn-end').value;
   if(!startRaw||!endRaw){alert('Please set new start and end dates.');return;}
   const val=document.getElementById('rn-val').value;
-  a.startRaw=startRaw; a.endRaw=endRaw;
-  a.start=fmtDate(startRaw); a.end=fmtDate(endRaw);
+  a.startRaw=startRaw;a.endRaw=endRaw;
+  a.start=fmtDate(startRaw);a.end=fmtDate(endRaw);
   if(val) a.valueNum=parseInt(val);
-  a.status='renewed'; a.renewedOn=today();
-  closeModal(); dbSave(); render();
+  a.status='renewed';a.renewedOn=today();
+  closeModal();dbSave();render();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // SUPPLIERS
-// ═══════════════════════════════════════════════════════════════
-function renderSuppliers() {
+// ═══════════════════════════════════════════════════════════
+function renderSuppliers(){
   return `
   <div style="display:flex;align-items:center;margin-bottom:14px;">
     <div style="font-size:13px;color:var(--tx2);">${S.suppliers.length} supplier${S.suppliers.length!==1?'s':''}</div>
@@ -683,12 +912,12 @@ function renderSuppliers() {
     <div class="row">
       <div class="avatar ${av(i)}" style="border-radius:8px;">${initials(s.name)}</div>
       <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;font-weight:500;">${s.name}</div>
-        <div style="font-size:11px;color:var(--tx2);">${s.category}${s.contact?' · '+s.contact:''}</div>
+        <div style="font-size:13px;font-weight:500;">${esc(s.name)}</div>
+        <div style="font-size:11px;color:var(--tx2);">${esc(s.category)}${s.contact?' · '+esc(s.contact):''}</div>
       </div>
       <div style="text-align:right;margin-right:8px;">
-        ${s.phone?`<div style="font-size:12px;color:var(--tx2);">${s.phone}</div>`:''}
-        ${s.email?`<div style="font-size:11px;color:var(--green);">${s.email}</div>`:''}
+        ${s.phone?`<div style="font-size:12px;color:var(--tx2);">${esc(s.phone)}</div>`:''}
+        ${s.email?`<div style="font-size:11px;color:var(--green);">${esc(s.email)}</div>`:''}
         ${s.rating?`<div style="color:var(--amber);font-size:12px;">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>`:''}
       </div>
       <div onclick="event.stopPropagation()">${simpleMenu('suppliers',s.id,i)}</div>
@@ -696,10 +925,10 @@ function renderSuppliers() {
   </div>`;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // CONTACTS
-// ═══════════════════════════════════════════════════════════════
-function renderContacts() {
+// ═══════════════════════════════════════════════════════════
+function renderContacts(){
   return `
   <div style="display:flex;align-items:center;margin-bottom:14px;">
     <div style="font-size:13px;color:var(--tx2);">${S.contacts.length} contact${S.contacts.length!==1?'s':''}</div>
@@ -711,42 +940,33 @@ function renderContacts() {
     <div class="row">
       <div class="avatar ${av(i)}">${initials(c.name)}</div>
       <div style="flex:1;min-width:0;">
-        <div style="font-size:13px;font-weight:500;">${c.name}</div>
-        <div style="font-size:11px;color:var(--tx2);">${c.role||''}${c.role&&c.dept?' · ':''}${c.dept||''}</div>
+        <div style="font-size:13px;font-weight:500;">${esc(c.name)}</div>
+        <div style="font-size:11px;color:var(--tx2);">${esc(c.role||'')}${c.role&&c.dept?' · ':''}${esc(c.dept||'')}</div>
       </div>
       <div style="text-align:right;margin-right:8px;">
-        ${c.phone?`<div style="font-size:12px;color:var(--tx2);">${c.phone}</div>`:''}
-        ${c.email?`<div style="font-size:11px;color:var(--green);">${c.email}</div>`:''}
+        ${c.phone?`<div style="font-size:12px;color:var(--tx2);">${esc(c.phone)}</div>`:''}
+        ${c.email?`<div style="font-size:11px;color:var(--green);">${esc(c.email)}</div>`:''}
       </div>
       <div onclick="event.stopPropagation()">${simpleMenu('contacts',c.id,i)}</div>
     </div>`).join('')}
   </div>`;
 }
 
-function simpleMenu(collection,id,idx) {
+function simpleMenu(collection,id,idx){
   const mid=collection+'-'+id;
   return `<div class="action-menu" id="${mid}">
     <button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button>
     <div class="dropdown" id="dd-${mid}" style="display:none">
-      <div class="dd-item danger" onclick="delItem('${collection}','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>
+      <div class="dd-item danger" onclick="delItem('${collection}','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>
     </div>
   </div>`;
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // SETTINGS
-// ═══════════════════════════════════════════════════════════════
-function renderSettings() {
-  const counts = {
-    tickets: S.tickets.length,
-    tasks: S.tasks.length,
-    amc: S.amc.length,
-    suppliers: S.suppliers.length,
-    contacts: S.contacts.length
-  };
-  const size = (() => {
-    try { const raw = localStorage.getItem(DB_KEY)||''; return (raw.length/1024).toFixed(1)+' KB'; } catch(e) { return 'N/A'; }
-  })();
+// ═══════════════════════════════════════════════════════════
+function renderSettings(){
+  const size=(()=>{try{const r=localStorage.getItem(DB_KEY)||'';return(r.length/1024).toFixed(1)+' KB';}catch(e){return'N/A';}})();
   return `
   <div class="panel" style="padding:22px;margin-bottom:12px;">
     <div style="font-size:15px;font-weight:500;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><i class="ti ti-settings" style="font-size:16px"></i> Dashboard Info</div>
@@ -754,13 +974,13 @@ function renderSettings() {
       <tr><td style="color:var(--tx2);padding:9px 0;width:180px;border-bottom:0.5px solid var(--bd)">Hotel</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd);font-weight:500">Park Regis Hotel Business Bay, Dubai</td></tr>
       <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Storage</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">Browser localStorage — <strong>persists across refreshes</strong></td></tr>
       <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Data size</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">${size}</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Records</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">${counts.tickets} tickets · ${counts.tasks} tasks · ${counts.amc} AMCs · ${counts.suppliers} suppliers · ${counts.contacts} contacts</td></tr>
+      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Records</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">${S.tickets.length} tickets · ${S.tasks.length} tasks · ${S.amc.length} AMCs · ${S.assets.length} assets · ${S.suppliers.length} suppliers · ${S.contacts.length} contacts</td></tr>
       <tr><td style="color:var(--tx2);padding:9px 0">AI Engine</td><td style="padding:9px 0">Claude by Anthropic</td></tr>
     </table>
   </div>
   <div class="panel" style="padding:22px;margin-bottom:12px;">
     <div style="font-size:14px;font-weight:500;margin-bottom:10px;">Export / Backup</div>
-    <div style="font-size:13px;color:var(--tx2);margin-bottom:14px;">Download all your data as a JSON file for backup or transfer to another browser/device.</div>
+    <div style="font-size:13px;color:var(--tx2);margin-bottom:14px;">Download all your data as a JSON file for backup.</div>
     <button class="btn btn-navy" onclick="exportData()"><i class="ti ti-download"></i> Export Data as JSON</button>
   </div>
   <div class="panel" style="padding:22px;">
@@ -770,65 +990,118 @@ function renderSettings() {
   </div>`;
 }
 
-function exportData() {
-  const data = {exported: new Date().toISOString(), hotel:'Park Regis Hotel Business Bay', tickets:S.tickets, tasks:S.tasks, amc:S.amc, suppliers:S.suppliers, contacts:S.contacts};
-  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'parkregis-it-data-'+new Date().toISOString().slice(0,10)+'.json';
+function exportData(){
+  const data={exported:new Date().toISOString(),hotel:'Park Regis Hotel Business Bay',tickets:S.tickets,tasks:S.tasks,amc:S.amc,assets:S.assets,suppliers:S.suppliers,contacts:S.contacts};
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='parkregis-it-data-'+new Date().toISOString().slice(0,10)+'.json';
   a.click();
 }
 
-function clearAll() {
-  if(!confirm('Delete ALL data? This cannot be undone.')) return;
-  S.tickets=[]; S.tasks=[]; S.amc=[]; S.suppliers=[]; S.contacts=[];
-  S._tid=0; S._tsid=0; S._aid=0; S._sid=0; S._cid=0;
+function clearAll(){
+  if(!confirm('Delete ALL data? This cannot be undone.'))return;
+  S.tickets=[];S.tasks=[];S.amc=[];S.suppliers=[];S.contacts=[];S.assets=[];
+  S._tid=0;S._tsid=0;S._aid=0;S._sid=0;S._cid=0;S._asid=0;
   localStorage.removeItem(DB_KEY);
-  render(); showToast('All data cleared');
+  render();showToast('All data cleared');
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // DELETE
-// ═══════════════════════════════════════════════════════════════
-function delItem(collection,id) {
-  if(!confirm('Delete this item?')) return;
+// ═══════════════════════════════════════════════════════════
+function delItem(collection,id){
+  if(!confirm('Delete this item? This cannot be undone.'))return;
   S[collection]=S[collection].filter(x=>x.id!==id);
-  dbSave(); render();
+  dbSave();render();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // DROPDOWNS
-// ═══════════════════════════════════════════════════════════════
-function toggleDD(mid) {
+// ═══════════════════════════════════════════════════════════
+function toggleDD(mid){
   const dd=document.getElementById('dd-'+mid);
-  if(!dd) return;
+  if(!dd)return;
   const isOpen=dd.style.display!=='none';
   closeDD();
-  if(!isOpen) dd.style.display='block';
+  if(!isOpen)dd.style.display='block';
 }
-function closeDD() {
-  document.querySelectorAll('.dropdown').forEach(d=>d.style.display='none');
-}
-document.addEventListener('click',e=>{
-  if(!e.target.closest('.action-menu')) closeDD();
-});
+function closeDD(){document.querySelectorAll('.dropdown').forEach(d=>d.style.display='none');}
+document.addEventListener('click',e=>{if(!e.target.closest('.action-menu'))closeDD();});
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // MODALS
-// ═══════════════════════════════════════════════════════════════
-function openModal(type) {
+// ═══════════════════════════════════════════════════════════
+function openModal(type, editData){
   const box=document.getElementById('modal-box');
-  if(type==='ticket'){
+  box.className='modal';
+
+  if(type==='asset'){
+    const isEdit=!!editData;
+    const a=editData||{};
+    const typeOptions=ASSET_TYPES.map(t=>`<option value="${t}" ${a.type===t?'selected':''}>${t}</option>`).join('');
+    const deptOptions=DEPARTMENTS.map(d=>`<option value="${d}" ${a.department===d?'selected':''}>${d}</option>`).join('');
+    const locOptions=LOCATIONS.map(l=>`<option value="${l}" ${a.location===l?'selected':''}>${l}</option>`).join('');
+    const statusOptions=ASSET_STATUSES.map(s=>`<option value="${s}" ${(a.status||'Available')===s?'selected':''}>${s}</option>`).join('');
+    box.innerHTML=`
+    <div class="mh"><span class="mt">${isEdit?'Edit Asset':'Add New Asset'}</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr2">
+      <div><label class="fl">Item name / label *</label><input class="fi" id="f-aname" placeholder="e.g. Dell Laptop #3" value="${esc(a.name||'')}"></div>
+      <div><label class="fl">Item type *</label><select class="fs" id="f-atype"><option value="">— Select type —</option>${typeOptions}</select></div>
+    </div>
+    <div class="fr2">
+      <div><label class="fl">Brand / Model</label><input class="fi" id="f-abrand" placeholder="e.g. Dell Latitude 5540" value="${esc(a.brand||'')}"></div>
+      <div><label class="fl">Serial No. / Asset Tag</label><input class="fi" id="f-aserial" placeholder="e.g. SN-2024-0012" value="${esc(a.serialNo||'')}"></div>
+    </div>
+    <div style="border-top:0.5px solid var(--bd);margin:14px 0 14px;padding-top:4px;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;">Assignment Details</div>
+    <div class="fr2">
+      <div><label class="fl">Handed over to (name)</label><input class="fi" id="f-aassigned" placeholder="Employee full name" value="${esc(a.assignedTo||'')}"></div>
+      <div><label class="fl">Designation / Job title</label><input class="fi" id="f-adesig" placeholder="e.g. Front Desk Agent" value="${esc(a.designation||'')}"></div>
+    </div>
+    <div class="fr2">
+      <div><label class="fl">Department</label><select class="fs" id="f-adept"><option value="">— Select department —</option>${deptOptions}</select></div>
+      <div><label class="fl">Location</label><select class="fs" id="f-aloc"><option value="">— Select location —</option>${locOptions}</select></div>
+    </div>
+    <div style="border-top:0.5px solid var(--bd);margin:14px 0 14px;padding-top:4px;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px;">Status & Dates</div>
+    <div class="fr2">
+      <div><label class="fl">Status</label><select class="fs" id="f-astatus">${statusOptions}</select></div>
+      <div><label class="fl">Purchase date</label><input type="date" class="fi" id="f-apurchase" value="${a.purchaseDateRaw||''}"></div>
+    </div>
+    <div class="fr2">
+      <div><label class="fl">Warranty end date</label><input type="date" class="fi" id="f-awarranty" value="${a.warrantyEndRaw||''}"></div>
+      <div></div>
+    </div>
+    <div class="fr"><label class="fl">Notes (optional)</label><textarea class="fta" id="f-anotes" placeholder="Any additional notes about this asset...">${esc(a.notes||'')}</textarea></div>
+    <div class="mf">
+      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-teal" onclick="submitAsset(${isEdit?`'${a.id}'`:'null'})"><i class="ti ti-${isEdit?'device-floppy':'plus'}"></i> ${isEdit?'Save Changes':'Add Asset'}</button>
+    </div>`;
+
+  } else if(type==='ticket'){
     box.innerHTML=`
     <div class="mh"><span class="mt">New IT Ticket</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Issue title *</label><input class="fi" id="f-title" placeholder="Brief description of the issue"></div>
     <div class="fr2">
-      <div><label class="fl">Priority</label><select class="fs" id="f-priority"><option value="urgent">🔴 Urgent</option><option value="high">🟠 High</option><option value="medium" selected>🔵 Medium</option><option value="low">🟢 Low</option></select></div>
-      <div><label class="fl">Department</label><select class="fs" id="f-dept"><option>Network</option><option>Hardware</option><option>Software</option><option>Security</option><option>Email</option><option>AV / TV</option><option>CCTV</option><option>Server</option><option>Other</option></select></div>
+      <div><label class="fl">Priority</label>
+        <select class="fs" id="f-priority">
+          <option value="urgent">🔴 Urgent</option>
+          <option value="high">🟠 High</option>
+          <option value="medium" selected>🔵 Medium</option>
+          <option value="low">🟢 Low</option>
+        </select>
+      </div>
+      <div><label class="fl">Department</label>
+        <select class="fs" id="f-dept">
+          <option>Network</option><option>Hardware</option><option>Software</option>
+          <option>Security</option><option>Email</option><option>AV / TV</option>
+          <option>CCTV</option><option>Server</option><option>Other</option>
+        </select>
+      </div>
     </div>
     <div class="fr"><label class="fl">Assignee</label><input class="fi" id="f-ass" placeholder="Staff name or leave blank"></div>
     <div class="fr"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Detailed description..."></textarea></div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create Ticket</button></div>`;
+
   } else if(type==='task'){
     box.innerHTML=`
     <div class="mh"><span class="mt">Add New Task</span><button class="mc" onclick="closeModal()">×</button></div>
@@ -838,6 +1111,7 @@ function openModal(type) {
       <div><label class="fl">Assignee</label><input class="fi" id="f-task-ass" placeholder="Staff member name"></div>
     </div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTask()"><i class="ti ti-plus"></i> Add Task</button></div>`;
+
   } else if(type==='amc'){
     box.innerHTML=`
     <div class="mh"><span class="mt">Add AMC Contract</span><button class="mc" onclick="closeModal()">×</button></div>
@@ -848,22 +1122,43 @@ function openModal(type) {
       <div><label class="fl">End / expiry date *</label><input type="date" class="fi" id="f-amc-end"></div>
     </div>
     <div class="fr"><label class="fl">Annual value (AED)</label><input type="number" class="fi" id="f-val" placeholder="e.g. 45000"></div>
-    <div class="fr"><label class="fl">Status</label><select class="fs" id="f-amc-status"><option value="active">Active</option><option value="expiring">Expiring Soon</option><option value="expired">Expired</option></select></div>
+    <div class="fr"><label class="fl">Status</label>
+      <select class="fs" id="f-amc-status">
+        <option value="active">Active</option>
+        <option value="expiring">Expiring Soon</option>
+        <option value="expired">Expired</option>
+      </select>
+    </div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitAMC()"><i class="ti ti-plus"></i> Save Contract</button></div>`;
+
   } else if(type==='supplier'){
     box.innerHTML=`
     <div class="mh"><span class="mt">Add Supplier</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Company name *</label><input class="fi" id="f-sname"></div>
     <div class="fr2">
-      <div><label class="fl">Category</label><select class="fs" id="f-scat"><option>Hardware</option><option>Network</option><option>Software</option><option>CCTV / AV</option><option>Parts</option><option>Telecom</option><option>Other</option></select></div>
+      <div><label class="fl">Category</label>
+        <select class="fs" id="f-scat">
+          <option>Hardware</option><option>Network</option><option>Software</option>
+          <option>CCTV / AV</option><option>Parts</option><option>Telecom</option><option>Other</option>
+        </select>
+      </div>
       <div><label class="fl">Contact person</label><input class="fi" id="f-scontact" placeholder="Name"></div>
     </div>
     <div class="fr2">
       <div><label class="fl">Phone</label><input class="fi" id="f-sphone" placeholder="+971..."></div>
       <div><label class="fl">Email</label><input class="fi" id="f-semail" type="email"></div>
     </div>
-    <div class="fr"><label class="fl">Rating (1–5)</label><select class="fs" id="f-srating"><option value="5">★★★★★ Excellent</option><option value="4" selected>★★★★☆ Good</option><option value="3">★★★☆☆ Average</option><option value="2">★★☆☆☆ Poor</option><option value="1">★☆☆☆☆ Very Poor</option></select></div>
+    <div class="fr"><label class="fl">Rating (1–5)</label>
+      <select class="fs" id="f-srating">
+        <option value="5">★★★★★ Excellent</option>
+        <option value="4" selected>★★★★☆ Good</option>
+        <option value="3">★★★☆☆ Average</option>
+        <option value="2">★★☆☆☆ Poor</option>
+        <option value="1">★☆☆☆☆ Very Poor</option>
+      </select>
+    </div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitSupplier()"><i class="ti ti-plus"></i> Add Supplier</button></div>`;
+
   } else if(type==='contact'){
     box.innerHTML=`
     <div class="mh"><span class="mt">Add Contact</span><button class="mc" onclick="closeModal()">×</button></div>
@@ -877,48 +1172,50 @@ function openModal(type) {
       <div><label class="fl">Email</label><input class="fi" id="f-cemail" type="email"></div>
     </div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitContact()"><i class="ti ti-plus"></i> Add Contact</button></div>`;
+
   } else if(type==='ai-full'){
     box.innerHTML=`
     <div class="mh"><span class="mt"><i class="ti ti-robot" style="font-size:14px;margin-right:6px"></i>AI Assistant</span><button class="mc" onclick="closeModal()">×</button></div>
     <div id="ai-full-hist" style="max-height:280px;overflow-y:auto;margin-bottom:14px;font-size:13px;line-height:1.7;min-height:60px;">
-      <div style="color:var(--tx3);font-size:12px;text-align:center;padding:16px 0;">Ask anything about Park Regis IT — tickets, AMCs, tasks, contacts, suppliers.</div>
+      <div style="color:var(--tx3);font-size:12px;text-align:center;padding:16px 0;">Ask anything about Park Regis IT — tickets, assets, AMCs, tasks, contacts, suppliers.</div>
     </div>
     <div style="display:flex;gap:8px;">
       <input class="fi" id="f-ai-full" placeholder="Type your question..." onkeydown="if(event.key==='Enter')askAIFull()" style="flex:1;">
       <button class="btn btn-navy" onclick="askAIFull()">Send ↗</button>
     </div>`;
   }
+
   document.getElementById('overlay').classList.add('show');
   setTimeout(()=>{const f=document.querySelector('.modal input:not([type=date]):not([type=number])');if(f)f.focus();},80);
 }
 
-function closeModal(e) {
+function closeModal(e){
   if(!e||e.target===document.getElementById('overlay'))
     document.getElementById('overlay').classList.remove('show');
 }
 
-function ticketDetail(id) {
+function ticketDetail(id){
   const t=S.tickets.find(x=>x.id===id);
-  if(!t) return;
+  if(!t)return;
   const box=document.getElementById('modal-box');
   box.innerHTML=`
   <div class="mh"><span class="mt">${t.id}</span><button class="mc" onclick="closeModal()">×</button></div>
-  <div style="font-size:15px;font-weight:500;margin-bottom:10px;">${t.title}</div>
+  <div style="font-size:15px;font-weight:500;margin-bottom:10px;">${esc(t.title)}</div>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
     <span class="badge b-${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
     <span class="badge b-${t.status}">${statusLabel(t.status)}</span>
-    <span class="badge b-pending">${t.dept}</span>
+    <span class="badge b-pending">${esc(t.dept)}</span>
   </div>
-  ${t.description?`<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.7;padding:12px;background:var(--bg2);border-radius:var(--rmd);">${t.description}</div>`:''}
-  <div style="font-size:12px;color:var(--tx2);margin-bottom:16px;"><i class="ti ti-user" style="font-size:12px;vertical-align:-1px"></i> ${t.assignee||'Unassigned'} &nbsp;·&nbsp; <i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px"></i> ${t.created}</div>
+  ${t.description?`<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.7;padding:12px;background:var(--bg2);border-radius:var(--rmd);">${esc(t.description)}</div>`:''}
+  <div style="font-size:12px;color:var(--tx2);margin-bottom:16px;"><i class="ti ti-user" style="font-size:12px;vertical-align:-1px"></i> ${esc(t.assignee||'Unassigned')} &nbsp;·&nbsp; <i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px"></i> ${t.created}</div>
   <div style="margin-bottom:16px;">
     <div style="font-size:12px;font-weight:500;margin-bottom:8px;">Update status:</div>
     <div style="display:flex;gap:6px;flex-wrap:wrap;">
-      <button class="btn" style="background:var(--al);color:var(--ad);" onclick="setTicketStatus('${t.id}','open');closeModal()">Open</button>
-      <button class="btn" style="background:var(--bl);color:var(--bd3);" onclick="setTicketStatus('${t.id}','progress');closeModal()">In Progress</button>
-      <button class="btn" style="background:var(--rl);color:var(--rd);" onclick="setTicketStatus('${t.id}','delayed');closeModal()">Delayed</button>
-      <button class="btn btn-green" onclick="setTicketStatus('${t.id}','done');closeModal()">Done ✓</button>
-      <button class="btn btn-ghost" onclick="setTicketStatus('${t.id}','closed');closeModal()">Close</button>
+      <button class="btn" style="background:var(--al);color:var(--ad);" onclick="setTStatus('${t.id}','open');closeModal()">Open</button>
+      <button class="btn" style="background:var(--bl);color:var(--bd3);" onclick="setTStatus('${t.id}','progress');closeModal()">In Progress</button>
+      <button class="btn" style="background:var(--rl);color:var(--rd);" onclick="setTStatus('${t.id}','delayed');closeModal()">Delayed</button>
+      <button class="btn btn-green" onclick="setTStatus('${t.id}','done');closeModal()">Done ✓</button>
+      <button class="btn btn-ghost" onclick="setTStatus('${t.id}','closed');closeModal()">Close</button>
     </div>
   </div>
   <div style="border-top:0.5px solid var(--bd);padding-top:14px;">
@@ -930,10 +1227,40 @@ function ticketDetail(id) {
   getAISteps(t);
 }
 
-// ═══════════════════════════════════════════════════════════════
-// FORM SUBMISSIONS — all call dbSave()
-// ═══════════════════════════════════════════════════════════════
-function submitTicket() {
+// ═══════════════════════════════════════════════════════════
+// FORM SUBMISSIONS
+// ═══════════════════════════════════════════════════════════
+function submitAsset(editId){
+  const name=document.getElementById('f-aname').value.trim();
+  const type=document.getElementById('f-atype').value;
+  if(!name||!type){alert('Please enter item name and select type.');return;}
+  const purchaseDateRaw=document.getElementById('f-apurchase').value;
+  const warrantyEndRaw=document.getElementById('f-awarranty').value;
+  const assetData={
+    name, type,
+    brand:document.getElementById('f-abrand').value.trim(),
+    serialNo:document.getElementById('f-aserial').value.trim(),
+    assignedTo:document.getElementById('f-aassigned').value.trim(),
+    designation:document.getElementById('f-adesig').value.trim(),
+    department:document.getElementById('f-adept').value,
+    location:document.getElementById('f-aloc').value,
+    status:document.getElementById('f-astatus').value,
+    purchaseDateRaw,
+    warrantyEndRaw,
+    purchaseDate:purchaseDateRaw?fmtDate(purchaseDateRaw):'',
+    warrantyEnd:warrantyEndRaw?fmtDate(warrantyEndRaw):'',
+    notes:document.getElementById('f-anotes').value.trim()
+  };
+  if(editId){
+    const idx=S.assets.findIndex(x=>x.id===editId);
+    if(idx>=0){S.assets[idx]={...S.assets[idx],...assetData,updatedAt:today()};}
+  } else {
+    S.assets.unshift({id:uid('AS','_asid'),addedOn:today(),...assetData});
+  }
+  closeModal();dbSave();render();
+}
+
+function submitTicket(){
   const title=document.getElementById('f-title').value.trim();
   if(!title){alert('Please enter a ticket title.');return;}
   S.tickets.unshift({
@@ -945,78 +1272,52 @@ function submitTicket() {
     created:today(),
     description:document.getElementById('f-desc').value.trim()
   });
-  closeModal(); dbSave(); render();
+  closeModal();dbSave();render();
 }
 
-function submitTask() {
+function submitTask(){
   const title=document.getElementById('f-task-title').value.trim();
   if(!title){alert('Please enter a task name.');return;}
   const raw=document.getElementById('f-due').value;
-  S.tasks.push({
-    id:uid('TS','_tsid'),title,
-    due:raw?fmtDate(raw):'TBD',
-    status:'pending',
-    assignee:document.getElementById('f-task-ass').value.trim()||'Unassigned'
-  });
-  closeModal(); dbSave(); render();
+  S.tasks.push({id:uid('TS','_tsid'),title,due:raw?fmtDate(raw):'TBD',status:'pending',assignee:document.getElementById('f-task-ass').value.trim()||'Unassigned'});
+  closeModal();dbSave();render();
 }
 
-function submitAMC() {
+function submitAMC(){
   const vendor=document.getElementById('f-vendor').value.trim();
   const scope=document.getElementById('f-scope').value.trim();
   if(!vendor||!scope){alert('Please enter vendor name and scope.');return;}
   const startRaw=document.getElementById('f-amc-start').value;
   const endRaw=document.getElementById('f-amc-end').value;
   if(!startRaw||!endRaw){alert('Please enter start and end dates.');return;}
-  S.amc.push({
-    id:uid('AMC','_aid'),vendor,scope,
-    startRaw,endRaw,
-    start:fmtDate(startRaw),end:fmtDate(endRaw),
-    valueNum:parseInt(document.getElementById('f-val').value)||0,
-    status:document.getElementById('f-amc-status').value
-  });
-  closeModal(); dbSave(); render();
+  S.amc.push({id:uid('AMC','_aid'),vendor,scope,startRaw,endRaw,start:fmtDate(startRaw),end:fmtDate(endRaw),valueNum:parseInt(document.getElementById('f-val').value)||0,status:document.getElementById('f-amc-status').value});
+  closeModal();dbSave();render();
 }
 
-function submitSupplier() {
+function submitSupplier(){
   const name=document.getElementById('f-sname').value.trim();
   if(!name){alert('Please enter the company name.');return;}
-  S.suppliers.push({
-    id:uid('SP','_sid'),name,
-    category:document.getElementById('f-scat').value,
-    contact:document.getElementById('f-scontact').value.trim(),
-    phone:document.getElementById('f-sphone').value.trim(),
-    email:document.getElementById('f-semail').value.trim(),
-    rating:parseInt(document.getElementById('f-srating').value)
-  });
-  closeModal(); dbSave(); render();
+  S.suppliers.push({id:uid('SP','_sid'),name,category:document.getElementById('f-scat').value,contact:document.getElementById('f-scontact').value.trim(),phone:document.getElementById('f-sphone').value.trim(),email:document.getElementById('f-semail').value.trim(),rating:parseInt(document.getElementById('f-srating').value)});
+  closeModal();dbSave();render();
 }
 
-function submitContact() {
+function submitContact(){
   const name=document.getElementById('f-cname').value.trim();
   if(!name){alert('Please enter the contact name.');return;}
-  S.contacts.push({
-    id:uid('CT','_cid'),name,
-    role:document.getElementById('f-crole').value.trim(),
-    dept:document.getElementById('f-cdept').value.trim(),
-    phone:document.getElementById('f-cphone').value.trim(),
-    email:document.getElementById('f-cemail').value.trim()
-  });
-  closeModal(); dbSave(); render();
+  S.contacts.push({id:uid('CT','_cid'),name,role:document.getElementById('f-crole').value.trim(),dept:document.getElementById('f-cdept').value.trim(),phone:document.getElementById('f-cphone').value.trim(),email:document.getElementById('f-cemail').value.trim()});
+  closeModal();dbSave();render();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════
 // AI
-// ═══════════════════════════════════════════════════════════════
-function fillAI(q){
-  const inp=document.getElementById('ai-q');
-  if(inp){inp.value=q;askAI();}
-}
+// ═══════════════════════════════════════════════════════════
+function fillAI(q){const inp=document.getElementById('ai-q');if(inp){inp.value=q;askAI();}}
 
 function buildContext(){
   return `You are the AI assistant for the IT Command Centre at Park Regis Hotel Business Bay, Dubai.
 TICKETS(${S.tickets.length}): ${JSON.stringify(S.tickets.map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status,assignee:t.assignee,dept:t.dept})))}
 TASKS(${S.tasks.length}): ${JSON.stringify(S.tasks.map(t=>({id:t.id,title:t.title,due:t.due,status:t.status,assignee:t.assignee})))}
+ASSETS(${S.assets.length}): ${JSON.stringify(S.assets.map(a=>({id:a.id,name:a.name,type:a.type,serialNo:a.serialNo,assignedTo:a.assignedTo,designation:a.designation,department:a.department,location:a.location,status:a.status})))}
 AMC(${S.amc.length}): ${JSON.stringify(S.amc.map(a=>({id:a.id,vendor:a.vendor,scope:a.scope,end:a.end,status:a.status,value:'AED '+parseInt(a.valueNum||0).toLocaleString()})))}
 SUPPLIERS(${S.suppliers.length}): ${JSON.stringify(S.suppliers.map(s=>({name:s.name,category:s.category,contact:s.contact,phone:s.phone})))}
 CONTACTS(${S.contacts.length}): ${JSON.stringify(S.contacts.map(c=>({name:c.name,role:c.role,dept:c.dept,phone:c.phone,email:c.email})))}
@@ -1026,28 +1327,28 @@ Today: ${new Date().toDateString()}. Be concise and actionable.`;
 async function askAI(){
   const inp=document.getElementById('ai-q');
   const resp=document.getElementById('ai-resp');
-  if(!inp||!resp) return;
+  if(!inp||!resp)return;
   const q=inp.value.trim();
-  if(!q) return;
+  if(!q)return;
   resp.innerHTML='<em style="color:rgba(255,255,255,0.35)">Thinking...</em>';
   inp.value='';
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:buildContext()+'\n\nQuestion: '+q}]})});
     const d=await r.json();
-    if(resp) resp.innerHTML=(d.content[0].text||'No response.').replace(/\n/g,'<br>');
+    if(resp)resp.innerHTML=(d.content[0].text||'No response.').replace(/\n/g,'<br>');
   }catch(e){
-    if(resp) resp.innerHTML='<span style="color:rgba(255,100,100,0.7)">Could not reach AI. Check internet.</span>';
+    if(resp)resp.innerHTML='<span style="color:rgba(255,100,100,0.7)">Could not reach AI. Check internet.</span>';
   }
 }
 
 async function askAIFull(){
   const inp=document.getElementById('f-ai-full');
   const hist=document.getElementById('ai-full-hist');
-  if(!inp||!hist) return;
+  if(!inp||!hist)return;
   const q=inp.value.trim();
-  if(!q) return;
+  if(!q)return;
   inp.value='';
-  hist.innerHTML+=`<div style="margin-bottom:8px;padding:9px 12px;background:var(--bg2);border-radius:var(--rmd);"><strong>You:</strong> ${q}</div>`;
+  hist.innerHTML+=`<div style="margin-bottom:8px;padding:9px 12px;background:var(--bg2);border-radius:var(--rmd);"><strong>You:</strong> ${esc(q)}</div>`;
   const lid='ail-'+Date.now();
   hist.innerHTML+=`<div id="${lid}" style="margin-bottom:10px;padding:9px 12px;border-left:2px solid var(--green);border-radius:0 var(--rmd) var(--rmd) 0;"><em style="color:var(--tx3)">AI thinking...</em></div>`;
   hist.scrollTop=hist.scrollHeight;
@@ -1055,23 +1356,23 @@ async function askAIFull(){
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:buildContext()+'\n\n'+q}]})});
     const d=await r.json();
     const el=document.getElementById(lid);
-    if(el) el.innerHTML=`<strong style="color:var(--green)">AI:</strong><br>${(d.content[0].text||'').replace(/\n/g,'<br>')}`;
+    if(el)el.innerHTML=`<strong style="color:var(--green)">AI:</strong><br>${(d.content[0].text||'').replace(/\n/g,'<br>')}`;
   }catch(e){
     const el=document.getElementById(lid);
-    if(el) el.innerHTML='<span style="color:var(--red)">AI unavailable.</span>';
+    if(el)el.innerHTML='<span style="color:var(--red)">AI unavailable.</span>';
   }
   hist.scrollTop=hist.scrollHeight;
 }
 
 async function getAISteps(t){
   const el=document.getElementById('ai-steps');
-  if(!el) return;
+  if(!el)return;
   try{
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:350,messages:[{role:'user',content:`IT support at Park Regis Hotel Business Bay Dubai. Give 4 numbered practical troubleshooting steps for: "${t.title}" (${t.dept} dept). Brief and specific. No preamble.`}]})});
     const d=await r.json();
-    if(el) el.innerHTML=(d.content[0].text||'Could not load.').replace(/\n/g,'<br>');
+    if(el)el.innerHTML=(d.content[0].text||'Could not load.').replace(/\n/g,'<br>');
   }catch(e){
-    if(el) el.innerHTML='<span style="color:var(--tx3)">Connect to internet to load AI suggestions.</span>';
+    if(el)el.innerHTML='<span style="color:var(--tx3)">Connect to internet to load AI suggestions.</span>';
   }
 }
 
@@ -1084,40 +1385,4 @@ HTMLEOF
 echo "Done — $(wc -c < /mnt/user-data/outputs/index.html) bytes"
 Output
 
-Done — 68442 bytes
-
-Presented file
-Done
-Download the new index.html and replace the file on your GitHub repo. Here's what changed and how the database works:
-
-✅ What's new — Persistent Storage
-
-All your data now saves automatically to localStorage — which is built into every browser and works perfectly on GitHub Pages, Netlify, or any hosted site.
-
-Every time you add a ticket, task, AMC contract, supplier or contact → auto-saved instantly
-Every status change (open → delayed → done, expired → renewed) → auto-saved
-Refresh the page → all data still there
-A "✓ Saved" toast appears bottom-right every time data is written
-📦 What's also added:
-
-Export to JSON button in Settings — backup your data anytime
-Loading screen on startup while data loads from storage
-Data size shown in Settings so you can monitor usage
-Storage key is parkregis_it_v2 — unique to your hotel dashboard
-⚠️ One important note: localStorage saves data per browser per device. If you open the site on a different computer or browser, it starts fresh. If you need data shared across multiple devices/staff, let me know and I'll upgrade it to a cloud database (Supabase — free tier).
-
-How to update on GitHub:
-
-Download the file above
-Go to your GitHub repo → click index.html → click ✏️ edit
-Select all → delete → paste the new content
-Click Commit changes → live in 1–2 minutes
-
-Index
-Code · HTML 
-
-
-
-
-
-
+Done — 86725 bytes
