@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Park Regis Hotel — IT Command Centre</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f3;
+  --bg-tertiary: #eeece7;
+  --text-primary: #1a1a18;
+  --text-secondary: #6b6b68;
+  --text-tertiary: #9b9b97;
+  --border: rgba(0,0,0,0.1);
+  --border-md: rgba(0,0,0,0.18);
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', monospace;
+  --green: #639922;
+  --green-light: #EAF3DE;
+  --green-dark: #27500A;
+  --amber: #BA7517;
+  --amber-light: #FAEEDA;
+  --amber-dark: #633806;
+  --red: #E24B4A;
+  --red-light: #FCEBEB;
+  --red-dark: #A32D2D;
+  --blue: #378ADD;
+  --blue-light: #E6F1FB;
+  --blue-dark: #185FA5;
+  --navy: #0a1628;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-primary: #1e1e1c;
+    --bg-secondary: #2a2a28;
+    --bg-tertiary: #141412;
+    --text-primary: #f0ede8;
+    --text-secondary: #9b9997;
+    --text-tertiary: #6b6b68;
+    --border: rgba(255,255,255,0.1);
+    --border-md: rgba(255,255,255,0.18);
+  }
+}
+body { font-family: var(--font); background: var(--bg-tertiary); color: var(--text-primary); height: 100vh; overflow: hidden; }
+.dashboard { display: flex; height: 100vh; }
+
+/* Sidebar */
+.sidebar { width: 220px; min-width: 220px; background: var(--navy); display: flex; flex-direction: column; overflow-y: auto; }
+.sidebar-logo { padding: 20px 16px 16px; border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+.logo-mark { width: 34px; height: 34px; background: var(--green); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #fff; flex-shrink: 0; }
+.hotel-name { color: #fff; font-size: 13px; font-weight: 500; line-height: 1.3; }
+.hotel-sub { color: rgba(255,255,255,0.38); font-size: 10px; margin-top: 2px; letter-spacing: 0.5px; text-transform: uppercase; }
+.sidebar-section { padding: 14px 16px 4px; color: rgba(255,255,255,0.28); font-size: 10px; letter-spacing: 0.8px; text-transform: uppercase; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 16px; color: rgba(255,255,255,0.58); font-size: 13px; cursor: pointer; border-radius: 6px; margin: 1px 8px; transition: background 0.15s, color 0.15s; user-select: none; }
+.nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.9); }
+.nav-item.active { background: rgba(99,153,34,0.22); color: #a8d96c; }
+.nav-item i { font-size: 16px; }
+.nav-badge { margin-left: auto; font-size: 10px; border-radius: 10px; padding: 1px 6px; min-width: 18px; text-align: center; font-weight: 500; }
+.nav-badge.red { background: var(--red); color: #fff; }
+.nav-badge.green { background: var(--green); color: #fff; }
+.nav-badge.amber { background: var(--amber); color: #fff; }
+.sidebar-footer { margin-top: auto; padding: 8px; border-top: 0.5px solid rgba(255,255,255,0.06); }
+
+/* Main */
+.main { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.topbar { background: var(--bg-primary); border-bottom: 0.5px solid var(--border); padding: 0 20px; height: 54px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.topbar-title { font-size: 15px; font-weight: 500; flex: 1; }
+.topbar-date { font-size: 12px; color: var(--text-secondary); white-space: nowrap; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border: none; border-radius: var(--radius-md); font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font); transition: opacity 0.15s; }
+.btn:hover { opacity: 0.85; }
+.btn-primary { background: var(--navy); color: #a8d96c; }
+.btn-ai { background: #1a2e4a; color: #a8d96c; }
+.btn-success { background: var(--green); color: #fff; }
+.btn-danger { background: var(--red); color: #fff; }
+.content { flex: 1; overflow-y: auto; padding: 16px 20px 24px; }
+
+/* Cards & panels */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 14px; }
+.stat-card { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 14px 16px; }
+.stat-label { font-size: 11px; color: var(--text-secondary); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.4px; }
+.stat-val { font-size: 28px; font-weight: 500; line-height: 1; }
+.stat-sub { font-size: 11px; color: var(--text-secondary); margin-top: 5px; }
+.stat-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: 1px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.panel { background: var(--bg-primary); border: 0.5px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 12px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; border-bottom: 0.5px solid var(--border); }
+.panel-title { font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 6px; }
+.panel-action { font-size: 12px; color: var(--green); cursor: pointer; background: none; border: none; font-family: var(--font); }
+
+/* Badges */
+.badge { display: inline-block; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+.badge-urgent { background: var(--red-light); color: var(--red-dark); }
+.badge-high { background: var(--amber-light); color: var(--amber-dark); }
+.badge-medium { background: var(--blue-light); color: var(--blue-dark); }
+.badge-low { background: var(--green-light); color: var(--green-dark); }
+.badge-open { background: var(--amber-light); color: var(--amber-dark); }
+.badge-progress { background: var(--blue-light); color: var(--blue-dark); }
+.badge-done { background: var(--green-light); color: var(--green-dark); }
+.badge-pending { background: var(--bg-secondary); color: var(--text-secondary); }
+.badge-active { background: var(--green-light); color: var(--green-dark); }
+.badge-expiring { background: var(--amber-light); color: var(--amber-dark); }
+.badge-expired { background: var(--red-light); color: var(--red-dark); }
+
+/* Priority dot */
+.priority-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.pd-urgent { background: var(--red); }
+.pd-high { background: var(--amber); }
+.pd-medium { background: var(--blue); }
+.pd-low { background: var(--green); }
+
+/* Rows */
+.ticket-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 0.5px solid var(--border); cursor: pointer; transition: background 0.1s; }
+.ticket-row:hover { background: var(--bg-secondary); }
+.ticket-row:last-child { border-bottom: none; }
+.ticket-id { font-size: 11px; color: var(--text-tertiary); min-width: 52px; font-family: var(--font-mono); }
+.ticket-title { flex: 1; font-size: 13px; }
+.contact-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 0.5px solid var(--border); }
+.contact-row:last-child { border-bottom: none; }
+.avatar { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; flex-shrink: 0; }
+.av-blue { background: #B5D4F4; color: #0C447C; }
+.av-green { background: #C0DD97; color: #27500A; }
+.av-amber { background: #FAC775; color: #633806; }
+.av-purple { background: #CECBF6; color: #3C3489; }
+.av-coral { background: #F5C4B3; color: #712B13; }
+.av-teal { background: #9FE1CB; color: #085041; }
+
+/* AMC bar */
+.amc-wrap { padding: 12px 16px; border-bottom: 0.5px solid var(--border); }
+.amc-wrap:last-child { border-bottom: none; }
+.progress-track { height: 5px; background: var(--bg-secondary); border-radius: 3px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+.p-green { background: var(--green); }
+.p-amber { background: var(--amber); }
+.p-red { background: var(--red); }
+
+/* AI panel */
+.ai-panel { background: var(--navy); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 14px; }
+.ai-label { font-size: 10px; color: rgba(255,255,255,0.38); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+.ai-input-row { display: flex; gap: 8px; }
+.ai-input { flex: 1; background: rgba(255,255,255,0.07); border: 0.5px solid rgba(255,255,255,0.14); border-radius: var(--radius-md); padding: 9px 12px; color: #fff; font-size: 13px; font-family: var(--font); outline: none; }
+.ai-input:focus { border-color: rgba(99,153,34,0.5); }
+.ai-input::placeholder { color: rgba(255,255,255,0.28); }
+.ai-send { background: var(--green); border: none; border-radius: var(--radius-md); padding: 9px 16px; color: #fff; font-size: 13px; font-weight: 500; cursor: pointer; font-family: var(--font); }
+.ai-response { margin-top: 12px; font-size: 12px; color: rgba(255,255,255,0.68); line-height: 1.7; min-height: 16px; }
+.quick-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.chip { background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 4px 11px; font-size: 11px; color: rgba(255,255,255,0.55); cursor: pointer; transition: all 0.15s; }
+.chip:hover { background: rgba(99,153,34,0.2); color: #a8d96c; border-color: rgba(99,153,34,0.35); }
+
+/* Table grid */
+.tbl-grid { display: grid; gap: 0; }
+.tbl-head { display: grid; padding: 8px 16px; border-bottom: 0.5px solid var(--border); }
+.tbl-head span { font-size: 11px; color: var(--text-secondary); }
+.tbl-row { display: grid; align-items: center; padding: 11px 16px; border-bottom: 0.5px solid var(--border); cursor: pointer; transition: background 0.1s; }
+.tbl-row:hover { background: var(--bg-secondary); }
+.tbl-row:last-child { border-bottom: none; }
+
+/* View tabs */
+.view-tabs { display: flex; gap: 2px; background: var(--bg-secondary); border-radius: var(--radius-md); padding: 3px; }
+.vtab { padding: 5px 13px; border-radius: 6px; font-size: 12px; cursor: pointer; color: var(--text-secondary); border: none; background: none; font-family: var(--font); transition: all 0.15s; }
+.vtab.active { background: var(--bg-primary); color: var(--text-primary); font-weight: 500; }
+
+/* Modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 1000; align-items: center; justify-content: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: var(--bg-primary); border-radius: var(--radius-xl); padding: 22px; width: 500px; max-width: 95vw; max-height: 90vh; overflow-y: auto; border: 0.5px solid var(--border); }
+.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; }
+.modal-title { font-size: 15px; font-weight: 500; }
+.modal-close { background: none; border: none; font-size: 20px; cursor: pointer; color: var(--text-secondary); line-height: 1; padding: 0 4px; }
+.form-row { margin-bottom: 13px; }
+.form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 13px; }
+.form-label { font-size: 12px; color: var(--text-secondary); margin-bottom: 5px; display: block; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; padding: 9px 11px;
+  border: 0.5px solid var(--border-md);
+  border-radius: var(--radius-md);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 13px;
+  font-family: var(--font);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--green); }
+.form-textarea { resize: vertical; min-height: 80px; }
+
+/* Stars */
+.stars { color: var(--amber); font-size: 13px; }
+
+/* Tooltip */
+.tooltip { position: relative; }
+.tooltip:hover::after { content: attr(data-tip); position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-size: 11px; padding: 4px 8px; border-radius: 5px; white-space: nowrap; pointer-events: none; margin-bottom: 4px; }
+
+/* Notification dot */
+.notif { position: relative; }
+.notif::after { content: ''; position: absolute; top: -2px; right: -2px; width: 7px; height: 7px; background: var(--red); border-radius: 50%; border: 1.5px solid var(--navy); }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border-md); border-radius: 3px; }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { width: 56px; min-width: 56px; }
+  .hotel-name, .hotel-sub, .sidebar-section, .nav-item span, .nav-badge { display: none; }
+  .nav-item { justify-content: center; padding: 12px; margin: 2px 4px; }
+  .nav-item i { font-size: 20px; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .two-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div class="dashboard">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <div class="logo-mark">PR</div>
+        <div>
+          <div class="hotel-name">Park Regis Hotel</div>
+          <div class="hotel-sub">Business Bay · Dubai</div>
+        </div>
+      </div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.25);margin-top:2px;padding-left:2px;">IT Command Centre</div>
+    </div>
+
+    <div class="sidebar-section">Overview</div>
+    <div class="nav-item active" onclick="switchView('dashboard')">
+      <i class="ti ti-layout-dashboard"></i><span>Dashboard</span>
+    </div>
+
+    <div class="sidebar-section">Operations</div>
+    <div class="nav-item" onclick="switchView('tickets')">
+      <i class="ti ti-ticket notif"></i><span>Tickets</span>
+      <span class="nav-badge red" id="badge-tickets">7</span>
+    </div>
+    <div class="nav-item" onclick="switchView('tasks')">
+      <i class="ti ti-checklist"></i><span>Tasks</span>
+      <span class="nav-badge green" id="badge-tasks">5</span>
+    </div>
+
+    <div class="sidebar-section">Contracts</div>
+    <div class="nav-item" onclick="switchView('amc')">
+      <i class="ti ti-file-certificate"></i><span>AMC Contracts</span>
+      <span class="nav-badge amber" id="badge-amc">2</span>
+    </div>
+    <div class="nav-item" onclick="switchView('suppliers')">
+      <i class="ti ti-building-store"></i><span>Suppliers</span>
+    </div>
+
+    <div class="sidebar-section">People</div>
+    <div class="nav-item" onclick="switchView('contacts')">
+      <i class="ti ti-address-book"></i><span>Contacts</span>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="nav-item" onclick="switchView('settings')">
+        <i class="ti ti-settings"></i><span>Settings</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main area -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-date" id="topbar-date"></div>
+      <button class="btn btn-primary" onclick="openModal('ticket')">
+        <i class="ti ti-plus"></i> New Ticket
+      </button>
+      <button class="btn btn-ai" onclick="openModal('ai-full')">
+        <i class="ti ti-robot"></i> Ask AI
+      </button>
+    </div>
+    <div class="content" id="main-content"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-box" onclick="event.stopPropagation()"></div>
+</div>
+
+<script>
+const avList = ['av-blue','av-green','av-amber','av-purple','av-coral','av-teal'];
+
+const state = {
+  view: 'dashboard',
+  ticketFilter: 'all',
+  tickets: [
+    { id:'TK-001', title:'Wi-Fi outage – Floor 12', dept:'Network', priority:'urgent', status:'open', assignee:'Ahmed R.', created:'Jun 07, 2025', description:'No wireless connectivity reported on floor 12. Multiple guests have raised complaints at front desk.' },
+    { id:'TK-002', title:'PMS login failure – Front Desk', dept:'Software', priority:'high', status:'progress', assignee:'Sara M.', created:'Jun 07, 2025', description:'Opera PMS crashing on 2 terminals at front desk. Reboot attempts unsuccessful.' },
+    { id:'TK-003', title:'CCTV camera offline – Pool area', dept:'Security', priority:'high', status:'open', assignee:'Unassigned', created:'Jun 06, 2025', description:'Camera 14 at pool area shows no feed since yesterday evening.' },
+    { id:'TK-004', title:'Printer jam – Executive Lounge', dept:'Hardware', priority:'medium', status:'progress', assignee:'Khalid T.', created:'Jun 06, 2025', description:'HP LaserJet Pro shows repeated paper jam error. Manual clearing not resolving issue.' },
+    { id:'TK-005', title:'Email delays – F&B department', dept:'Email', priority:'medium', status:'open', assignee:'Sara M.', created:'Jun 05, 2025', description:'Emails to/from F&B team taking 15–30 mins to deliver. Affecting daily operations.' },
+    { id:'TK-006', title:'TV system update – Rooms 201–220', dept:'AV', priority:'low', status:'done', assignee:'Ahmed R.', created:'Jun 04, 2025', description:'Scheduled IPTV firmware update completed for rooms 201–220.' },
+    { id:'TK-007', title:'New laptop setup – GM office', dept:'Hardware', priority:'medium', status:'done', assignee:'Khalid T.', created:'Jun 03, 2025', description:'Dell XPS configured and handed over to General Manager.' },
+  ],
+  tasks: [
+    { id:'TS-001', title:'Monthly server backup verification', due:'Jun 10, 2025', status:'pending', assignee:'Ahmed R.' },
+    { id:'TS-002', title:'Update antivirus definitions – all terminals', due:'Jun 11, 2025', status:'pending', assignee:'Sara M.' },
+    { id:'TS-003', title:'Quarterly firewall rule review', due:'Jun 15, 2025', status:'progress', assignee:'Ahmed R.' },
+    { id:'TS-004', title:'Cable labelling – server room', due:'Jun 20, 2025', status:'pending', assignee:'Khalid T.' },
+    { id:'TS-005', title:'UPS battery check – all floors', due:'Jun 25, 2025', status:'done', assignee:'Sara M.' },
+    { id:'TS-006', title:'License renewal – Microsoft 365', due:'Jul 01, 2025', status:'pending', assignee:'Ahmed R.' },
+  ],
+  amc: [
+    { id:'AMC-001', vendor:'Cisco Systems ME', scope:'Network switches & routers', start:'Jan 01, 2025', end:'Dec 31, 2025', value:'AED 48,000', status:'active', pct:88 },
+    { id:'AMC-002', vendor:'Schneider Electric', scope:'UPS & power infrastructure', start:'Mar 01, 2025', end:'Feb 28, 2026', value:'AED 32,500', status:'active', pct:65 },
+    { id:'AMC-003', vendor:'Milestone Systems', scope:'CCTV / VMS software', start:'Jun 01, 2024', end:'May 31, 2025', value:'AED 21,000', status:'expired', pct:100 },
+    { id:'AMC-004', vendor:'Oracle Hospitality', scope:'Opera PMS annual support', start:'Sep 01, 2025', end:'Aug 31, 2026', value:'AED 95,000', status:'active', pct:40 },
+    { id:'AMC-005', vendor:'Fortinet UAE', scope:'Firewall & UTM appliance', start:'Nov 01, 2024', end:'Oct 31, 2025', value:'AED 18,500', status:'expiring', pct:96 },
+  ],
+  suppliers: [
+    { name:"Al Fara'a IT Solutions", category:'Hardware', contact:'Faisal Al Mansoori', phone:'+971 4 345 6789', email:'faisal@alfaraait.ae', rating:4 },
+    { name:'Gulf Infotech LLC', category:'Network', contact:'Priya Nair', phone:'+971 4 556 7890', email:'priya@gulfinfotech.ae', rating:5 },
+    { name:'Zoom Technologies Dubai', category:'CCTV / AV', contact:'Mohamed Ashraf', phone:'+971 55 234 5678', email:'m.ashraf@zoomdxb.ae', rating:4 },
+    { name:'Baqer Mohebi IT', category:'Software', contact:'Ananya Sharma', phone:'+971 4 789 0123', email:'ananya@baqerit.ae', rating:3 },
+    { name:'Logicom Distribution', category:'Parts & Accessories', contact:'Rami Khalil', phone:'+971 4 432 1098', email:'rami@logicom.me', rating:4 },
+  ],
+  contacts: [
+    { name:'Ahmed Rashid', role:'IT Manager', dept:'IT', email:'a.rashid@parkregis-bb.com', phone:'+971 50 123 4567', initials:'AR', av:'av-blue' },
+    { name:'Sara Mubarak', role:'IT Engineer', dept:'IT', email:'s.mubarak@parkregis-bb.com', phone:'+971 55 234 5678', initials:'SM', av:'av-green' },
+    { name:'Khalid Tamimi', role:'IT Technician', dept:'IT', email:'k.tamimi@parkregis-bb.com', phone:'+971 56 345 6789', initials:'KT', av:'av-amber' },
+    { name:'Noura Al Zaabi', role:'General Manager', dept:'Management', email:'n.alzaabi@parkregis-bb.com', phone:'+971 50 987 6543', initials:'NZ', av:'av-purple' },
+    { name:'Rashid Al Falasi', role:'Finance Director', dept:'Finance', email:'r.alfalasi@parkregis-bb.com', phone:'+971 55 876 5432', initials:'RF', av:'av-coral' },
+    { name:'Lina Haddad', role:'Front Office Manager', dept:'Rooms', email:'l.haddad@parkregis-bb.com', phone:'+971 56 765 4321', initials:'LH', av:'av-teal' },
+  ]
+};
+
+/* Date */
+document.getElementById('topbar-date').textContent = new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+
+/* Navigation */
+function switchView(v) {
+  state.view = v;
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const views = ['dashboard','tickets','tasks','amc','suppliers','contacts','settings'];
+  const items = document.querySelectorAll('.nav-item');
+  const idx = views.indexOf(v);
+  if (idx >= 0 && items[idx]) items[idx].classList.add('active');
+  const titles = { dashboard:'Dashboard', tickets:'IT Tickets', tasks:'IT Tasks', amc:'AMC Contracts', suppliers:'Suppliers', contacts:'Contacts', settings:'Settings' };
+  document.getElementById('topbar-title').textContent = titles[v] || v;
+  render();
+}
+
+function render() {
+  const v = state.view;
+  const c = document.getElementById('main-content');
+  if (v === 'dashboard') c.innerHTML = renderDashboard();
+  else if (v === 'tickets') c.innerHTML = renderTickets();
+  else if (v === 'tasks') c.innerHTML = renderTasks();
+  else if (v === 'amc') c.innerHTML = renderAMC();
+  else if (v === 'suppliers') c.innerHTML = renderSuppliers();
+  else if (v === 'contacts') c.innerHTML = renderContacts();
+  else if (v === 'settings') c.innerHTML = renderSettings();
+}
+
+/* ── Dashboard ── */
+function renderDashboard() {
+  const open = state.tickets.filter(t => t.status === 'open').length;
+  const prog = state.tickets.filter(t => t.status === 'progress').length;
+  const done = state.tickets.filter(t => t.status === 'done').length;
+  const urgent = state.tickets.filter(t => t.priority === 'urgent').length;
+  const amcAlert = state.amc.filter(a => a.status === 'expiring' || a.status === 'expired').length;
+  const pendingTasks = state.tasks.filter(t => t.status !== 'done').length;
+
+  return `
+  <div class="ai-panel">
+    <div class="ai-label"><i class="ti ti-robot" style="font-size:13px"></i> AI Assistant — ask anything about Park Regis IT operations</div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-q" placeholder="e.g. Which tickets are urgent? Summarise AMC contracts expiring soon..." onkeydown="if(event.key==='Enter')askAI()">
+      <button class="ai-send" onclick="askAI()">Ask ↗</button>
+    </div>
+    <div class="quick-chips">
+      <div class="chip" onclick="fillAI('Show all urgent open tickets')">🔴 Urgent tickets</div>
+      <div class="chip" onclick="fillAI('Which AMC contracts are expiring or expired?')">⚠️ Expiring AMCs</div>
+      <div class="chip" onclick="fillAI('Give me a summary of all pending tasks')">📋 Pending tasks</div>
+      <div class="chip" onclick="fillAI('List all IT staff contacts with their phone numbers')">👤 IT contacts</div>
+      <div class="chip" onclick="fillAI('Draft a management escalation email for the Wi-Fi outage on Floor 12')">📧 Escalate Wi-Fi</div>
+      <div class="chip" onclick="fillAI('What should I prioritise today as IT manager?')">🎯 Today's priorities</div>
+    </div>
+    <div class="ai-response" id="ai-resp"></div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Open tickets</div>
+      <div class="stat-val" style="color:var(--red)">${open}</div>
+      <div class="stat-sub"><span class="stat-dot" style="background:var(--red)"></span>${urgent} urgent right now</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">In progress</div>
+      <div class="stat-val" style="color:var(--blue)">${prog}</div>
+      <div class="stat-sub"><span class="stat-dot" style="background:var(--blue)"></span>Being handled</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Resolved</div>
+      <div class="stat-val" style="color:var(--green)">${done}</div>
+      <div class="stat-sub"><span class="stat-dot" style="background:var(--green)"></span>This week</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Pending tasks</div>
+      <div class="stat-val" style="color:var(--amber)">${pendingTasks}</div>
+      <div class="stat-sub"><span class="stat-dot" style="background:var(--amber)"></span>${amcAlert} AMC alerts</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-head">
+        <span class="panel-title"><i class="ti ti-ticket" style="font-size:14px"></i> Recent Tickets</span>
+        <button class="panel-action" onclick="switchView('tickets')">View all →</button>
+      </div>
+      ${state.tickets.slice(0,5).map(t => `
+      <div class="ticket-row" onclick="openTicketDetail('${t.id}')">
+        <div class="priority-dot pd-${t.priority}"></div>
+        <div class="ticket-id">${t.id}</div>
+        <div class="ticket-title">${t.title}</div>
+        <span class="badge badge-${t.status}">${t.status === 'progress' ? 'In progress' : t.status.charAt(0).toUpperCase() + t.status.slice(1)}</span>
+      </div>`).join('')}
+    </div>
+
+    <div>
+      <div class="panel" style="margin-bottom:12px;">
+        <div class="panel-head">
+          <span class="panel-title"><i class="ti ti-file-certificate" style="font-size:14px"></i> AMC Contracts</span>
+          <button class="panel-action" onclick="switchView('amc')">View all →</button>
+        </div>
+        ${state.amc.slice(0,3).map(a => `
+        <div class="amc-wrap">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+            <span style="font-size:12px;font-weight:500;">${a.vendor}</span>
+            <span class="badge badge-${a.status}">${a.status.charAt(0).toUpperCase() + a.status.slice(1)}</span>
+          </div>
+          <div style="font-size:11px;color:var(--text-secondary);margin-bottom:7px;">${a.scope} · Expires ${a.end}</div>
+          <div class="progress-track"><div class="progress-fill ${a.status==='expired'?'p-red':a.status==='expiring'?'p-amber':'p-green'}" style="width:${a.pct}%"></div></div>
+        </div>`).join('')}
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <span class="panel-title"><i class="ti ti-checklist" style="font-size:14px"></i> Upcoming Tasks</span>
+          <button class="panel-action" onclick="switchView('tasks')">View all →</button>
+        </div>
+        ${state.tasks.filter(t=>t.status!=='done').slice(0,3).map(t => `
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--border);">
+          <i class="ti ti-circle" style="font-size:14px;color:var(--text-tertiary)"></i>
+          <div style="flex:1;">
+            <div style="font-size:13px;">${t.title}</div>
+            <div style="font-size:11px;color:var(--text-secondary);">Due ${t.due} · ${t.assignee}</div>
+          </div>
+        </div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ── Tickets ── */
+function renderTickets() {
+  const f = state.ticketFilter;
+  const list = f === 'all' ? state.tickets : state.tickets.filter(t => t.status === f);
+  return `
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+    <div class="view-tabs">
+      ${['all','open','progress','done'].map(x => `<button class="vtab${f===x?' active':''}" onclick="setTicketFilter('${x}')">${x==='all'?'All':x==='progress'?'In progress':x.charAt(0).toUpperCase()+x.slice(1)}</button>`).join('')}
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px;">
+      <button class="btn btn-primary" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button>
+      <button class="btn btn-ai" onclick="fillAI('Give me a full summary of all IT tickets by priority');switchView('dashboard')"><i class="ti ti-robot"></i> AI Summary ↗</button>
+    </div>
+  </div>
+  <div class="panel">
+    <div style="display:grid;grid-template-columns:58px 1fr 90px 100px 90px 80px;padding:9px 16px;border-bottom:0.5px solid var(--border);">
+      <span style="font-size:11px;color:var(--text-secondary)">ID</span>
+      <span style="font-size:11px;color:var(--text-secondary)">Title</span>
+      <span style="font-size:11px;color:var(--text-secondary)">Priority</span>
+      <span style="font-size:11px;color:var(--text-secondary)">Status</span>
+      <span style="font-size:11px;color:var(--text-secondary)">Assignee</span>
+      <span style="font-size:11px;color:var(--text-secondary)">Date</span>
+    </div>
+    ${list.length === 0 ? '<div style="padding:20px 16px;color:var(--text-secondary);font-size:13px;">No tickets in this category.</div>' :
+      list.map(t => `
+      <div style="display:grid;grid-template-columns:58px 1fr 90px 100px 90px 80px;align-items:center;padding:11px 16px;border-bottom:0.5px solid var(--border);cursor:pointer;transition:background .1s;" onmouseover="this.style.background='var(--bg-secondary)'" onmouseout="this.style.background=''" onclick="openTicketDetail('${t.id}')">
+        <div class="ticket-id">${t.id}</div>
+        <div style="display:flex;align-items:center;gap:7px;"><div class="priority-dot pd-${t.priority}"></div><span style="font-size:13px;">${t.title}</span></div>
+        <span class="badge badge-${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
+        <span class="badge badge-${t.status}">${t.status==='progress'?'In progress':t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span>
+        <span style="font-size:12px;color:var(--text-secondary)">${t.assignee}</span>
+        <span style="font-size:12px;color:var(--text-secondary)">${t.created.split(',')[0]}</span>
+      </div>`).join('')}
+  </div>`;
+}
+
+function setTicketFilter(f) { state.ticketFilter = f; render(); }
+
+/* ── Tasks ── */
+function renderTasks() {
+  const done = state.tasks.filter(t => t.status === 'done').length;
+  return `
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+    <div style="font-size:13px;color:var(--text-secondary);">${done} of ${state.tasks.length} completed</div>
+    <div style="flex:1;height:5px;background:var(--bg-secondary);border-radius:3px;overflow:hidden;max-width:160px;">
+      <div style="height:100%;width:${Math.round(done/state.tasks.length*100)}%;background:var(--green);border-radius:3px;"></div>
+    </div>
+    <button class="btn btn-primary" style="margin-left:auto;" onclick="openModal('task')"><i class="ti ti-plus"></i> Add Task</button>
+  </div>
+  <div class="panel">
+    ${state.tasks.map((t,i) => `
+    <div style="display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:0.5px solid var(--border);">
+      <input type="checkbox" ${t.status==='done'?'checked':''} style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;" onchange="toggleTask(${i})">
+      <div style="flex:1;">
+        <div style="font-size:13px;${t.status==='done'?'text-decoration:line-through;color:var(--text-tertiary);':''}">${t.title}</div>
+        <div style="font-size:11px;color:var(--text-secondary);margin-top:2px;"><i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px;"></i> ${t.due} · ${t.assignee}</div>
+      </div>
+      <span class="badge badge-${t.status}">${t.status==='progress'?'In progress':t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span>
+    </div>`).join('')}
+  </div>`;
+}
+
+function toggleTask(i) {
+  state.tasks[i].status = state.tasks[i].status === 'done' ? 'pending' : 'done';
+  document.getElementById('badge-tasks').textContent = state.tasks.filter(t => t.status !== 'done').length;
+  render();
+}
+
+/* ── AMC ── */
+function renderAMC() {
+  const total = state.amc.reduce((s,a) => s + parseInt(a.value.replace(/[^0-9]/g,'')), 0);
+  return `
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
+    <div style="font-size:13px;color:var(--text-secondary);">${state.amc.length} contracts · Total value AED ${total.toLocaleString()}</div>
+    <div style="margin-left:auto;display:flex;gap:8px;">
+      <button class="btn btn-primary" onclick="openModal('amc')"><i class="ti ti-plus"></i> Add Contract</button>
+      <button class="btn btn-ai" onclick="fillAI('Which AMC contracts need renewal action? Give me recommendations.');switchView('dashboard')"><i class="ti ti-robot"></i> AI Review ↗</button>
+    </div>
+  </div>
+  ${state.amc.map(a => `
+  <div class="panel">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:16px 16px 10px;">
+      <div style="flex:1;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+          <span style="font-size:14px;font-weight:500;">${a.vendor}</span>
+          <span class="badge badge-${a.status}">${a.status.charAt(0).toUpperCase()+a.status.slice(1)}</span>
+          <span style="font-size:11px;color:var(--text-tertiary);font-family:var(--font-mono)">${a.id}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-secondary);margin-bottom:10px;">${a.scope}</div>
+        <div style="display:flex;gap:24px;flex-wrap:wrap;">
+          <div><div style="font-size:10px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Start</div><div style="font-size:12px;">${a.start}</div></div>
+          <div><div style="font-size:10px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Expiry</div><div style="font-size:12px;font-weight:${a.status!=='active'?'500':'400'};color:${a.status==='expired'?'var(--red)':a.status==='expiring'?'var(--amber)':'var(--text-primary)'}">${a.end}</div></div>
+          <div><div style="font-size:10px;color:var(--text-tertiary);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Annual value</div><div style="font-size:12px;font-weight:500;">${a.value}</div></div>
+        </div>
+      </div>
+      <div style="text-align:right;padding-left:16px;">
+        <div style="font-size:22px;font-weight:500;color:${a.status==='expired'?'var(--red)':a.status==='expiring'?'var(--amber)':'var(--green)'};">${a.pct}%</div>
+        <div style="font-size:10px;color:var(--text-tertiary);">elapsed</div>
+      </div>
+    </div>
+    <div style="padding:0 16px 14px;">
+      <div class="progress-track"><div class="progress-fill ${a.status==='expired'?'p-red':a.status==='expiring'?'p-amber':'p-green'}" style="width:${a.pct}%"></div></div>
+    </div>
+  </div>`).join('')}`;
+}
+
+/* ── Suppliers ── */
+function renderSuppliers() {
+  return `
+  <div style="display:flex;align-items:center;margin-bottom:14px;">
+    <div style="font-size:13px;color:var(--text-secondary);">${state.suppliers.length} registered suppliers</div>
+    <button class="btn btn-primary" style="margin-left:auto;" onclick="openModal('supplier')"><i class="ti ti-plus"></i> Add Supplier</button>
+  </div>
+  <div class="panel">
+    ${state.suppliers.map((s,i) => `
+    <div class="contact-row">
+      <div class="avatar ${avList[i%avList.length]}" style="border-radius:8px;">${s.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;">${s.name}</div>
+        <div style="font-size:11px;color:var(--text-secondary);">${s.category} · ${s.contact}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:12px;color:var(--text-secondary);">${s.phone}</div>
+        <div style="font-size:11px;color:var(--green);">${s.email}</div>
+        <div class="stars">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/* ── Contacts ── */
+function renderContacts() {
+  return `
+  <div style="display:flex;align-items:center;margin-bottom:14px;">
+    <div style="font-size:13px;color:var(--text-secondary);">${state.contacts.length} contacts</div>
+    <button class="btn btn-primary" style="margin-left:auto;" onclick="openModal('contact')"><i class="ti ti-plus"></i> Add Contact</button>
+  </div>
+  <div class="panel">
+    ${state.contacts.map(c => `
+    <div class="contact-row">
+      <div class="avatar ${c.av}">${c.initials}</div>
+      <div style="flex:1;">
+        <div style="font-size:13px;font-weight:500;">${c.name}</div>
+        <div style="font-size:11px;color:var(--text-secondary);">${c.role} · ${c.dept}</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:12px;color:var(--text-secondary);">${c.phone}</div>
+        <div style="font-size:11px;color:var(--green);">${c.email}</div>
+      </div>
+    </div>`).join('')}
+  </div>`;
+}
+
+/* ── Settings ── */
+function renderSettings() {
+  return `
+  <div class="panel" style="padding:22px;">
+    <div style="font-size:15px;font-weight:500;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><i class="ti ti-settings" style="font-size:16px"></i> Dashboard Settings</div>
+    <table style="width:100%;font-size:13px;border-collapse:collapse;">
+      <tr><td style="color:var(--text-secondary);padding:8px 0;width:160px;border-bottom:0.5px solid var(--border);">Hotel</td><td style="padding:8px 0;border-bottom:0.5px solid var(--border);font-weight:500;">Park Regis Hotel Business Bay, Dubai</td></tr>
+      <tr><td style="color:var(--text-secondary);padding:8px 0;border-bottom:0.5px solid var(--border);">Department</td><td style="padding:8px 0;border-bottom:0.5px solid var(--border);">Information Technology</td></tr>
+      <tr><td style="color:var(--text-secondary);padding:8px 0;border-bottom:0.5px solid var(--border);">IT Manager</td><td style="padding:8px 0;border-bottom:0.5px solid var(--border);">Ahmed Rashid</td></tr>
+      <tr><td style="color:var(--text-secondary);padding:8px 0;border-bottom:0.5px solid var(--border);">Version</td><td style="padding:8px 0;border-bottom:0.5px solid var(--border);">IT Command Centre v1.0</td></tr>
+      <tr><td style="color:var(--text-secondary);padding:8px 0;">AI engine</td><td style="padding:8px 0;">Claude by Anthropic (claude-sonnet-4-20250514)</td></tr>
+    </table>
+    <div style="margin-top:20px;padding:14px;background:var(--bg-secondary);border-radius:var(--radius-md);font-size:12px;color:var(--text-secondary);line-height:1.7;">
+      <strong style="color:var(--text-primary);">💡 Tip:</strong> This dashboard works fully offline for all features. The AI assistant requires an active internet connection to connect to the Claude API.
+    </div>
+  </div>`;
+}
+
+/* ── Modals ── */
+function openModal(type) {
+  const box = document.getElementById('modal-box');
+  if (type === 'ticket') {
+    box.innerHTML = `
+    <div class="modal-head"><span class="modal-title">New IT Ticket</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="form-row"><label class="form-label">Issue title *</label><input class="form-input" id="f-title" placeholder="Brief description of the issue"></div>
+    <div class="form-row-2">
+      <div><label class="form-label">Priority</label><select class="form-select" id="f-priority"><option value="urgent">🔴 Urgent</option><option value="high">🟠 High</option><option value="medium" selected>🔵 Medium</option><option value="low">🟢 Low</option></select></div>
+      <div><label class="form-label">Department</label><select class="form-select" id="f-dept"><option>Network</option><option>Hardware</option><option>Software</option><option>Security</option><option>Email</option><option>AV</option><option>Other</option></select></div>
+    </div>
+    <div class="form-row"><label class="form-label">Assignee</label><select class="form-select" id="f-ass"><option>Ahmed R.</option><option>Sara M.</option><option>Khalid T.</option><option>Unassigned</option></select></div>
+    <div class="form-row"><label class="form-label">Description</label><textarea class="form-textarea" id="f-desc" placeholder="Detailed description of the issue..."></textarea></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" style="background:var(--bg-secondary);" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitTicket()">Create Ticket</button>
+    </div>`;
+  } else if (type === 'task') {
+    box.innerHTML = `
+    <div class="modal-head"><span class="modal-title">Add New Task</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="form-row"><label class="form-label">Task name *</label><input class="form-input" id="f-task-title" placeholder="Describe the task"></div>
+    <div class="form-row-2">
+      <div><label class="form-label">Due date</label><input type="date" class="form-input" id="f-due"></div>
+      <div><label class="form-label">Assignee</label><select class="form-select" id="f-task-ass"><option>Ahmed R.</option><option>Sara M.</option><option>Khalid T.</option></select></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" style="background:var(--bg-secondary);" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitTask()">Add Task</button>
+    </div>`;
+  } else if (type === 'amc') {
+    box.innerHTML = `
+    <div class="modal-head"><span class="modal-title">New AMC Contract</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="form-row"><label class="form-label">Vendor name *</label><input class="form-input" id="f-vendor" placeholder="Company / vendor name"></div>
+    <div class="form-row"><label class="form-label">Scope of contract</label><input class="form-input" id="f-scope" placeholder="What equipment or service is covered"></div>
+    <div class="form-row-2">
+      <div><label class="form-label">Start date</label><input type="date" class="form-input" id="f-amc-start"></div>
+      <div><label class="form-label">End / expiry date</label><input type="date" class="form-input" id="f-amc-end"></div>
+    </div>
+    <div class="form-row"><label class="form-label">Annual value (AED)</label><input class="form-input" id="f-val" type="number" placeholder="e.g. 45000"></div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" style="background:var(--bg-secondary);" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitAMC()">Save Contract</button>
+    </div>`;
+  } else if (type === 'supplier') {
+    box.innerHTML = `
+    <div class="modal-head"><span class="modal-title">Add Supplier</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="form-row"><label class="form-label">Company name *</label><input class="form-input" id="f-sname"></div>
+    <div class="form-row-2">
+      <div><label class="form-label">Category</label><select class="form-select" id="f-scat"><option>Hardware</option><option>Network</option><option>Software</option><option>CCTV / AV</option><option>Parts</option><option>Other</option></select></div>
+      <div><label class="form-label">Contact person</label><input class="form-input" id="f-scontact"></div>
+    </div>
+    <div class="form-row-2">
+      <div><label class="form-label">Phone</label><input class="form-input" id="f-sphone" placeholder="+971..."></div>
+      <div><label class="form-label">Email</label><input class="form-input" id="f-semail" type="email"></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" style="background:var(--bg-secondary);" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitSupplier()">Add Supplier</button>
+    </div>`;
+  } else if (type === 'contact') {
+    box.innerHTML = `
+    <div class="modal-head"><span class="modal-title">Add Contact</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div class="form-row"><label class="form-label">Full name *</label><input class="form-input" id="f-cname"></div>
+    <div class="form-row-2">
+      <div><label class="form-label">Job title / role</label><input class="form-input" id="f-crole"></div>
+      <div><label class="form-label">Department</label><input class="form-input" id="f-cdept"></div>
+    </div>
+    <div class="form-row-2">
+      <div><label class="form-label">Phone</label><input class="form-input" id="f-cphone" placeholder="+971..."></div>
+      <div><label class="form-label">Email</label><input class="form-input" id="f-cemail" type="email"></div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;">
+      <button class="btn" style="background:var(--bg-secondary);" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitContact()">Add Contact</button>
+    </div>`;
+  } else if (type === 'ai-full') {
+    box.innerHTML = `
+    <div class="modal-head"><span class="modal-title"><i class="ti ti-robot" style="font-size:15px;margin-right:6px"></i>AI Assistant</span><button class="modal-close" onclick="closeModal()">×</button></div>
+    <div id="ai-full-history" style="max-height:260px;overflow-y:auto;margin-bottom:14px;font-size:13px;line-height:1.7;color:var(--text-secondary);min-height:60px;">
+      <div style="color:var(--text-tertiary);font-size:12px;">Ask me about tickets, AMC contracts, tasks, suppliers or contacts.</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <input class="form-input" id="f-ai-full" placeholder="Type your question..." onkeydown="if(event.key==='Enter')askAIFull()" style="flex:1;">
+      <button class="btn btn-primary" onclick="askAIFull()">Send ↗</button>
+    </div>`;
+  }
+  document.getElementById('modal-overlay').classList.add('show');
+  setTimeout(() => { const f = document.querySelector('.modal input, .modal .ai-input'); if(f) f.focus(); }, 100);
+}
+
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('modal-overlay')) {
+    document.getElementById('modal-overlay').classList.remove('show');
+  }
+}
+
+function openTicketDetail(id) {
+  const t = state.tickets.find(x => x.id === id);
+  if (!t) return;
+  const box = document.getElementById('modal-box');
+  box.innerHTML = `
+  <div class="modal-head">
+    <span class="modal-title">${t.id} — ${t.title}</span>
+    <button class="modal-close" onclick="closeModal()">×</button>
+  </div>
+  <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
+    <span class="badge badge-${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
+    <span class="badge badge-${t.status}">${t.status==='progress'?'In progress':t.status.charAt(0).toUpperCase()+t.status.slice(1)}</span>
+    <span class="badge badge-pending">${t.dept}</span>
+  </div>
+  <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.7;padding:12px;background:var(--bg-secondary);border-radius:var(--radius-md);">${t.description}</div>
+  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:16px;">
+    <i class="ti ti-user" style="font-size:13px;vertical-align:-1px;"></i> Assigned to <strong>${t.assignee}</strong> &nbsp;·&nbsp;
+    <i class="ti ti-calendar" style="font-size:13px;vertical-align:-1px;"></i> ${t.created}
+  </div>
+  <div style="display:flex;gap:8px;margin-bottom:18px;">
+    <button class="btn" style="background:var(--blue-light);color:var(--blue-dark);" onclick="setStatus('${t.id}','progress');closeModal();">Mark in progress</button>
+    <button class="btn btn-success" onclick="setStatus('${t.id}','done');closeModal();">Mark done ✓</button>
+    <button class="btn btn-danger" onclick="deleteTicket('${t.id}');closeModal();">Delete</button>
+  </div>
+  <div style="border-top:0.5px solid var(--border);padding-top:14px;">
+    <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-robot" style="font-size:13px;color:var(--green)"></i> AI-suggested resolution steps</div>
+    <div id="ai-steps" style="font-size:12px;color:var(--text-secondary);line-height:1.8;">
+      <span style="color:var(--text-tertiary);">Loading AI suggestions...</span>
+    </div>
+  </div>`;
+  document.getElementById('modal-overlay').classList.add('show');
+  getResolutionSteps(t);
+}
+
+async function getResolutionSteps(t) {
+  const el = document.getElementById('ai-steps');
+  if (!el) return;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 400,
+        messages: [{ role: 'user', content: `You are an IT support specialist at Park Regis Hotel Business Bay, Dubai. Give exactly 4 short, practical troubleshooting steps for this ticket: "${t.title}" (${t.dept} department). Format as a numbered list. Be specific and actionable. No preamble or postamble.` }]
+      })
+    });
+    const d = await r.json();
+    if (el) el.innerHTML = (d.content[0].text || 'Could not load suggestions.').replace(/\n/g, '<br>');
+  } catch (e) {
+    if (el) el.innerHTML = '<span style="color:var(--text-tertiary)">Connect to the internet to load AI suggestions.</span>';
+  }
+}
+
+function setStatus(id, status) {
+  const t = state.tickets.find(x => x.id === id);
+  if (t) t.status = status;
+  document.getElementById('badge-tickets').textContent = state.tickets.filter(t => t.status === 'open').length;
+  render();
+}
+
+function deleteTicket(id) {
+  state.tickets = state.tickets.filter(x => x.id !== id);
+  document.getElementById('badge-tickets').textContent = state.tickets.filter(t => t.status === 'open').length;
+  render();
+}
+
+/* ── Form submissions ── */
+function submitTicket() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { alert('Please enter a ticket title.'); return; }
+  const n = state.tickets.length + 1;
+  state.tickets.unshift({
+    id: `TK-${String(n).padStart(3,'0')}`,
+    title,
+    priority: document.getElementById('f-priority').value,
+    dept: document.getElementById('f-dept').value,
+    status: 'open',
+    assignee: document.getElementById('f-ass').value,
+    created: new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),
+    description: document.getElementById('f-desc').value || 'No description provided.'
+  });
+  document.getElementById('badge-tickets').textContent = state.tickets.filter(t => t.status === 'open').length;
+  closeModal(); render();
+}
+
+function submitTask() {
+  const title = document.getElementById('f-task-title').value.trim();
+  if (!title) { alert('Please enter a task name.'); return; }
+  const raw = document.getElementById('f-due').value;
+  const due = raw ? new Date(raw).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'TBD';
+  state.tasks.push({ id:`TS-${String(state.tasks.length+1).padStart(3,'0')}`, title, due, status:'pending', assignee:document.getElementById('f-task-ass').value });
+  document.getElementById('badge-tasks').textContent = state.tasks.filter(t => t.status !== 'done').length;
+  closeModal(); render();
+}
+
+function submitAMC() {
+  const vendor = document.getElementById('f-vendor').value.trim();
+  if (!vendor) { alert('Please enter the vendor name.'); return; }
+  const startRaw = document.getElementById('f-amc-start').value;
+  const endRaw = document.getElementById('f-amc-end').value;
+  const fmt = d => d ? new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : 'TBD';
+  const val = parseInt(document.getElementById('f-val').value) || 0;
+  state.amc.push({ id:`AMC-${String(state.amc.length+1).padStart(3,'0')}`, vendor, scope:document.getElementById('f-scope').value||'General IT support', start:fmt(startRaw), end:fmt(endRaw), value:`AED ${val.toLocaleString()}`, status:'active', pct:5 });
+  document.getElementById('badge-amc').textContent = state.amc.filter(a => a.status==='expiring'||a.status==='expired').length;
+  closeModal(); render();
+}
+
+function submitSupplier() {
+  const name = document.getElementById('f-sname').value.trim();
+  if (!name) { alert('Please enter the company name.'); return; }
+  state.suppliers.push({ name, category:document.getElementById('f-scat').value, contact:document.getElementById('f-scontact').value, phone:document.getElementById('f-sphone').value, email:document.getElementById('f-semail').value, rating:4 });
+  closeModal(); render();
+}
+
+function submitContact() {
+  const name = document.getElementById('f-cname').value.trim();
+  if (!name) { alert('Please enter the contact name.'); return; }
+  const initials = name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  state.contacts.push({ name, role:document.getElementById('f-crole').value, dept:document.getElementById('f-cdept').value, email:document.getElementById('f-cemail').value, phone:document.getElementById('f-cphone').value, initials, av:avList[state.contacts.length%avList.length] });
+  closeModal(); render();
+}
+
+/* ── AI ── */
+function fillAI(q) {
+  const inp = document.getElementById('ai-q');
+  if (inp) { inp.value = q; askAI(); }
+}
+
+async function askAI() {
+  const inp = document.getElementById('ai-q');
+  const resp = document.getElementById('ai-resp');
+  if (!inp || !resp) return;
+  const q = inp.value.trim();
+  if (!q) return;
+  resp.innerHTML = '<em style="color:rgba(255,255,255,0.4)">Thinking...</em>';
+  inp.value = '';
+  const context = `You are the AI assistant for the IT Command Centre at Park Regis Hotel Business Bay, Dubai. Here is the current dashboard data:
+TICKETS: ${JSON.stringify(state.tickets.map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status,assignee:t.assignee,dept:t.dept})))}
+TASKS: ${JSON.stringify(state.tasks)}
+AMC CONTRACTS: ${JSON.stringify(state.amc.map(a=>({id:a.id,vendor:a.vendor,scope:a.scope,end:a.end,status:a.status,value:a.value})))}
+SUPPLIERS: ${JSON.stringify(state.suppliers)}
+CONTACTS: ${JSON.stringify(state.contacts.map(c=>({name:c.name,role:c.role,phone:c.phone,email:c.email})))}
+Answer helpfully and concisely. If drafting an email, write it properly. Today's date: ${new Date().toDateString()}.`;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:500, messages:[{role:'user',content:`${context}\n\nQuestion: ${q}`}] })
+    });
+    const d = await r.json();
+    if (resp) resp.innerHTML = (d.content[0].text || 'No response.').replace(/\n/g,'<br>');
+  } catch(e) {
+    if (resp) resp.innerHTML = '<span style="color:rgba(255,100,100,0.8)">Could not reach AI. Check your internet connection.</span>';
+  }
+}
+
+async function askAIFull() {
+  const inp = document.getElementById('f-ai-full');
+  const hist = document.getElementById('ai-full-history');
+  if (!inp || !hist) return;
+  const q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
+  hist.innerHTML += `<div style="margin-bottom:8px;padding:8px;background:var(--bg-secondary);border-radius:var(--radius-md);"><strong style="color:var(--text-primary)">You:</strong> ${q}</div>`;
+  const loadId = 'ai-load-' + Date.now();
+  hist.innerHTML += `<div id="${loadId}" style="margin-bottom:10px;font-size:12px;"><em style="color:var(--text-tertiary)">AI is thinking...</em></div>`;
+  hist.scrollTop = hist.scrollHeight;
+  const ctx = `IT Command Centre — Park Regis Hotel Business Bay Dubai. Tickets: ${JSON.stringify(state.tickets.map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status})))}, AMC: ${JSON.stringify(state.amc.map(a=>({vendor:a.vendor,status:a.status,end:a.end})))}. Be concise and helpful.`;
+  try {
+    const r = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:500, messages:[{role:'user',content:`${ctx}\n\n${q}`}] })
+    });
+    const d = await r.json();
+    const el = document.getElementById(loadId);
+    if (el) el.outerHTML = `<div style="margin-bottom:10px;padding:8px 10px;border-left:2px solid var(--green);font-size:13px;line-height:1.7;"><strong style="color:var(--green)">AI:</strong><br>${(d.content[0].text||'').replace(/\n/g,'<br>')}</div>`;
+  } catch(e) {
+    const el = document.getElementById(loadId);
+    if (el) el.outerHTML = `<div style="color:var(--red);font-size:12px;">AI unavailable — check internet connection.</div>`;
+  }
+  if (hist) hist.scrollTop = hist.scrollHeight;
+}
+
+/* Keyboard shortcut */
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* Init */
+render();
+</script>
+</body>
+</html>
