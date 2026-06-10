@@ -29,8 +29,6 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 ::-webkit-scrollbar{width:4px;height:4px;}
 ::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:2px;}
 .app{display:flex;height:100vh;}
-
-/* Sidebar */
 .sb{width:220px;min-width:220px;background:var(--navy);display:flex;flex-direction:column;overflow-y:auto;}
 .sb-logo{padding:18px 16px 14px;border-bottom:0.5px solid rgba(255,255,255,0.07);}
 .logo-mark{width:34px;height:34px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
@@ -45,10 +43,7 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .nb-red{background:var(--red);color:#fff;}
 .nb-green{background:var(--green);color:#fff;}
 .nb-amber{background:var(--amber);color:#fff;}
-.nb-blue{background:var(--blue);color:#fff;}
 .sb-foot{margin-top:auto;padding:8px;border-top:0.5px solid rgba(255,255,255,0.06);}
-
-/* Main */
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;}
 .topbar{background:var(--bg);border-bottom:0.5px solid var(--bd);padding:0 20px;height:54px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .topbar-title{font-size:15px;font-weight:500;flex:1;}
@@ -59,26 +54,18 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .btn-ai{background:#1a2e4a;color:#a8d96c;}
 .btn-green{background:var(--green);color:#fff;}
 .btn-red{background:var(--red);color:#fff;}
-.btn-amber{background:var(--amber);color:#fff;}
-.btn-blue{background:var(--blue);color:#fff;}
 .btn-ghost{background:var(--bg2);color:var(--tx2);border:0.5px solid var(--bd);}
 .content{flex:1;overflow-y:auto;padding:16px 20px 24px;}
-
-/* Stats */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
 .stat-card{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--rlg);padding:14px 16px;}
 .stat-label{font-size:11px;color:var(--tx2);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px;}
 .stat-val{font-size:28px;font-weight:500;line-height:1;}
 .stat-sub{font-size:11px;color:var(--tx2);margin-top:4px;}
 .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:4px;vertical-align:1px;}
-
-/* Panel */
 .panel{background:var(--bg);border:0.5px solid var(--bd);border-radius:var(--rlg);overflow:hidden;margin-bottom:12px;}
 .ph{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:0.5px solid var(--bd);}
 .ph-title{font-size:13px;font-weight:500;display:flex;align-items:center;gap:6px;}
 .ph-act{font-size:12px;color:var(--green);cursor:pointer;background:none;border:none;font-family:var(--font);}
-
-/* Badges */
 .badge{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:10px;white-space:nowrap;}
 .b-open{background:var(--al);color:var(--ad);}
 .b-progress{background:var(--bl);color:var(--bd3);}
@@ -95,22 +82,16 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .b-renewed{background:var(--pl);color:var(--pd2);}
 .b-pending{background:#F1EFE8;color:#5F5E5A;}
 .b-cancelled{background:#F1EFE8;color:#5F5E5A;}
-
-/* Priority dot */
 .pdot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
 .pd-urgent{background:var(--red);}
 .pd-high{background:var(--amber);}
 .pd-medium{background:var(--blue);}
 .pd-low{background:var(--green);}
-
-/* Rows */
 .row{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--bd);transition:background .1s;}
 .row:hover{background:var(--bg2);}
 .row:last-child{border-bottom:none;}
 .row-clickable{cursor:pointer;}
 .tid{font-size:11px;color:var(--tx3);min-width:54px;font-family:var(--mono);}
-
-/* Avatar */
 .avatar{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;flex-shrink:0;}
 .av0{background:#B5D4F4;color:#0C447C;}
 .av1{background:#C0DD97;color:#27500A;}
@@ -118,16 +99,12 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .av3{background:#CECBF6;color:#3C3489;}
 .av4{background:#F5C4B3;color:#712B13;}
 .av5{background:#9FE1CB;color:#085041;}
-
-/* Progress */
 .prog-track{height:5px;background:var(--bg2);border-radius:3px;overflow:hidden;}
 .prog-fill{height:100%;border-radius:3px;}
 .pf-green{background:var(--green);}
 .pf-amber{background:var(--amber);}
 .pf-red{background:var(--red);}
 .pf-purple{background:var(--purple);}
-
-/* AI panel */
 .ai-panel{background:var(--navy);border-radius:var(--rlg);padding:16px;margin-bottom:14px;}
 .ai-lbl{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:.8px;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
 .ai-row{display:flex;gap:8px;}
@@ -139,13 +116,9 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px;}
 .chip{background:rgba(255,255,255,0.06);border:0.5px solid rgba(255,255,255,0.11);border-radius:20px;padding:4px 11px;font-size:11px;color:rgba(255,255,255,0.52);cursor:pointer;transition:all .15s;}
 .chip:hover{background:rgba(99,153,34,0.18);color:#a8d96c;border-color:rgba(99,153,34,0.3);}
-
-/* Tabs */
 .tabs{display:flex;gap:2px;background:var(--bg2);border-radius:var(--rmd);padding:3px;}
 .tab{padding:5px 13px;border-radius:6px;font-size:12px;cursor:pointer;color:var(--tx2);border:none;background:none;font-family:var(--font);transition:all .15s;}
 .tab.active{background:var(--bg);color:var(--tx);font-weight:500;}
-
-/* Modal */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center;}
 .overlay.show{display:flex;}
 .modal{background:var(--bg);border-radius:var(--rxl);padding:22px;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto;border:0.5px solid var(--bd);}
@@ -159,22 +132,25 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .fi:focus,.fs:focus,.fta:focus{border-color:var(--green);}
 .fta{resize:vertical;min-height:72px;}
 .mf{display:flex;gap:8px;justify-content:flex-end;margin-top:6px;}
-
-/* Empty state */
 .empty{padding:40px 20px;text-align:center;color:var(--tx3);}
 .empty i{font-size:36px;margin-bottom:10px;display:block;}
 .empty p{font-size:13px;}
-
-/* Action menu */
 .action-menu{position:relative;display:inline-block;}
 .action-btn{background:none;border:0.5px solid var(--bd);border-radius:var(--rmd);padding:5px 9px;cursor:pointer;font-size:11px;color:var(--tx2);font-family:var(--font);display:flex;align-items:center;gap:4px;}
 .action-btn:hover{background:var(--bg2);}
-.dropdown{position:absolute;right:0;top:calc(100% + 4px);background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--rmd);min-width:160px;z-index:200;box-shadow:0 4px 12px rgba(0,0,0,0.12);}
+.dropdown{position:absolute;right:0;top:calc(100% + 4px);background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--rmd);min-width:170px;z-index:200;box-shadow:0 4px 16px rgba(0,0,0,0.14);}
 .dd-item{padding:9px 14px;font-size:12px;cursor:pointer;color:var(--tx);display:flex;align-items:center;gap:8px;transition:background .1s;}
 .dd-item:hover{background:var(--bg2);}
 .dd-item.danger{color:var(--red);}
 .dd-sep{height:0.5px;background:var(--bd);margin:3px 0;}
-
+/* Save indicator */
+.save-toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#a8d96c;padding:8px 16px;border-radius:var(--rmd);font-size:12px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;}
+.save-toast.show{opacity:1;}
+/* Loading screen */
+.loading-screen{position:fixed;inset:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;transition:opacity .4s;}
+.loading-screen.hide{opacity:0;pointer-events:none;}
+.spin{width:32px;height:32px;border:3px solid rgba(255,255,255,0.15);border-top-color:#a8d96c;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:14px;}
+@keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:768px){
   .sb{width:54px;min-width:54px;}
   .hotel-name,.hotel-sub,.sb-sec,.nav span,.nbadge{display:none;}
@@ -185,6 +161,17 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 </style>
 </head>
 <body>
+
+<!-- Loading screen -->
+<div class="loading-screen" id="loading-screen">
+  <div style="width:40px;height:40px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;margin-bottom:16px;">PR</div>
+  <div class="spin"></div>
+  <div style="color:rgba(255,255,255,0.6);font-size:13px;">Loading your data...</div>
+</div>
+
+<!-- Save toast -->
+<div class="save-toast" id="save-toast">✓ Saved</div>
+
 <div class="app">
   <div class="sb">
     <div class="sb-logo">
@@ -228,7 +215,49 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 </div>
 
 <script>
-// ── State ──────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// PERSISTENCE — localStorage (works on any hosted site)
+// ═══════════════════════════════════════════════════════════════
+const DB_KEY = 'parkregis_it_v2';
+
+function dbLoad() {
+  try {
+    const raw = localStorage.getItem(DB_KEY);
+    if (raw) return JSON.parse(raw);
+  } catch(e) {}
+  return null;
+}
+
+function dbSave() {
+  try {
+    localStorage.setItem(DB_KEY, JSON.stringify({
+      tickets: S.tickets,
+      tasks: S.tasks,
+      amc: S.amc,
+      suppliers: S.suppliers,
+      contacts: S.contacts,
+      _tid: S._tid,
+      _tsid: S._tsid,
+      _aid: S._aid,
+      _sid: S._sid,
+      _cid: S._cid
+    }));
+    showToast('✓ Saved');
+  } catch(e) {
+    showToast('⚠ Save failed');
+  }
+}
+
+function showToast(msg) {
+  const t = document.getElementById('save-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════════
 const S = {
   view: 'dashboard',
   ticketFilter: 'all',
@@ -242,22 +271,47 @@ const S = {
   _tid: 0, _tsid: 0, _aid: 0, _sid: 0, _cid: 0
 };
 
-const avCls = ['av0','av1','av2','av3','av4','av5'];
+// Load saved data on startup
+(function initDB() {
+  const saved = dbLoad();
+  if (saved) {
+    S.tickets   = saved.tickets   || [];
+    S.tasks     = saved.tasks     || [];
+    S.amc       = saved.amc       || [];
+    S.suppliers = saved.suppliers || [];
+    S.contacts  = saved.contacts  || [];
+    S._tid  = saved._tid  || 0;
+    S._tsid = saved._tsid || 0;
+    S._aid  = saved._aid  || 0;
+    S._sid  = saved._sid  || 0;
+    S._cid  = saved._cid  || 0;
+  }
+  // Hide loading screen
+  setTimeout(() => {
+    const ls = document.getElementById('loading-screen');
+    ls.classList.add('hide');
+    setTimeout(() => ls.remove(), 400);
+  }, 600);
+})();
 
-// ── Helpers ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════════════════════════════════
+const avCls = ['av0','av1','av2','av3','av4','av5'];
 function uid(prefix, key) { S[key]++; return `${prefix}-${String(S[key]).padStart(3,'0')}`; }
 function fmtDate(raw) {
   if (!raw) return 'TBD';
   const d = new Date(raw);
-  return d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+  return isNaN(d) ? raw : d.toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
 }
 function today() { return new Date().toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short',year:'numeric'}); }
-function initials(name) { return name.trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function initials(name) { return (name||'?').trim().split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
 function av(idx) { return avCls[idx % avCls.length]; }
-
 document.getElementById('topbar-date').textContent = today();
 
-// ── Navigation ──────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════════════════
 function go(v) {
   S.view = v;
   document.querySelectorAll('.nav').forEach(el => el.classList.remove('active'));
@@ -271,28 +325,47 @@ function go(v) {
 }
 
 function updateBadges() {
-  document.getElementById('nb-tickets').textContent = S.tickets.filter(t => t.status === 'open' || t.status === 'delayed').length;
-  document.getElementById('nb-tasks').textContent = S.tasks.filter(t => t.status !== 'done' && t.status !== 'cancelled').length;
-  document.getElementById('nb-amc').textContent = S.amc.filter(a => a.status === 'expiring' || a.status === 'expired').length;
+  document.getElementById('nb-tickets').textContent = S.tickets.filter(t => t.status==='open'||t.status==='delayed').length;
+  document.getElementById('nb-tasks').textContent = S.tasks.filter(t => t.status!=='done'&&t.status!=='cancelled').length;
+  document.getElementById('nb-amc').textContent = S.amc.filter(a => a.status==='expiring'||a.status==='expired').length;
 }
 
-// ── Render router ───────────────────────────────────────────────────────
 function render() {
   updateBadges();
-  const c = document.getElementById('content');
   const fn = {dashboard:renderDashboard,tickets:renderTickets,tasks:renderTasks,amc:renderAMC,suppliers:renderSuppliers,contacts:renderContacts,settings:renderSettings};
-  c.innerHTML = (fn[S.view] || renderDashboard)();
+  document.getElementById('content').innerHTML = (fn[S.view]||renderDashboard)();
 }
 
-// ── Dashboard ───────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// STATUS HELPERS
+// ═══════════════════════════════════════════════════════════════
+function statusLabel(s) {
+  return {open:'Open',progress:'In Progress',done:'Done',delayed:'Delayed',closed:'Closed'}[s]||s;
+}
+function amcStatusLabel(s) {
+  return {active:'Active',expiring:'Expiring Soon',expired:'Expired',renewed:'Renewed'}[s]||s;
+}
+function amcPct(a) {
+  if (!a.startRaw || !a.endRaw) return 0;
+  const start = new Date(a.startRaw).getTime();
+  const end   = new Date(a.endRaw).getTime();
+  const now   = Date.now();
+  if (now >= end) return 100;
+  if (now <= start) return 0;
+  return Math.round((now - start) / (end - start) * 100);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════════
 function renderDashboard() {
-  const open = S.tickets.filter(t=>t.status==='open').length;
+  const open    = S.tickets.filter(t=>t.status==='open').length;
   const delayed = S.tickets.filter(t=>t.status==='delayed').length;
-  const prog = S.tickets.filter(t=>t.status==='progress').length;
-  const done = S.tickets.filter(t=>t.status==='done').length;
+  const prog    = S.tickets.filter(t=>t.status==='progress').length;
+  const done    = S.tickets.filter(t=>t.status==='done').length;
   const amcAlert = S.amc.filter(a=>a.status==='expiring'||a.status==='expired').length;
   const taskPending = S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length;
-  const totalItems = S.tickets.length + S.tasks.length + S.amc.length + S.suppliers.length + S.contacts.length;
+  const total = S.tickets.length+S.tasks.length+S.amc.length+S.suppliers.length+S.contacts.length;
 
   return `
   <div class="ai-panel">
@@ -305,92 +378,85 @@ function renderDashboard() {
       <div class="chip" onclick="fillAI('List all open and delayed tickets with their priority')">🔴 Open tickets</div>
       <div class="chip" onclick="fillAI('Which AMC contracts are expiring or expired and what action is needed?')">⚠️ AMC alerts</div>
       <div class="chip" onclick="fillAI('What tasks are pending or overdue?')">📋 Pending tasks</div>
-      <div class="chip" onclick="fillAI('List all IT contacts with their phone numbers')">👤 IT contacts</div>
-      <div class="chip" onclick="fillAI('What should I prioritise today as IT manager?')">🎯 Today's focus</div>
+      <div class="chip" onclick="fillAI('List all contacts with their phone numbers')">👤 Contacts</div>
+      <div class="chip" onclick="fillAI('What should I prioritise today as IT manager?')">🎯 Today focus</div>
     </div>
     <div class="ai-resp" id="ai-resp"></div>
   </div>
 
-  ${totalItems === 0 ? `
-  <div class="panel">
-    <div class="empty">
-      <i class="ti ti-database-off"></i>
-      <p style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px;">Dashboard is empty</p>
-      <p>Start by adding tickets, tasks, AMC contracts, suppliers or contacts using the sections in the sidebar.</p>
-    </div>
-  </div>` : `
+  ${total===0 ? `
+  <div class="panel"><div class="empty">
+    <i class="ti ti-database-off"></i>
+    <p style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px;">Dashboard is empty</p>
+    <p>Start adding tickets, tasks, AMC contracts, suppliers or contacts.<br>All data saves automatically to your browser.</p>
+  </div></div>` : `
   <div class="stats-row">
     <div class="stat-card">
-      <div class="stat-label">Open tickets</div>
+      <div class="stat-label">Open Tickets</div>
       <div class="stat-val" style="color:${open>0?'var(--red)':'var(--green)'}">${open}</div>
       <div class="stat-sub"><span class="dot" style="background:var(--amber)"></span>${delayed} delayed</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">In progress</div>
+      <div class="stat-label">In Progress</div>
       <div class="stat-val" style="color:var(--blue)">${prog}</div>
       <div class="stat-sub"><span class="dot" style="background:var(--green)"></span>${done} resolved</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">Pending tasks</div>
+      <div class="stat-label">Pending Tasks</div>
       <div class="stat-val" style="color:${taskPending>0?'var(--amber)':'var(--green)'}">${taskPending}</div>
-      <div class="stat-sub"><span class="dot" style="background:var(--tx3)"></span>${S.tasks.filter(t=>t.status==='done').length} completed</div>
+      <div class="stat-sub"><span class="dot" style="background:var(--tx3)"></span>${S.tasks.filter(t=>t.status==='done').length} done</div>
     </div>
     <div class="stat-card">
-      <div class="stat-label">AMC alerts</div>
+      <div class="stat-label">AMC Alerts</div>
       <div class="stat-val" style="color:${amcAlert>0?'var(--red)':'var(--green)'}">${amcAlert}</div>
       <div class="stat-sub"><span class="dot" style="background:var(--tx3)"></span>${S.amc.filter(a=>a.status==='active').length} active</div>
     </div>
   </div>
-
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-    ${S.tickets.length > 0 ? `
+    ${S.tickets.length>0?`
     <div class="panel">
       <div class="ph"><span class="ph-title"><i class="ti ti-ticket" style="font-size:14px"></i> Recent Tickets</span><button class="ph-act" onclick="go('tickets')">View all →</button></div>
-      ${S.tickets.slice(0,4).map(t=>`
+      ${S.tickets.slice(0,5).map(t=>`
       <div class="row row-clickable" onclick="ticketDetail('${t.id}')">
         <div class="pdot pd-${t.priority}"></div>
         <div class="tid">${t.id}</div>
         <div style="flex:1;font-size:13px;">${t.title}</div>
         <span class="badge b-${t.status}">${statusLabel(t.status)}</span>
       </div>`).join('')}
-    </div>` : `<div class="panel"><div class="empty" style="padding:24px"><i class="ti ti-ticket" style="font-size:24px"></i><p>No tickets yet</p></div></div>`}
-
-    ${S.amc.length > 0 ? `
-    <div class="panel">
-      <div class="ph"><span class="ph-title"><i class="ti ti-file-certificate" style="font-size:14px"></i> AMC Contracts</span><button class="ph-act" onclick="go('amc')">View all →</button></div>
-      ${S.amc.slice(0,3).map(a=>`
-      <div style="padding:10px 16px;border-bottom:0.5px solid var(--bd);">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
-          <span style="font-size:12px;font-weight:500;">${a.vendor}</span>
-          <span class="badge b-${a.status}">${amcStatusLabel(a.status)}</span>
-        </div>
-        <div style="font-size:11px;color:var(--tx2);margin-bottom:6px;">${a.scope} · ${a.end}</div>
-        <div class="prog-track"><div class="prog-fill ${amcPct(a)>90?'pf-red':amcPct(a)>70?'pf-amber':'pf-green'}" style="width:${Math.min(amcPct(a),100)}%"></div></div>
-      </div>`).join('')}
-    </div>` : `<div class="panel"><div class="empty" style="padding:24px"><i class="ti ti-file-certificate" style="font-size:24px"></i><p>No AMC contracts yet</p></div></div>`}
+    </div>`:`<div class="panel"><div class="empty" style="padding:24px"><i class="ti ti-ticket" style="font-size:24px"></i><p>No tickets yet</p></div></div>`}
+    <div>
+      ${S.amc.length>0?`
+      <div class="panel" style="margin-bottom:12px;">
+        <div class="ph"><span class="ph-title"><i class="ti ti-file-certificate" style="font-size:14px"></i> AMC Contracts</span><button class="ph-act" onclick="go('amc')">View all →</button></div>
+        ${S.amc.slice(0,3).map(a=>`
+        <div style="padding:10px 16px;border-bottom:0.5px solid var(--bd);">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;">
+            <span style="font-size:12px;font-weight:500;">${a.vendor}</span>
+            <span class="badge b-${a.status}">${amcStatusLabel(a.status)}</span>
+          </div>
+          <div style="font-size:11px;color:var(--tx2);margin-bottom:6px;">${a.scope} · ${a.end}</div>
+          <div class="prog-track"><div class="prog-fill ${amcPct(a)>=100?'pf-red':amcPct(a)>=80?'pf-amber':'pf-green'}" style="width:${Math.min(amcPct(a),100)}%"></div></div>
+        </div>`).join('')}
+      </div>`:`<div class="panel" style="margin-bottom:12px;"><div class="empty" style="padding:24px"><i class="ti ti-file-certificate" style="font-size:24px"></i><p>No AMC contracts yet</p></div></div>`}
+      ${S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length>0?`
+      <div class="panel">
+        <div class="ph"><span class="ph-title"><i class="ti ti-checklist" style="font-size:14px"></i> Pending Tasks</span><button class="ph-act" onclick="go('tasks')">View all →</button></div>
+        ${S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').slice(0,3).map(t=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:0.5px solid var(--bd);">
+          <i class="ti ti-circle" style="font-size:13px;color:var(--tx3)"></i>
+          <div style="flex:1;"><div style="font-size:13px;">${t.title}</div><div style="font-size:11px;color:var(--tx2);">Due ${t.due} · ${t.assignee}</div></div>
+        </div>`).join('')}
+      </div>`:''}
+    </div>
   </div>`}`;
 }
 
-function statusLabel(s) {
-  return {open:'Open',progress:'In progress',done:'Done',delayed:'Delayed',closed:'Closed'}[s] || s;
-}
-function amcStatusLabel(s) {
-  return {active:'Active',expiring:'Expiring',expired:'Expired',renewed:'Renewed'}[s] || s;
-}
-function amcPct(a) {
-  if (!a.startRaw || !a.endRaw) return 0;
-  const start = new Date(a.startRaw).getTime();
-  const end = new Date(a.endRaw).getTime();
-  const now = Date.now();
-  if (now >= end) return 100;
-  if (now <= start) return 0;
-  return Math.round((now - start) / (end - start) * 100);
-}
-
-// ── Tickets ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// TICKETS
+// ═══════════════════════════════════════════════════════════════
 function renderTickets() {
   const f = S.ticketFilter;
-  const list = f === 'all' ? S.tickets : S.tickets.filter(t => t.status === f);
+  const list = f==='all' ? S.tickets : S.tickets.filter(t=>t.status===f);
   return `
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
     <div class="tabs">
@@ -399,66 +465,65 @@ function renderTickets() {
     <button class="btn btn-navy" style="margin-left:auto;" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button>
   </div>
   <div class="panel">
-    ${list.length === 0 ? `<div class="empty"><i class="ti ti-ticket"></i><p>No tickets${f!=='all'?' with status: '+f:''}.</p></div>` :
+    ${list.length===0?`<div class="empty"><i class="ti ti-ticket"></i><p>No tickets${f!=='all'?' with this status':''}.</p></div>`:
     list.map(t=>`
     <div class="row row-clickable" onclick="ticketDetail('${t.id}')">
       <div class="pdot pd-${t.priority}"></div>
       <div class="tid">${t.id}</div>
       <div style="flex:1;min-width:0;">
         <div style="font-size:13px;">${t.title}</div>
-        <div style="font-size:11px;color:var(--tx2);">${t.dept} · ${t.assignee || 'Unassigned'} · ${t.created}</div>
+        <div style="font-size:11px;color:var(--tx2);">${t.dept} · ${t.assignee||'Unassigned'} · ${t.created}</div>
       </div>
       <span class="badge b-${t.priority}" style="margin-right:4px;">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
       <span class="badge b-${t.status}">${statusLabel(t.status)}</span>
-      <div onclick="event.stopPropagation()" style="margin-left:8px;">${ticketMenu(t.id, t.status)}</div>
+      <div onclick="event.stopPropagation()" style="margin-left:8px;">${ticketMenu(t.id,t.status)}</div>
     </div>`).join('')}
   </div>`;
 }
 
-function ticketMenu(id, status) {
-  const mid = 'tm-'+id;
-  const options = [
-    status !== 'open' ? `<div class="dd-item" onclick="setTicketStatus('${id}','open');closeDropdown()"><i class="ti ti-circle" style="font-size:14px"></i> Mark Open</div>` : '',
-    status !== 'progress' ? `<div class="dd-item" onclick="setTicketStatus('${id}','progress');closeDropdown()"><i class="ti ti-loader" style="font-size:14px"></i> In Progress</div>` : '',
-    status !== 'delayed' ? `<div class="dd-item" onclick="setTicketStatus('${id}','delayed');closeDropdown()"><i class="ti ti-clock-pause" style="font-size:14px"></i> Mark Delayed</div>` : '',
-    status !== 'done' ? `<div class="dd-item" onclick="setTicketStatus('${id}','done');closeDropdown()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i> Mark Done</div>` : '',
-    status !== 'closed' ? `<div class="dd-item" onclick="setTicketStatus('${id}','closed');closeDropdown()"><i class="ti ti-archive" style="font-size:14px"></i> Close Ticket</div>` : '',
+function ticketMenu(id,status) {
+  const mid='tm-'+id;
+  const opts=[
+    status!=='open'?`<div class="dd-item" onclick="setTicketStatus('${id}','open');closeDD()"><i class="ti ti-circle" style="font-size:14px"></i>Mark Open</div>`:'',
+    status!=='progress'?`<div class="dd-item" onclick="setTicketStatus('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:14px"></i>In Progress</div>`:'',
+    status!=='delayed'?`<div class="dd-item" onclick="setTicketStatus('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:14px;color:var(--amber)"></i>Mark Delayed</div>`:'',
+    status!=='done'?`<div class="dd-item" onclick="setTicketStatus('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i>Mark Done</div>`:'',
+    status!=='closed'?`<div class="dd-item" onclick="setTicketStatus('${id}','closed');closeDD()"><i class="ti ti-archive" style="font-size:14px"></i>Close Ticket</div>`:'',
     `<div class="dd-sep"></div>`,
-    `<div class="dd-item danger" onclick="deleteItem('tickets','${id}');closeDropdown()"><i class="ti ti-trash" style="font-size:14px"></i> Delete</div>`
+    `<div class="dd-item danger" onclick="delItem('tickets','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>`
   ].filter(Boolean).join('');
-  return `<div class="action-menu" id="${mid}">
-    <button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button>
-    <div class="dropdown" id="dd-${mid}" style="display:none">${options}</div>
-  </div>`;
+  return `<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${opts}</div></div>`;
 }
 
-function setTicketStatus(id, status) {
-  const t = S.tickets.find(x => x.id === id);
-  if (t) { t.status = status; t.updatedAt = today(); }
-  render();
+function setTicketStatus(id,status) {
+  const t=S.tickets.find(x=>x.id===id);
+  if(t){t.status=status;t.updatedAt=today();}
+  dbSave(); render();
 }
 
-// ── Tasks ────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// TASKS
+// ═══════════════════════════════════════════════════════════════
 function renderTasks() {
-  const f = S.taskFilter;
-  const list = f === 'all' ? S.tasks : S.tasks.filter(t => t.status === f);
-  const done = S.tasks.filter(t=>t.status==='done').length;
+  const f=S.taskFilter;
+  const list=f==='all'?S.tasks:S.tasks.filter(t=>t.status===f);
+  const done=S.tasks.filter(t=>t.status==='done').length;
   return `
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
     <div class="tabs">
-      ${['all','pending','progress','done','cancelled'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.taskFilter='${x}';render()">${{all:'All',pending:'Pending',progress:'In Progress',done:'Done',cancelled:'Cancelled'}[x]}</button>`).join('')}
+      ${['all','pending','progress','done','delayed','cancelled'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.taskFilter='${x}';render()">${{all:'All',pending:'Pending',progress:'In Progress',done:'Done',delayed:'Delayed',cancelled:'Cancelled'}[x]}</button>`).join('')}
     </div>
     <button class="btn btn-navy" style="margin-left:auto;" onclick="openModal('task')"><i class="ti ti-plus"></i> Add Task</button>
   </div>
-  ${S.tasks.length > 0 ? `<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+  ${S.tasks.length>0?`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
     <div style="font-size:12px;color:var(--tx2);">${done} of ${S.tasks.length} completed</div>
     <div style="flex:1;max-width:200px;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden;">
       <div style="height:100%;width:${S.tasks.length?Math.round(done/S.tasks.length*100):0}%;background:var(--green);border-radius:2px;"></div>
     </div>
-  </div>` : ''}
+  </div>`:''}
   <div class="panel">
-    ${list.length === 0 ? `<div class="empty"><i class="ti ti-checklist"></i><p>No tasks${f!=='all'?' with status: '+f:''}.</p></div>` :
-    list.map((t,i)=>`
+    ${list.length===0?`<div class="empty"><i class="ti ti-checklist"></i><p>No tasks${f!=='all'?' with this status':''}.</p></div>`:
+    list.map(t=>`
     <div class="row">
       <input type="checkbox" ${t.status==='done'?'checked':''} style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;flex-shrink:0;" onchange="toggleTask('${t.id}')">
       <div style="flex:1;min-width:0;">
@@ -466,45 +531,44 @@ function renderTasks() {
         <div style="font-size:11px;color:var(--tx2);margin-top:2px;"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px"></i> ${t.due} · ${t.assignee}</div>
       </div>
       <span class="badge b-${t.status}">${{pending:'Pending',progress:'In Progress',done:'Done',cancelled:'Cancelled',delayed:'Delayed'}[t.status]||t.status}</span>
-      <div onclick="event.stopPropagation()" style="margin-left:8px;">${taskMenu(t.id, t.status)}</div>
+      <div onclick="event.stopPropagation()" style="margin-left:8px;">${taskMenu(t.id,t.status)}</div>
     </div>`).join('')}
   </div>`;
 }
 
-function taskMenu(id, status) {
-  const mid = 'tkm-'+id;
-  const options = [
-    status !== 'pending' ? `<div class="dd-item" onclick="setTaskStatus('${id}','pending');closeDropdown()"><i class="ti ti-circle" style="font-size:14px"></i> Mark Pending</div>` : '',
-    status !== 'progress' ? `<div class="dd-item" onclick="setTaskStatus('${id}','progress');closeDropdown()"><i class="ti ti-loader" style="font-size:14px"></i> In Progress</div>` : '',
-    status !== 'done' ? `<div class="dd-item" onclick="setTaskStatus('${id}','done');closeDropdown()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i> Mark Done</div>` : '',
-    status !== 'delayed' ? `<div class="dd-item" onclick="setTaskStatus('${id}','delayed');closeDropdown()"><i class="ti ti-clock-pause" style="font-size:14px"></i> Mark Delayed</div>` : '',
-    status !== 'cancelled' ? `<div class="dd-item" onclick="setTaskStatus('${id}','cancelled');closeDropdown()"><i class="ti ti-ban" style="font-size:14px"></i> Cancel Task</div>` : '',
+function taskMenu(id,status) {
+  const mid='tkm-'+id;
+  const opts=[
+    status!=='pending'?`<div class="dd-item" onclick="setTaskStatus('${id}','pending');closeDD()"><i class="ti ti-circle" style="font-size:14px"></i>Mark Pending</div>`:'',
+    status!=='progress'?`<div class="dd-item" onclick="setTaskStatus('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:14px"></i>In Progress</div>`:'',
+    status!=='done'?`<div class="dd-item" onclick="setTaskStatus('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i>Mark Done</div>`:'',
+    status!=='delayed'?`<div class="dd-item" onclick="setTaskStatus('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:14px;color:var(--amber)"></i>Mark Delayed</div>`:'',
+    status!=='cancelled'?`<div class="dd-item" onclick="setTaskStatus('${id}','cancelled');closeDD()"><i class="ti ti-ban" style="font-size:14px"></i>Cancel Task</div>`:'',
     `<div class="dd-sep"></div>`,
-    `<div class="dd-item danger" onclick="deleteItem('tasks','${id}');closeDropdown()"><i class="ti ti-trash" style="font-size:14px"></i> Delete</div>`
+    `<div class="dd-item danger" onclick="delItem('tasks','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>`
   ].filter(Boolean).join('');
-  return `<div class="action-menu" id="${mid}">
-    <button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button>
-    <div class="dropdown" id="dd-${mid}" style="display:none">${options}</div>
-  </div>`;
+  return `<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${opts}</div></div>`;
 }
 
-function setTaskStatus(id, status) {
-  const t = S.tasks.find(x => x.id === id);
-  if (t) t.status = status;
-  render();
+function setTaskStatus(id,status) {
+  const t=S.tasks.find(x=>x.id===id);
+  if(t) t.status=status;
+  dbSave(); render();
 }
 
 function toggleTask(id) {
-  const t = S.tasks.find(x => x.id === id);
-  if (t) t.status = t.status === 'done' ? 'pending' : 'done';
-  render();
+  const t=S.tasks.find(x=>x.id===id);
+  if(t) t.status=t.status==='done'?'pending':'done';
+  dbSave(); render();
 }
 
-// ── AMC ──────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// AMC
+// ═══════════════════════════════════════════════════════════════
 function renderAMC() {
-  const f = S.amcFilter;
-  const list = f === 'all' ? S.amc : S.amc.filter(a => a.status === f);
-  const total = S.amc.reduce((s,a)=>s+parseInt(a.valueNum||0),0);
+  const f=S.amcFilter;
+  const list=f==='all'?S.amc:S.amc.filter(a=>a.status===f);
+  const total=S.amc.reduce((s,a)=>s+parseInt(a.valueNum||0),0);
   return `
   <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;">
     <div class="tabs">
@@ -515,7 +579,7 @@ function renderAMC() {
       <button class="btn btn-navy" onclick="openModal('amc')"><i class="ti ti-plus"></i> Add Contract</button>
     </div>
   </div>
-  ${list.length === 0 ? `<div class="panel"><div class="empty"><i class="ti ti-file-certificate"></i><p>No contracts${f!=='all'?' with status: '+f:''}.</p></div></div>` :
+  ${list.length===0?`<div class="panel"><div class="empty"><i class="ti ti-file-certificate"></i><p>No contracts${f!=='all'?' with this status':''}.</p></div></div>`:
   list.map(a=>`
   <div class="panel">
     <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:15px 16px 10px;">
@@ -531,13 +595,14 @@ function renderAMC() {
           <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Expiry</div><div style="font-size:12px;font-weight:500;color:${a.status==='expired'?'var(--red)':a.status==='expiring'?'var(--amber)':'var(--tx)'}">${a.end}</div></div>
           <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px;">Value</div><div style="font-size:12px;font-weight:500;">AED ${parseInt(a.valueNum||0).toLocaleString()}</div></div>
         </div>
+        ${a.renewedOn?`<div style="font-size:11px;color:var(--purple);margin-top:6px;"><i class="ti ti-refresh" style="font-size:11px;vertical-align:-1px"></i> Renewed on ${a.renewedOn}</div>`:''}
       </div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding-left:12px;">
         <div style="text-align:right;">
           <div style="font-size:20px;font-weight:500;color:${amcPct(a)>=100?'var(--red)':amcPct(a)>=80?'var(--amber)':'var(--green)'};">${Math.min(amcPct(a),100)}%</div>
           <div style="font-size:10px;color:var(--tx3);">elapsed</div>
         </div>
-        ${amcMenu(a.id, a.status)}
+        ${amcMenu(a.id,a.status)}
       </div>
     </div>
     <div style="padding:0 16px 14px;">
@@ -546,38 +611,34 @@ function renderAMC() {
   </div>`).join('')}`;
 }
 
-function amcMenu(id, status) {
-  const mid = 'am-'+id;
-  const options = [
-    status !== 'active' ? `<div class="dd-item" onclick="setAMCStatus('${id}','active');closeDropdown()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i> Mark Active</div>` : '',
-    status !== 'renewed' ? `<div class="dd-item" onclick="renewAMC('${id}');closeDropdown()"><i class="ti ti-refresh" style="font-size:14px;color:var(--purple)"></i> Renew Contract</div>` : '',
-    status !== 'expiring' ? `<div class="dd-item" onclick="setAMCStatus('${id}','expiring');closeDropdown()"><i class="ti ti-alert-triangle" style="font-size:14px;color:var(--amber)"></i> Mark Expiring</div>` : '',
-    status !== 'expired' ? `<div class="dd-item" onclick="setAMCStatus('${id}','expired');closeDropdown()"><i class="ti ti-x" style="font-size:14px;color:var(--red)"></i> Mark Expired</div>` : '',
+function amcMenu(id,status) {
+  const mid='am-'+id;
+  const opts=[
+    status!=='active'?`<div class="dd-item" onclick="setAMCStatus('${id}','active');closeDD()"><i class="ti ti-circle-check" style="font-size:14px;color:var(--green)"></i>Mark Active</div>`:'',
+    `<div class="dd-item" onclick="renewAMC('${id}');closeDD()"><i class="ti ti-refresh" style="font-size:14px;color:var(--purple)"></i>Renew Contract</div>`,
+    status!=='expiring'?`<div class="dd-item" onclick="setAMCStatus('${id}','expiring');closeDD()"><i class="ti ti-alert-triangle" style="font-size:14px;color:var(--amber)"></i>Mark Expiring</div>`:'',
+    status!=='expired'?`<div class="dd-item" onclick="setAMCStatus('${id}','expired');closeDD()"><i class="ti ti-x" style="font-size:14px;color:var(--red)"></i>Mark Expired</div>`:'',
     `<div class="dd-sep"></div>`,
-    `<div class="dd-item danger" onclick="deleteItem('amc','${id}');closeDropdown()"><i class="ti ti-trash" style="font-size:14px"></i> Delete</div>`
+    `<div class="dd-item danger" onclick="delItem('amc','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>`
   ].filter(Boolean).join('');
-  return `<div class="action-menu" id="${mid}">
-    <button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i> Actions</button>
-    <div class="dropdown" id="dd-${mid}" style="display:none">${options}</div>
-  </div>`;
+  return `<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i> Actions</button><div class="dropdown" id="dd-${mid}" style="display:none">${opts}</div></div>`;
 }
 
-function setAMCStatus(id, status) {
-  const a = S.amc.find(x => x.id === id);
-  if (a) a.status = status;
-  render();
+function setAMCStatus(id,status) {
+  const a=S.amc.find(x=>x.id===id);
+  if(a) a.status=status;
+  dbSave(); render();
 }
 
 function renewAMC(id) {
-  const a = S.amc.find(x => x.id === id);
-  if (!a) return;
-  // Open renew modal
-  const box = document.getElementById('modal-box');
-  box.innerHTML = `
-  <div class="mh"><span class="mt"><i class="ti ti-refresh" style="font-size:14px;margin-right:6px;color:var(--purple)"></i>Renew AMC — ${a.vendor}</span><button class="mc" onclick="closeModal()">×</button></div>
+  const a=S.amc.find(x=>x.id===id);
+  if(!a) return;
+  const box=document.getElementById('modal-box');
+  box.innerHTML=`
+  <div class="mh"><span class="mt"><i class="ti ti-refresh" style="font-size:14px;margin-right:6px;color:var(--purple)"></i>Renew — ${a.vendor}</span><button class="mc" onclick="closeModal()">×</button></div>
   <div style="padding:12px;background:var(--bg2);border-radius:var(--rmd);margin-bottom:14px;font-size:13px;">
     <div style="color:var(--tx2);margin-bottom:4px;">Current contract</div>
-    <div>${a.scope}</div>
+    <div style="font-weight:500;">${a.scope}</div>
     <div style="font-size:12px;color:var(--tx2);margin-top:4px;">${a.start} → ${a.end}</div>
   </div>
   <div class="fr2">
@@ -585,7 +646,7 @@ function renewAMC(id) {
     <div><label class="fl">New end date *</label><input type="date" class="fi" id="rn-end"></div>
   </div>
   <div class="fr"><label class="fl">New annual value (AED)</label><input type="number" class="fi" id="rn-val" placeholder="${a.valueNum||0}"></div>
-  <div class="fr"><label class="fl">Notes (optional)</label><input class="fi" id="rn-notes" placeholder="e.g. Renewed with same terms"></div>
+  <div class="fr"><label class="fl">Notes (optional)</label><input class="fi" id="rn-notes" placeholder="e.g. Same terms, price increased by 5%"></div>
   <div class="mf">
     <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
     <button class="btn" style="background:var(--purple);color:#fff;" onclick="confirmRenew('${id}')"><i class="ti ti-refresh"></i> Confirm Renewal</button>
@@ -594,24 +655,22 @@ function renewAMC(id) {
 }
 
 function confirmRenew(id) {
-  const a = S.amc.find(x => x.id === id);
-  if (!a) return;
-  const startRaw = document.getElementById('rn-start').value;
-  const endRaw = document.getElementById('rn-end').value;
-  if (!startRaw || !endRaw) { alert('Please set new start and end dates.'); return; }
-  const val = document.getElementById('rn-val').value;
-  a.startRaw = startRaw;
-  a.endRaw = endRaw;
-  a.start = fmtDate(startRaw);
-  a.end = fmtDate(endRaw);
-  if (val) a.valueNum = parseInt(val);
-  a.status = 'renewed';
-  a.renewedOn = today();
-  closeModal();
-  render();
+  const a=S.amc.find(x=>x.id===id);
+  if(!a) return;
+  const startRaw=document.getElementById('rn-start').value;
+  const endRaw=document.getElementById('rn-end').value;
+  if(!startRaw||!endRaw){alert('Please set new start and end dates.');return;}
+  const val=document.getElementById('rn-val').value;
+  a.startRaw=startRaw; a.endRaw=endRaw;
+  a.start=fmtDate(startRaw); a.end=fmtDate(endRaw);
+  if(val) a.valueNum=parseInt(val);
+  a.status='renewed'; a.renewedOn=today();
+  closeModal(); dbSave(); render();
 }
 
-// ── Suppliers ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// SUPPLIERS
+// ═══════════════════════════════════════════════════════════════
 function renderSuppliers() {
   return `
   <div style="display:flex;align-items:center;margin-bottom:14px;">
@@ -619,7 +678,7 @@ function renderSuppliers() {
     <button class="btn btn-navy" style="margin-left:auto;" onclick="openModal('supplier')"><i class="ti ti-plus"></i> Add Supplier</button>
   </div>
   <div class="panel">
-    ${S.suppliers.length === 0 ? `<div class="empty"><i class="ti ti-building-store"></i><p>No suppliers yet. Add your first supplier.</p></div>` :
+    ${S.suppliers.length===0?`<div class="empty"><i class="ti ti-building-store"></i><p>No suppliers yet.</p></div>`:
     S.suppliers.map((s,i)=>`
     <div class="row">
       <div class="avatar ${av(i)}" style="border-radius:8px;">${initials(s.name)}</div>
@@ -632,12 +691,14 @@ function renderSuppliers() {
         ${s.email?`<div style="font-size:11px;color:var(--green);">${s.email}</div>`:''}
         ${s.rating?`<div style="color:var(--amber);font-size:12px;">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>`:''}
       </div>
-      <div onclick="event.stopPropagation()">${simpleMenu('suppliers', s.id, i)}</div>
+      <div onclick="event.stopPropagation()">${simpleMenu('suppliers',s.id,i)}</div>
     </div>`).join('')}
   </div>`;
 }
 
-// ── Contacts ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// CONTACTS
+// ═══════════════════════════════════════════════════════════════
 function renderContacts() {
   return `
   <div style="display:flex;align-items:center;margin-bottom:14px;">
@@ -645,7 +706,7 @@ function renderContacts() {
     <button class="btn btn-navy" style="margin-left:auto;" onclick="openModal('contact')"><i class="ti ti-plus"></i> Add Contact</button>
   </div>
   <div class="panel">
-    ${S.contacts.length === 0 ? `<div class="empty"><i class="ti ti-address-book"></i><p>No contacts yet. Add your IT team and key stakeholders.</p></div>` :
+    ${S.contacts.length===0?`<div class="empty"><i class="ti ti-address-book"></i><p>No contacts yet.</p></div>`:
     S.contacts.map((c,i)=>`
     <div class="row">
       <div class="avatar ${av(i)}">${initials(c.name)}</div>
@@ -657,164 +718,154 @@ function renderContacts() {
         ${c.phone?`<div style="font-size:12px;color:var(--tx2);">${c.phone}</div>`:''}
         ${c.email?`<div style="font-size:11px;color:var(--green);">${c.email}</div>`:''}
       </div>
-      <div onclick="event.stopPropagation()">${simpleMenu('contacts', c.id, i)}</div>
+      <div onclick="event.stopPropagation()">${simpleMenu('contacts',c.id,i)}</div>
     </div>`).join('')}
   </div>`;
 }
 
-function simpleMenu(collection, id, idx) {
-  const mid = collection+'-'+id;
+function simpleMenu(collection,id,idx) {
+  const mid=collection+'-'+id;
   return `<div class="action-menu" id="${mid}">
     <button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button>
     <div class="dropdown" id="dd-${mid}" style="display:none">
-      <div class="dd-item danger" onclick="deleteItem('${collection}','${id}');closeDropdown()"><i class="ti ti-trash" style="font-size:14px"></i> Delete</div>
+      <div class="dd-item danger" onclick="delItem('${collection}','${id}');closeDD()"><i class="ti ti-trash" style="font-size:14px"></i>Delete</div>
     </div>
   </div>`;
 }
 
-// ── Settings ──────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════════════════════
 function renderSettings() {
+  const counts = {
+    tickets: S.tickets.length,
+    tasks: S.tasks.length,
+    amc: S.amc.length,
+    suppliers: S.suppliers.length,
+    contacts: S.contacts.length
+  };
+  const size = (() => {
+    try { const raw = localStorage.getItem(DB_KEY)||''; return (raw.length/1024).toFixed(1)+' KB'; } catch(e) { return 'N/A'; }
+  })();
   return `
   <div class="panel" style="padding:22px;margin-bottom:12px;">
-    <div style="font-size:15px;font-weight:500;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><i class="ti ti-settings" style="font-size:16px"></i> Dashboard Settings</div>
+    <div style="font-size:15px;font-weight:500;margin-bottom:18px;display:flex;align-items:center;gap:8px;"><i class="ti ti-settings" style="font-size:16px"></i> Dashboard Info</div>
     <table style="width:100%;font-size:13px;border-collapse:collapse;">
-      <tr><td style="color:var(--tx2);padding:9px 0;width:160px;border-bottom:0.5px solid var(--bd)">Hotel</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd);font-weight:500">Park Regis Hotel Business Bay, Dubai</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Department</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">Information Technology</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Version</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">IT Command Centre v2.0</td></tr>
+      <tr><td style="color:var(--tx2);padding:9px 0;width:180px;border-bottom:0.5px solid var(--bd)">Hotel</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd);font-weight:500">Park Regis Hotel Business Bay, Dubai</td></tr>
+      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Storage</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">Browser localStorage — <strong>persists across refreshes</strong></td></tr>
+      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Data size</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">${size}</td></tr>
+      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Records</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">${counts.tickets} tickets · ${counts.tasks} tasks · ${counts.amc} AMCs · ${counts.suppliers} suppliers · ${counts.contacts} contacts</td></tr>
       <tr><td style="color:var(--tx2);padding:9px 0">AI Engine</td><td style="padding:9px 0">Claude by Anthropic</td></tr>
     </table>
   </div>
+  <div class="panel" style="padding:22px;margin-bottom:12px;">
+    <div style="font-size:14px;font-weight:500;margin-bottom:10px;">Export / Backup</div>
+    <div style="font-size:13px;color:var(--tx2);margin-bottom:14px;">Download all your data as a JSON file for backup or transfer to another browser/device.</div>
+    <button class="btn btn-navy" onclick="exportData()"><i class="ti ti-download"></i> Export Data as JSON</button>
+  </div>
   <div class="panel" style="padding:22px;">
-    <div style="font-size:14px;font-weight:500;margin-bottom:14px;color:var(--red);">⚠️ Danger Zone</div>
-    <div style="font-size:13px;color:var(--tx2);margin-bottom:14px;">Clear all data from the dashboard. This cannot be undone.</div>
+    <div style="font-size:14px;font-weight:500;margin-bottom:6px;color:var(--red);">⚠️ Danger Zone</div>
+    <div style="font-size:13px;color:var(--tx2);margin-bottom:14px;">Clear all data permanently. This cannot be undone.</div>
     <button class="btn btn-red" onclick="clearAll()"><i class="ti ti-trash"></i> Clear All Data</button>
   </div>`;
 }
 
+function exportData() {
+  const data = {exported: new Date().toISOString(), hotel:'Park Regis Hotel Business Bay', tickets:S.tickets, tasks:S.tasks, amc:S.amc, suppliers:S.suppliers, contacts:S.contacts};
+  const blob = new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'parkregis-it-data-'+new Date().toISOString().slice(0,10)+'.json';
+  a.click();
+}
+
 function clearAll() {
-  if (!confirm('This will delete ALL tickets, tasks, AMC contracts, suppliers and contacts. Are you sure?')) return;
+  if(!confirm('Delete ALL data? This cannot be undone.')) return;
   S.tickets=[]; S.tasks=[]; S.amc=[]; S.suppliers=[]; S.contacts=[];
   S._tid=0; S._tsid=0; S._aid=0; S._sid=0; S._cid=0;
-  render();
+  localStorage.removeItem(DB_KEY);
+  render(); showToast('All data cleared');
 }
 
-// ── Delete ────────────────────────────────────────────────────────────────
-function deleteItem(collection, id) {
-  if (!confirm('Delete this item? This cannot be undone.')) return;
-  S[collection] = S[collection].filter(x => x.id !== id);
-  render();
+// ═══════════════════════════════════════════════════════════════
+// DELETE
+// ═══════════════════════════════════════════════════════════════
+function delItem(collection,id) {
+  if(!confirm('Delete this item?')) return;
+  S[collection]=S[collection].filter(x=>x.id!==id);
+  dbSave(); render();
 }
 
-// ── Dropdowns ─────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// DROPDOWNS
+// ═══════════════════════════════════════════════════════════════
 function toggleDD(mid) {
-  const dd = document.getElementById('dd-'+mid);
-  if (!dd) return;
-  const isOpen = dd.style.display !== 'none';
-  closeDropdown();
-  if (!isOpen) dd.style.display = 'block';
+  const dd=document.getElementById('dd-'+mid);
+  if(!dd) return;
+  const isOpen=dd.style.display!=='none';
+  closeDD();
+  if(!isOpen) dd.style.display='block';
 }
-function closeDropdown() {
-  document.querySelectorAll('.dropdown').forEach(d => d.style.display = 'none');
+function closeDD() {
+  document.querySelectorAll('.dropdown').forEach(d=>d.style.display='none');
 }
-document.addEventListener('click', e => {
-  if (!e.target.closest('.action-menu')) closeDropdown();
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.action-menu')) closeDD();
 });
 
-// ── Modals ─────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// MODALS
+// ═══════════════════════════════════════════════════════════════
 function openModal(type) {
-  const box = document.getElementById('modal-box');
-  if (type === 'ticket') {
-    box.innerHTML = `
+  const box=document.getElementById('modal-box');
+  if(type==='ticket'){
+    box.innerHTML=`
     <div class="mh"><span class="mt">New IT Ticket</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Issue title *</label><input class="fi" id="f-title" placeholder="Brief description of the issue"></div>
     <div class="fr2">
-      <div><label class="fl">Priority</label>
-        <select class="fs" id="f-priority">
-          <option value="urgent">🔴 Urgent</option>
-          <option value="high">🟠 High</option>
-          <option value="medium" selected>🔵 Medium</option>
-          <option value="low">🟢 Low</option>
-        </select>
-      </div>
-      <div><label class="fl">Department</label>
-        <select class="fs" id="f-dept">
-          <option>Network</option><option>Hardware</option><option>Software</option>
-          <option>Security</option><option>Email</option><option>AV / TV</option>
-          <option>CCTV</option><option>Server</option><option>Other</option>
-        </select>
-      </div>
+      <div><label class="fl">Priority</label><select class="fs" id="f-priority"><option value="urgent">🔴 Urgent</option><option value="high">🟠 High</option><option value="medium" selected>🔵 Medium</option><option value="low">🟢 Low</option></select></div>
+      <div><label class="fl">Department</label><select class="fs" id="f-dept"><option>Network</option><option>Hardware</option><option>Software</option><option>Security</option><option>Email</option><option>AV / TV</option><option>CCTV</option><option>Server</option><option>Other</option></select></div>
     </div>
-    <div class="fr"><label class="fl">Assignee</label><input class="fi" id="f-ass" placeholder="Staff member name or leave blank"></div>
-    <div class="fr"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Detailed description of the issue..."></textarea></div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create Ticket</button>
-    </div>`;
-  } else if (type === 'task') {
-    box.innerHTML = `
+    <div class="fr"><label class="fl">Assignee</label><input class="fi" id="f-ass" placeholder="Staff name or leave blank"></div>
+    <div class="fr"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Detailed description..."></textarea></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create Ticket</button></div>`;
+  } else if(type==='task'){
+    box.innerHTML=`
     <div class="mh"><span class="mt">Add New Task</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Task name *</label><input class="fi" id="f-task-title" placeholder="What needs to be done?"></div>
     <div class="fr2">
       <div><label class="fl">Due date</label><input type="date" class="fi" id="f-due"></div>
       <div><label class="fl">Assignee</label><input class="fi" id="f-task-ass" placeholder="Staff member name"></div>
     </div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-navy" onclick="submitTask()"><i class="ti ti-plus"></i> Add Task</button>
-    </div>`;
-  } else if (type === 'amc') {
-    box.innerHTML = `
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTask()"><i class="ti ti-plus"></i> Add Task</button></div>`;
+  } else if(type==='amc'){
+    box.innerHTML=`
     <div class="mh"><span class="mt">Add AMC Contract</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Vendor / company name *</label><input class="fi" id="f-vendor" placeholder="e.g. Cisco Systems ME"></div>
-    <div class="fr"><label class="fl">Scope of contract *</label><input class="fi" id="f-scope" placeholder="e.g. Network switches and routers maintenance"></div>
+    <div class="fr"><label class="fl">Scope of contract *</label><input class="fi" id="f-scope" placeholder="e.g. Network switches maintenance"></div>
     <div class="fr2">
       <div><label class="fl">Start date *</label><input type="date" class="fi" id="f-amc-start"></div>
       <div><label class="fl">End / expiry date *</label><input type="date" class="fi" id="f-amc-end"></div>
     </div>
     <div class="fr"><label class="fl">Annual value (AED)</label><input type="number" class="fi" id="f-val" placeholder="e.g. 45000"></div>
-    <div class="fr"><label class="fl">Status</label>
-      <select class="fs" id="f-amc-status">
-        <option value="active">Active</option>
-        <option value="expiring">Expiring soon</option>
-        <option value="expired">Expired</option>
-      </select>
-    </div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-navy" onclick="submitAMC()"><i class="ti ti-plus"></i> Save Contract</button>
-    </div>`;
-  } else if (type === 'supplier') {
-    box.innerHTML = `
+    <div class="fr"><label class="fl">Status</label><select class="fs" id="f-amc-status"><option value="active">Active</option><option value="expiring">Expiring Soon</option><option value="expired">Expired</option></select></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitAMC()"><i class="ti ti-plus"></i> Save Contract</button></div>`;
+  } else if(type==='supplier'){
+    box.innerHTML=`
     <div class="mh"><span class="mt">Add Supplier</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Company name *</label><input class="fi" id="f-sname"></div>
     <div class="fr2">
-      <div><label class="fl">Category</label>
-        <select class="fs" id="f-scat">
-          <option>Hardware</option><option>Network</option><option>Software</option>
-          <option>CCTV / AV</option><option>Parts</option><option>Telecom</option><option>Other</option>
-        </select>
-      </div>
+      <div><label class="fl">Category</label><select class="fs" id="f-scat"><option>Hardware</option><option>Network</option><option>Software</option><option>CCTV / AV</option><option>Parts</option><option>Telecom</option><option>Other</option></select></div>
       <div><label class="fl">Contact person</label><input class="fi" id="f-scontact" placeholder="Name"></div>
     </div>
     <div class="fr2">
       <div><label class="fl">Phone</label><input class="fi" id="f-sphone" placeholder="+971..."></div>
       <div><label class="fl">Email</label><input class="fi" id="f-semail" type="email"></div>
     </div>
-    <div class="fr"><label class="fl">Rating (1–5)</label>
-      <select class="fs" id="f-srating">
-        <option value="5">★★★★★ Excellent</option>
-        <option value="4" selected>★★★★☆ Good</option>
-        <option value="3">★★★☆☆ Average</option>
-        <option value="2">★★☆☆☆ Poor</option>
-        <option value="1">★☆☆☆☆ Very Poor</option>
-      </select>
-    </div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-navy" onclick="submitSupplier()"><i class="ti ti-plus"></i> Add Supplier</button>
-    </div>`;
-  } else if (type === 'contact') {
-    box.innerHTML = `
+    <div class="fr"><label class="fl">Rating (1–5)</label><select class="fs" id="f-srating"><option value="5">★★★★★ Excellent</option><option value="4" selected>★★★★☆ Good</option><option value="3">★★★☆☆ Average</option><option value="2">★★☆☆☆ Poor</option><option value="1">★☆☆☆☆ Very Poor</option></select></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitSupplier()"><i class="ti ti-plus"></i> Add Supplier</button></div>`;
+  } else if(type==='contact'){
+    box.innerHTML=`
     <div class="mh"><span class="mt">Add Contact</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Full name *</label><input class="fi" id="f-cname"></div>
     <div class="fr2">
@@ -825,15 +876,12 @@ function openModal(type) {
       <div><label class="fl">Phone</label><input class="fi" id="f-cphone" placeholder="+971..."></div>
       <div><label class="fl">Email</label><input class="fi" id="f-cemail" type="email"></div>
     </div>
-    <div class="mf">
-      <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
-      <button class="btn btn-navy" onclick="submitContact()"><i class="ti ti-plus"></i> Add Contact</button>
-    </div>`;
-  } else if (type === 'ai-full') {
-    box.innerHTML = `
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitContact()"><i class="ti ti-plus"></i> Add Contact</button></div>`;
+  } else if(type==='ai-full'){
+    box.innerHTML=`
     <div class="mh"><span class="mt"><i class="ti ti-robot" style="font-size:14px;margin-right:6px"></i>AI Assistant</span><button class="mc" onclick="closeModal()">×</button></div>
     <div id="ai-full-hist" style="max-height:280px;overflow-y:auto;margin-bottom:14px;font-size:13px;line-height:1.7;min-height:60px;">
-      <div style="color:var(--tx3);font-size:12px;text-align:center;padding:16px 0;">Ask me anything about Park Regis IT operations — tickets, AMCs, tasks, contacts, suppliers.</div>
+      <div style="color:var(--tx3);font-size:12px;text-align:center;padding:16px 0;">Ask anything about Park Regis IT — tickets, AMCs, tasks, contacts, suppliers.</div>
     </div>
     <div style="display:flex;gap:8px;">
       <input class="fi" id="f-ai-full" placeholder="Type your question..." onkeydown="if(event.key==='Enter')askAIFull()" style="flex:1;">
@@ -841,20 +889,19 @@ function openModal(type) {
     </div>`;
   }
   document.getElementById('overlay').classList.add('show');
-  setTimeout(() => { const f = document.querySelector('.modal input:not([type=date]):not([type=number])'); if(f) f.focus(); }, 80);
+  setTimeout(()=>{const f=document.querySelector('.modal input:not([type=date]):not([type=number])');if(f)f.focus();},80);
 }
 
 function closeModal(e) {
-  if (!e || e.target === document.getElementById('overlay')) {
+  if(!e||e.target===document.getElementById('overlay'))
     document.getElementById('overlay').classList.remove('show');
-  }
 }
 
 function ticketDetail(id) {
-  const t = S.tickets.find(x => x.id === id);
-  if (!t) return;
-  const box = document.getElementById('modal-box');
-  box.innerHTML = `
+  const t=S.tickets.find(x=>x.id===id);
+  if(!t) return;
+  const box=document.getElementById('modal-box');
+  box.innerHTML=`
   <div class="mh"><span class="mt">${t.id}</span><button class="mc" onclick="closeModal()">×</button></div>
   <div style="font-size:15px;font-weight:500;margin-bottom:10px;">${t.title}</div>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;">
@@ -878,180 +925,199 @@ function ticketDetail(id) {
     <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px;"><i class="ti ti-robot" style="font-size:13px;color:var(--green)"></i> AI-suggested resolution steps</div>
     <div id="ai-steps" style="font-size:12px;color:var(--tx2);line-height:1.8;"><span style="color:var(--tx3)">Loading...</span></div>
   </div>
-  <div class="mf" style="margin-top:14px;">
-    <button class="btn btn-red" onclick="deleteItem('tickets','${t.id}');closeModal()"><i class="ti ti-trash"></i> Delete Ticket</button>
-  </div>`;
+  <div class="mf" style="margin-top:14px;"><button class="btn btn-red" onclick="delItem('tickets','${t.id}');closeModal()"><i class="ti ti-trash"></i> Delete Ticket</button></div>`;
   document.getElementById('overlay').classList.add('show');
   getAISteps(t);
 }
 
-// ── Form submissions ────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+// FORM SUBMISSIONS — all call dbSave()
+// ═══════════════════════════════════════════════════════════════
 function submitTicket() {
-  const title = document.getElementById('f-title').value.trim();
-  if (!title) { alert('Please enter a ticket title.'); return; }
+  const title=document.getElementById('f-title').value.trim();
+  if(!title){alert('Please enter a ticket title.');return;}
   S.tickets.unshift({
-    id: uid('TK', '_tid'), title,
-    priority: document.getElementById('f-priority').value,
-    dept: document.getElementById('f-dept').value,
-    status: 'open',
-    assignee: document.getElementById('f-ass').value.trim() || 'Unassigned',
-    created: today(),
-    description: document.getElementById('f-desc').value.trim()
+    id:uid('TK','_tid'),title,
+    priority:document.getElementById('f-priority').value,
+    dept:document.getElementById('f-dept').value,
+    status:'open',
+    assignee:document.getElementById('f-ass').value.trim()||'Unassigned',
+    created:today(),
+    description:document.getElementById('f-desc').value.trim()
   });
-  closeModal(); render();
+  closeModal(); dbSave(); render();
 }
 
 function submitTask() {
-  const title = document.getElementById('f-task-title').value.trim();
-  if (!title) { alert('Please enter a task name.'); return; }
-  const raw = document.getElementById('f-due').value;
+  const title=document.getElementById('f-task-title').value.trim();
+  if(!title){alert('Please enter a task name.');return;}
+  const raw=document.getElementById('f-due').value;
   S.tasks.push({
-    id: uid('TS', '_tsid'), title,
-    due: raw ? fmtDate(raw) : 'TBD',
-    status: 'pending',
-    assignee: document.getElementById('f-task-ass').value.trim() || 'Unassigned'
+    id:uid('TS','_tsid'),title,
+    due:raw?fmtDate(raw):'TBD',
+    status:'pending',
+    assignee:document.getElementById('f-task-ass').value.trim()||'Unassigned'
   });
-  closeModal(); render();
+  closeModal(); dbSave(); render();
 }
 
 function submitAMC() {
-  const vendor = document.getElementById('f-vendor').value.trim();
-  const scope = document.getElementById('f-scope').value.trim();
-  if (!vendor || !scope) { alert('Please enter vendor name and scope.'); return; }
-  const startRaw = document.getElementById('f-amc-start').value;
-  const endRaw = document.getElementById('f-amc-end').value;
-  if (!startRaw || !endRaw) { alert('Please enter start and end dates.'); return; }
+  const vendor=document.getElementById('f-vendor').value.trim();
+  const scope=document.getElementById('f-scope').value.trim();
+  if(!vendor||!scope){alert('Please enter vendor name and scope.');return;}
+  const startRaw=document.getElementById('f-amc-start').value;
+  const endRaw=document.getElementById('f-amc-end').value;
+  if(!startRaw||!endRaw){alert('Please enter start and end dates.');return;}
   S.amc.push({
-    id: uid('AMC', '_aid'), vendor, scope,
-    startRaw, endRaw,
-    start: fmtDate(startRaw), end: fmtDate(endRaw),
-    valueNum: parseInt(document.getElementById('f-val').value) || 0,
-    status: document.getElementById('f-amc-status').value
+    id:uid('AMC','_aid'),vendor,scope,
+    startRaw,endRaw,
+    start:fmtDate(startRaw),end:fmtDate(endRaw),
+    valueNum:parseInt(document.getElementById('f-val').value)||0,
+    status:document.getElementById('f-amc-status').value
   });
-  closeModal(); render();
+  closeModal(); dbSave(); render();
 }
 
 function submitSupplier() {
-  const name = document.getElementById('f-sname').value.trim();
-  if (!name) { alert('Please enter the company name.'); return; }
+  const name=document.getElementById('f-sname').value.trim();
+  if(!name){alert('Please enter the company name.');return;}
   S.suppliers.push({
-    id: uid('SP', '_sid'), name,
-    category: document.getElementById('f-scat').value,
-    contact: document.getElementById('f-scontact').value.trim(),
-    phone: document.getElementById('f-sphone').value.trim(),
-    email: document.getElementById('f-semail').value.trim(),
-    rating: parseInt(document.getElementById('f-srating').value)
+    id:uid('SP','_sid'),name,
+    category:document.getElementById('f-scat').value,
+    contact:document.getElementById('f-scontact').value.trim(),
+    phone:document.getElementById('f-sphone').value.trim(),
+    email:document.getElementById('f-semail').value.trim(),
+    rating:parseInt(document.getElementById('f-srating').value)
   });
-  closeModal(); render();
+  closeModal(); dbSave(); render();
 }
 
 function submitContact() {
-  const name = document.getElementById('f-cname').value.trim();
-  if (!name) { alert('Please enter the contact name.'); return; }
+  const name=document.getElementById('f-cname').value.trim();
+  if(!name){alert('Please enter the contact name.');return;}
   S.contacts.push({
-    id: uid('CT', '_cid'), name,
-    role: document.getElementById('f-crole').value.trim(),
-    dept: document.getElementById('f-cdept').value.trim(),
-    phone: document.getElementById('f-cphone').value.trim(),
-    email: document.getElementById('f-cemail').value.trim()
+    id:uid('CT','_cid'),name,
+    role:document.getElementById('f-crole').value.trim(),
+    dept:document.getElementById('f-cdept').value.trim(),
+    phone:document.getElementById('f-cphone').value.trim(),
+    email:document.getElementById('f-cemail').value.trim()
   });
-  closeModal(); render();
+  closeModal(); dbSave(); render();
 }
 
-// ── AI ──────────────────────────────────────────────────────────────────────
-function fillAI(q) {
-  const inp = document.getElementById('ai-q');
-  if (inp) { inp.value = q; askAI(); }
+// ═══════════════════════════════════════════════════════════════
+// AI
+// ═══════════════════════════════════════════════════════════════
+function fillAI(q){
+  const inp=document.getElementById('ai-q');
+  if(inp){inp.value=q;askAI();}
 }
 
-function buildContext() {
+function buildContext(){
   return `You are the AI assistant for the IT Command Centre at Park Regis Hotel Business Bay, Dubai.
-Current dashboard data:
-TICKETS (${S.tickets.length}): ${JSON.stringify(S.tickets.map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status,assignee:t.assignee,dept:t.dept})))}
-TASKS (${S.tasks.length}): ${JSON.stringify(S.tasks.map(t=>({id:t.id,title:t.title,due:t.due,status:t.status,assignee:t.assignee})))}
-AMC CONTRACTS (${S.amc.length}): ${JSON.stringify(S.amc.map(a=>({id:a.id,vendor:a.vendor,scope:a.scope,end:a.end,status:a.status,value:'AED '+parseInt(a.valueNum||0).toLocaleString()})))}
-SUPPLIERS (${S.suppliers.length}): ${JSON.stringify(S.suppliers.map(s=>({name:s.name,category:s.category,contact:s.contact,phone:s.phone})))}
-CONTACTS (${S.contacts.length}): ${JSON.stringify(S.contacts.map(c=>({name:c.name,role:c.role,dept:c.dept,phone:c.phone,email:c.email})))}
-Today: ${new Date().toDateString()}. Be concise and actionable. If writing an email, format it properly.`;
+TICKETS(${S.tickets.length}): ${JSON.stringify(S.tickets.map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status,assignee:t.assignee,dept:t.dept})))}
+TASKS(${S.tasks.length}): ${JSON.stringify(S.tasks.map(t=>({id:t.id,title:t.title,due:t.due,status:t.status,assignee:t.assignee})))}
+AMC(${S.amc.length}): ${JSON.stringify(S.amc.map(a=>({id:a.id,vendor:a.vendor,scope:a.scope,end:a.end,status:a.status,value:'AED '+parseInt(a.valueNum||0).toLocaleString()})))}
+SUPPLIERS(${S.suppliers.length}): ${JSON.stringify(S.suppliers.map(s=>({name:s.name,category:s.category,contact:s.contact,phone:s.phone})))}
+CONTACTS(${S.contacts.length}): ${JSON.stringify(S.contacts.map(c=>({name:c.name,role:c.role,dept:c.dept,phone:c.phone,email:c.email})))}
+Today: ${new Date().toDateString()}. Be concise and actionable.`;
 }
 
-async function askAI() {
-  const inp = document.getElementById('ai-q');
-  const resp = document.getElementById('ai-resp');
-  if (!inp || !resp) return;
-  const q = inp.value.trim();
-  if (!q) return;
-  resp.innerHTML = '<em style="color:rgba(255,255,255,0.35)">Thinking...</em>';
-  inp.value = '';
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:600,
-        messages:[{role:'user',content:buildContext()+'\n\nQuestion: '+q}] })
-    });
-    const d = await r.json();
-    if (resp) resp.innerHTML = (d.content[0].text || 'No response.').replace(/\n/g,'<br>');
-  } catch(e) {
-    if (resp) resp.innerHTML = '<span style="color:rgba(255,100,100,0.7)">Could not reach AI. Check internet connection.</span>';
+async function askAI(){
+  const inp=document.getElementById('ai-q');
+  const resp=document.getElementById('ai-resp');
+  if(!inp||!resp) return;
+  const q=inp.value.trim();
+  if(!q) return;
+  resp.innerHTML='<em style="color:rgba(255,255,255,0.35)">Thinking...</em>';
+  inp.value='';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:buildContext()+'\n\nQuestion: '+q}]})});
+    const d=await r.json();
+    if(resp) resp.innerHTML=(d.content[0].text||'No response.').replace(/\n/g,'<br>');
+  }catch(e){
+    if(resp) resp.innerHTML='<span style="color:rgba(255,100,100,0.7)">Could not reach AI. Check internet.</span>';
   }
 }
 
-async function askAIFull() {
-  const inp = document.getElementById('f-ai-full');
-  const hist = document.getElementById('ai-full-hist');
-  if (!inp || !hist) return;
-  const q = inp.value.trim();
-  if (!q) return;
-  inp.value = '';
-  hist.innerHTML += `<div style="margin-bottom:8px;padding:9px 12px;background:var(--bg2);border-radius:var(--rmd);"><strong>You:</strong> ${q}</div>`;
-  const lid = 'ail-' + Date.now();
-  hist.innerHTML += `<div id="${lid}" style="margin-bottom:10px;padding:9px 12px;border-left:2px solid var(--green);border-radius:0 var(--rmd) var(--rmd) 0;"><em style="color:var(--tx3)">AI thinking...</em></div>`;
-  hist.scrollTop = hist.scrollHeight;
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:600,
-        messages:[{role:'user',content:buildContext()+'\n\n'+q}] })
-    });
-    const d = await r.json();
-    const el = document.getElementById(lid);
-    if (el) el.innerHTML = `<strong style="color:var(--green)">AI:</strong><br>${(d.content[0].text||'').replace(/\n/g,'<br>')}`;
-  } catch(e) {
-    const el = document.getElementById(lid);
-    if (el) el.innerHTML = '<span style="color:var(--red)">AI unavailable.</span>';
+async function askAIFull(){
+  const inp=document.getElementById('f-ai-full');
+  const hist=document.getElementById('ai-full-hist');
+  if(!inp||!hist) return;
+  const q=inp.value.trim();
+  if(!q) return;
+  inp.value='';
+  hist.innerHTML+=`<div style="margin-bottom:8px;padding:9px 12px;background:var(--bg2);border-radius:var(--rmd);"><strong>You:</strong> ${q}</div>`;
+  const lid='ail-'+Date.now();
+  hist.innerHTML+=`<div id="${lid}" style="margin-bottom:10px;padding:9px 12px;border-left:2px solid var(--green);border-radius:0 var(--rmd) var(--rmd) 0;"><em style="color:var(--tx3)">AI thinking...</em></div>`;
+  hist.scrollTop=hist.scrollHeight;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:buildContext()+'\n\n'+q}]})});
+    const d=await r.json();
+    const el=document.getElementById(lid);
+    if(el) el.innerHTML=`<strong style="color:var(--green)">AI:</strong><br>${(d.content[0].text||'').replace(/\n/g,'<br>')}`;
+  }catch(e){
+    const el=document.getElementById(lid);
+    if(el) el.innerHTML='<span style="color:var(--red)">AI unavailable.</span>';
   }
-  hist.scrollTop = hist.scrollHeight;
+  hist.scrollTop=hist.scrollHeight;
 }
 
-async function getAISteps(t) {
-  const el = document.getElementById('ai-steps');
-  if (!el) return;
-  try {
-    const r = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:350,
-        messages:[{role:'user',content:`IT support specialist at Park Regis Hotel Business Bay Dubai. Give 4 numbered practical troubleshooting steps for: "${t.title}" (${t.dept} dept). Be specific and brief. No preamble.`}] })
-    });
-    const d = await r.json();
-    if (el) el.innerHTML = (d.content[0].text||'Could not load.').replace(/\n/g,'<br>');
-  } catch(e) {
-    if (el) el.innerHTML = '<span style="color:var(--tx3)">Connect to internet to load AI suggestions.</span>';
+async function getAISteps(t){
+  const el=document.getElementById('ai-steps');
+  if(!el) return;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:350,messages:[{role:'user',content:`IT support at Park Regis Hotel Business Bay Dubai. Give 4 numbered practical troubleshooting steps for: "${t.title}" (${t.dept} dept). Brief and specific. No preamble.`}]})});
+    const d=await r.json();
+    if(el) el.innerHTML=(d.content[0].text||'Could not load.').replace(/\n/g,'<br>');
+  }catch(e){
+    if(el) el.innerHTML='<span style="color:var(--tx3)">Connect to internet to load AI suggestions.</span>';
   }
 }
 
-// Keyboard
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-// Init
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 render();
 </script>
 </body>
 </html>
 HTMLEOF
-echo "Done. File size: $(wc -c < /mnt/user-data/outputs/index.html) bytes"
+echo "Done — $(wc -c < /mnt/user-data/outputs/index.html) bytes"
 Output
 
-Done. File size: 61398 bytes
+Done — 68442 bytes
+
+Presented file
+Done
+Download the new index.html and replace the file on your GitHub repo. Here's what changed and how the database works:
+
+✅ What's new — Persistent Storage
+
+All your data now saves automatically to localStorage — which is built into every browser and works perfectly on GitHub Pages, Netlify, or any hosted site.
+
+Every time you add a ticket, task, AMC contract, supplier or contact → auto-saved instantly
+Every status change (open → delayed → done, expired → renewed) → auto-saved
+Refresh the page → all data still there
+A "✓ Saved" toast appears bottom-right every time data is written
+📦 What's also added:
+
+Export to JSON button in Settings — backup your data anytime
+Loading screen on startup while data loads from storage
+Data size shown in Settings so you can monitor usage
+Storage key is parkregis_it_v2 — unique to your hotel dashboard
+⚠️ One important note: localStorage saves data per browser per device. If you open the site on a different computer or browser, it starts fresh. If you need data shared across multiple devices/staff, let me know and I'll upgrade it to a cloud database (Supabase — free tier).
+
+How to update on GitHub:
+
+Download the file above
+Go to your GitHub repo → click index.html → click ✏️ edit
+Select all → delete → paste the new content
+Click Commit changes → live in 1–2 minutes
+
+Index
+Code · HTML 
+
+
+
+
+
+
