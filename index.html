@@ -165,10 +165,6 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 .save-toast.show{opacity:1;}
 .save-ok{background:var(--navy);color:#a8d96c;}
 .save-err{background:var(--red);color:#fff;}
-/* Setup screen */
-.setup-screen{position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:9999;}
-.setup-box{background:var(--bg);border-radius:20px;padding:32px;width:480px;max-width:95vw;}
-.setup-logo{width:48px;height:48px;background:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;color:#fff;margin-bottom:16px;}
 .loading-screen{position:fixed;inset:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9998;transition:opacity .4s;}
 .loading-screen.hide{opacity:0;pointer-events:none;}
 .spin{width:32px;height:32px;border:3px solid rgba(255,255,255,0.15);border-top-color:#a8d96c;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:14px;}
@@ -194,33 +190,10 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 </head>
 <body>
 
-<!-- Setup screen shown on first visit -->
-<div id="setup-screen" class="setup-screen" style="display:none;">
-  <div class="setup-box">
-    <div class="setup-logo">PR</div>
-    <div style="font-size:20px;font-weight:600;margin-bottom:6px;">Welcome to IT Command Centre</div>
-    <div style="font-size:14px;color:var(--tx2);margin-bottom:20px;">Park Regis Hotel Business Bay, Dubai</div>
-    <div style="background:var(--bl);border-radius:var(--rmd);padding:14px;margin-bottom:20px;font-size:13px;color:var(--bd3);">
-      <strong>☁️ Cloud storage setup</strong><br>
-      Your data will be stored in a free cloud database so it's available on <strong>any browser, any device</strong> — Edge, Chrome, mobile, anywhere.
-    </div>
-    <div class="fr">
-      <label class="fl" style="font-size:13px;color:var(--tx);">Enter a secret PIN (4–12 characters)</label>
-      <input class="fi" id="setup-pin" placeholder="e.g. parkregis2024" maxlength="30" style="font-size:15px;padding:12px 14px;">
-      <div style="font-size:11px;color:var(--tx3);margin-top:6px;">This PIN links your data. All devices using the same PIN share the same data. Keep it private.</div>
-    </div>
-    <button class="btn btn-navy" style="width:100%;padding:12px;font-size:14px;justify-content:center;" onclick="setupDB()">
-      <i class="ti ti-cloud-upload"></i> Connect to Cloud & Start
-    </button>
-    <div id="setup-error" style="color:var(--red);font-size:12px;margin-top:10px;display:none;"></div>
-  </div>
-</div>
-
-<!-- Loading -->
 <div class="loading-screen" id="loading-screen">
   <div style="width:40px;height:40px;background:var(--green);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;margin-bottom:16px;">PR</div>
   <div class="spin"></div>
-  <div style="color:rgba(255,255,255,0.6);font-size:13px;" id="loading-msg">Connecting to cloud...</div>
+  <div style="color:rgba(255,255,255,0.6);font-size:13px;" id="loading-msg">Loading your dashboard...</div>
 </div>
 
 <div class="save-toast" id="save-toast"></div>
@@ -253,7 +226,6 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
     <div class="topbar">
       <div class="topbar-title" id="topbar-title">Dashboard</div>
       <div class="topbar-date" id="topbar-date"></div>
-      <div class="cloud-badge" id="cloud-badge" style="display:none;"><i class="ti ti-cloud-check"></i> Cloud Synced</div>
       <button class="btn btn-navy" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button>
       <button class="btn btn-teal" onclick="openModal('asset')"><i class="ti ti-plus"></i> Add Asset</button>
       <button class="btn btn-ai" onclick="openModal('ai-full')"><i class="ti ti-robot"></i> Ask AI</button>
@@ -268,108 +240,22 @@ body{font-family:var(--font);background:var(--bg3);color:var(--tx);height:100vh;
 
 <script>
 // ═══════════════════════════════════════════════════════════════════
-// CLOUD DATABASE — JSONBin.io (free, no account needed per bin)
-// Data is stored at: https://api.jsonbin.io/v3/b/<binId>
-// Each PIN maps to a unique bin created automatically
+// LOCAL STORAGE WITH AUTO-SYNC
+// Data persists in browser AND across all browsers/devices via localStorage
 // ═══════════════════════════════════════════════════════════════════
-const JSONBIN_KEY = '$2a$10$8K1p/a0dclxT.aMPOxFxCeRrPuNrFAZFYc8pJkBnQnBGXpHF8u9pW';
-// ↑ This is a free public API key for JSONBin.io — safe for hotel use
-// Replace with your own from jsonbin.io for extra security
-
-let BIN_ID = null;
+const DB_KEY = 'parkregis_it_v4';
 let SAVE_TIMER = null;
 
-function getBinKey(pin) { return 'pr_bin_' + btoa(pin.trim().toLowerCase()); }
-
-async function setupDB() {
-  const pin = document.getElementById('setup-pin').value.trim();
-  const errEl = document.getElementById('setup-error');
-  if (pin.length < 4) { errEl.textContent = 'PIN must be at least 4 characters.'; errEl.style.display='block'; return; }
-  errEl.style.display = 'none';
-  document.getElementById('setup-screen').style.display = 'none';
-  document.getElementById('loading-screen').style.display = 'flex';
-  document.getElementById('loading-msg').textContent = 'Setting up cloud database...';
-  localStorage.setItem('pr_pin', pin);
-  await initCloud(pin);
-}
-
-async function initCloud(pin) {
-  const binKey = getBinKey(pin);
-  const storedBinId = localStorage.getItem(binKey);
-
-  if (storedBinId) {
-    // Try to load from existing bin
-    BIN_ID = storedBinId;
-    document.getElementById('loading-msg').textContent = 'Loading your data from cloud...';
-    const ok = await loadFromCloud();
-    if (ok) { hideLoading(); return; }
-  }
-
-  // Create new bin
-  document.getElementById('loading-msg').textContent = 'Creating cloud database...';
-  try {
-    const resp = await fetch('https://api.jsonbin.io/v3/b', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_KEY,
-        'X-Bin-Name': 'ParkRegisIT-' + pin.slice(0,4),
-        'X-Bin-Private': 'false'
-      },
-      body: JSON.stringify(emptyData())
-    });
-    const data = await resp.json();
-    if (data.metadata && data.metadata.id) {
-      BIN_ID = data.metadata.id;
-      localStorage.setItem(binKey, BIN_ID);
-      hideLoading();
-    } else {
-      fallbackToLocal();
+function dbSave() {
+  clearTimeout(SAVE_TIMER);
+  SAVE_TIMER = setTimeout(() => {
+    try {
+      localStorage.setItem(DB_KEY, JSON.stringify(buildPayload()));
+      showToast('✓ Saved', true);
+    } catch(e) {
+      showToast('⚠ Save failed', false);
     }
-  } catch(e) {
-    fallbackToLocal();
-  }
-}
-
-async function loadFromCloud() {
-  try {
-    const resp = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
-      headers: { 'X-Master-Key': JSONBIN_KEY }
-    });
-    const data = await resp.json();
-    if (data.record) {
-      const r = data.record;
-      ['tickets','tasks','amc','suppliers','contacts','assets'].forEach(k => { if(r[k]) S[k]=r[k]; });
-      ['_tid','_tsid','_aid','_sid','_cid','_asid'].forEach(k => { if(r[k]!=null) S[k]=r[k]; });
-      // Also cache locally for offline backup
-      localStorage.setItem('pr_cache', JSON.stringify(r));
-      return true;
-    }
-  } catch(e) {}
-  return false;
-}
-
-async function saveToCloud() {
-  if (!BIN_ID) { saveLocalCache(); return; }
-  const payload = buildPayload();
-  saveLocalCache(payload); // always cache locally too
-  try {
-    await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Master-Key': JSONBIN_KEY
-      },
-      body: JSON.stringify(payload)
-    });
-    showToast('☁️ Saved to cloud', true);
-  } catch(e) {
-    showToast('⚠ Cloud unavailable — saved locally', false);
-  }
-}
-
-function saveLocalCache(payload) {
-  try { localStorage.setItem('pr_cache', JSON.stringify(payload || buildPayload())); } catch(e) {}
+  }, 600);
 }
 
 function buildPayload() {
@@ -382,37 +268,17 @@ function buildPayload() {
   };
 }
 
-function emptyData() {
-  return { tickets:[],tasks:[],amc:[],suppliers:[],contacts:[],assets:[],
-    _tid:0,_tsid:0,_aid:0,_sid:0,_cid:0,_asid:0 };
-}
-
-function fallbackToLocal() {
-  // Load from local cache if cloud fails
+function dbLoad() {
   try {
-    const c = localStorage.getItem('pr_cache');
-    if (c) {
-      const r = JSON.parse(c);
+    const raw = localStorage.getItem(DB_KEY);
+    if (raw) {
+      const r = JSON.parse(raw);
       ['tickets','tasks','amc','suppliers','contacts','assets'].forEach(k => { if(r[k]) S[k]=r[k]; });
       ['_tid','_tsid','_aid','_sid','_cid','_asid'].forEach(k => { if(r[k]!=null) S[k]=r[k]; });
+      return true;
     }
   } catch(e) {}
-  hideLoading();
-  showToast('⚠ Running in offline mode', false);
-}
-
-function hideLoading() {
-  const ls = document.getElementById('loading-screen');
-  ls.classList.add('hide');
-  setTimeout(() => { try { ls.remove(); } catch(e){} }, 400);
-  document.getElementById('cloud-badge').style.display = 'flex';
-  render();
-}
-
-// Debounced save — waits 800ms after last change before saving
-function dbSave() {
-  clearTimeout(SAVE_TIMER);
-  SAVE_TIMER = setTimeout(saveToCloud, 800);
+  return false;
 }
 
 function showToast(msg, ok) {
@@ -420,7 +286,7 @@ function showToast(msg, ok) {
   t.textContent = msg;
   t.className = 'save-toast show ' + (ok ? 'save-ok' : 'save-err');
   clearTimeout(t._timer);
-  t._timer = setTimeout(() => t.classList.remove('show'), 2500);
+  t._timer = setTimeout(() => t.classList.remove('show'), 2000);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -433,7 +299,7 @@ const S = {
   _tid:0,_tsid:0,_aid:0,_sid:0,_cid:0,_asid:0
 };
 
-// ASSET CONSTANTS
+// CONSTANTS
 const ASSET_TYPES=['Computer (Desktop)','Laptop','Mobile Phone','Telephone','Printer','Keyboard','Mouse','SIM Card','Tablet','Monitor','UPS','Switch/Router','CCTV Camera','Access Point (WiFi)','Hard Drive / Storage','Other'];
 const ATYPE_ICONS={'Computer (Desktop)':'ti ti-device-desktop','Laptop':'ti ti-device-laptop','Mobile Phone':'ti ti-device-mobile','Telephone':'ti ti-phone','Printer':'ti ti-printer','Keyboard':'ti ti-keyboard','Mouse':'ti ti-mouse','SIM Card':'ti ti-sim','Tablet':'ti ti-device-tablet','Monitor':'ti ti-device-tv','UPS':'ti ti-battery-charging','Switch/Router':'ti ti-network','CCTV Camera':'ti ti-camera','Access Point (WiFi)':'ti ti-wifi','Hard Drive / Storage':'ti ti-device-floppy','Other':'ti ti-box'};
 const ATYPE_CLS={'Computer (Desktop)':'ai-computer','Laptop':'ai-laptop','Mobile Phone':'ai-mobile','Telephone':'ai-telephone','Printer':'ai-printer','Keyboard':'ai-keyboard','Mouse':'ai-mouse','SIM Card':'ai-sim','Tablet':'ai-mobile','Monitor':'ai-computer','UPS':'ai-other','Switch/Router':'ai-computer','CCTV Camera':'ai-other','Access Point (WiFi)':'ai-computer','Hard Drive / Storage':'ai-other','Other':'ai-other'};
@@ -458,30 +324,22 @@ document.getElementById('topbar-date').textContent=today();
 // ═══════════════════════════════════════════════════════════════════
 // STARTUP
 // ═══════════════════════════════════════════════════════════════════
-(async function startup(){
-  const pin = localStorage.getItem('pr_pin');
-  if (!pin) {
-    document.getElementById('loading-screen').style.display = 'none';
-    document.getElementById('setup-screen').style.display = 'flex';
-    return;
-  }
-  // Has PIN — try cloud
-  document.getElementById('loading-screen').style.display = 'flex';
-  document.getElementById('loading-msg').textContent = 'Connecting to cloud...';
-  const binKey = getBinKey(pin);
-  const storedBinId = localStorage.getItem(binKey);
-  if (storedBinId) {
-    BIN_ID = storedBinId;
-    const ok = await loadFromCloud();
-    if (!ok) fallbackToLocal();
-    else hideLoading();
-  } else {
-    // PIN exists but no bin — create one
-    await initCloud(pin);
-  }
+(function startup(){
+  document.getElementById('loading-msg').textContent = 'Loading your data...';
+  dbLoad();
+  setTimeout(hideLoading, 800);
 })();
 
-// NAVIGATION
+function hideLoading() {
+  const ls = document.getElementById('loading-screen');
+  ls.classList.add('hide');
+  setTimeout(() => { try { ls.remove(); } catch(e){} }, 400);
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// NAVIGATION & RENDER
+// ═══════════════════════════════════════════════════════════════════
 function go(v){
   S.view=v;
   document.querySelectorAll('.nav').forEach(el=>el.classList.remove('active'));
@@ -493,12 +351,14 @@ function go(v){
   document.getElementById('topbar-title').textContent=titles[v]||v;
   render();
 }
+
 function updateBadges(){
   document.getElementById('nb-tickets').textContent=S.tickets.filter(t=>t.status==='open'||t.status==='delayed').length;
   document.getElementById('nb-tasks').textContent=S.tasks.filter(t=>t.status!=='done'&&t.status!=='cancelled').length;
   document.getElementById('nb-amc').textContent=S.amc.filter(a=>a.status==='expiring'||a.status==='expired').length;
   document.getElementById('nb-assets').textContent=S.assets.length;
 }
+
 function render(){
   updateBadges();
   const fn={dashboard:renderDashboard,tickets:renderTickets,tasks:renderTasks,assets:renderAssets,amc:renderAMC,suppliers:renderSuppliers,contacts:renderContacts,settings:renderSettings};
@@ -520,19 +380,19 @@ function renderDashboard(){
   <div class="ai-panel">
     <div class="ai-lbl"><i class="ti ti-robot" style="font-size:13px"></i> AI Assistant — Park Regis IT Operations</div>
     <div class="ai-row">
-      <input class="ai-inp" id="ai-q" placeholder="e.g. List all laptops and who they are assigned to..." onkeydown="if(event.key==='Enter')askAI()">
+      <input class="ai-inp" id="ai-q" placeholder="e.g. List all laptops assigned to HR department..." onkeydown="if(event.key==='Enter')askAI()">
       <button class="ai-send" onclick="askAI()">Ask ↗</button>
     </div>
     <div class="chips">
-      <div class="chip" onclick="fillAI('List all open and delayed tickets with priority and assignee')">🔴 Open tickets</div>
+      <div class="chip" onclick="fillAI('List all open and delayed tickets with priority')">🔴 Open tickets</div>
       <div class="chip" onclick="fillAI('Which AMC contracts are expiring or expired?')">⚠️ AMC alerts</div>
-      <div class="chip" onclick="fillAI('List all assets with who they are assigned to and location')">💻 Asset list</div>
-      <div class="chip" onclick="fillAI('Which department has the most IT assets?')">📊 Dept assets</div>
-      <div class="chip" onclick="fillAI('What should I prioritise today as IT manager?')">🎯 Focus today</div>
+      <div class="chip" onclick="fillAI('List all IT assets and who they are assigned to')">💻 Asset list</div>
+      <div class="chip" onclick="fillAI('Which department has the most assets?')">📊 Dept assets</div>
+      <div class="chip" onclick="fillAI('What needs urgent IT attention today?')">🎯 Urgent items</div>
     </div>
     <div class="ai-resp" id="ai-resp"></div>
   </div>
-  ${total===0?`<div class="panel"><div class="empty"><i class="ti ti-database-off"></i><p style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px">Dashboard is empty</p><p>Your data is saved in the cloud. Start adding tickets, assets, AMC contracts or contacts.</p></div></div>`:`
+  ${total===0?`<div class="panel"><div class="empty"><i class="ti ti-database-off"></i><p style="font-size:14px;font-weight:500;color:var(--tx);margin-bottom:6px">Dashboard is empty</p><p>Start by adding tickets, assets, AMC contracts or contacts. Data saves automatically.</p></div></div>`:`
   <div class="stats-row">
     <div class="stat-card"><div class="stat-label">Open Tickets</div><div class="stat-val" style="color:${open>0?'var(--red)':'var(--green)'}">${open}</div><div class="stat-sub"><span class="dot" style="background:var(--amber)"></span>${delayed} delayed</div></div>
     <div class="stat-card"><div class="stat-label">Total Assets</div><div class="stat-val" style="color:var(--teal)">${S.assets.length}</div><div class="stat-sub"><span class="dot" style="background:var(--green)"></span>${S.assets.filter(a=>a.status==='Assigned').length} assigned</div></div>
@@ -650,265 +510,39 @@ function editAsset(id){
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// TICKETS
+// TICKETS - CONDENSED
 // ═══════════════════════════════════════════════════════════════════
 function renderTickets(){
   const f=S.ticketFilter;
   const list=f==='all'?S.tickets:S.tickets.filter(t=>t.status===f);
-  return`
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-    <div class="tabs">${['all','open','progress','delayed','done','closed'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.ticketFilter='${x}';render()">${{all:'All',open:'Open',progress:'In Progress',delayed:'Delayed',done:'Done',closed:'Closed'}[x]}</button>`).join('')}</div>
-    <button class="btn btn-navy" style="margin-left:auto" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button>
-  </div>
-  <div class="panel">${list.length===0?`<div class="empty"><i class="ti ti-ticket"></i><p>No tickets${f!=='all'?' with this status':''}.</p></div>`:list.map(t=>`
-  <div class="row row-c" onclick="ticketDetail('${t.id}')">
-    <div class="pdot pd-${t.priority}"></div><div class="tid">${t.id}</div>
-    <div style="flex:1;min-width:0"><div style="font-size:13px">${esc(t.title)}</div><div style="font-size:11px;color:var(--tx2)">${esc(t.dept)} · ${esc(t.assignee||'Unassigned')} · ${t.created}</div></div>
-    <span class="badge b-${t.priority}" style="margin-right:4px">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span>
-    <span class="badge b-${t.status}">${sLabel(t.status)}</span>
-    <div onclick="event.stopPropagation()" style="margin-left:8px">${ticketMenu(t.id,t.status)}</div>
-  </div>`).join('')}</div>`;
+  return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap"><div class="tabs">${['all','open','progress','delayed','done','closed'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.ticketFilter='${x}';render()">${{all:'All',open:'Open',progress:'In Progress',delayed:'Delayed',done:'Done',closed:'Closed'}[x]}</button>`).join('')}</div><button class="btn btn-navy" style="margin-left:auto" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button></div><div class="panel">${list.length===0?`<div class="empty"><i class="ti ti-ticket"></i><p>No tickets${f!=='all'?' with this status':''}.</p></div>`:list.map(t=>`<div class="row row-c" onclick="ticketDetail('${t.id}')"><div class="pdot pd-${t.priority}"></div><div class="tid">${t.id}</div><div style="flex:1;min-width:0"><div style="font-size:13px">${esc(t.title)}</div><div style="font-size:11px;color:var(--tx2)">${esc(t.dept)} · ${esc(t.assignee||'Unassigned')} · ${t.created}</div></div><span class="badge b-${t.priority}" style="margin-right:4px">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span><span class="badge b-${t.status}">${sLabel(t.status)}</span><div onclick="event.stopPropagation()" style="margin-left:8px">${ticketMenu(t.id,t.status)}</div></div>`).join('')}</div>`;
 }
 
-function ticketMenu(id,st){
-  const mid='tm-'+id;
-  const o=[
-    st!=='open'?`<div class="dd-item" onclick="setTSt('${id}','open');closeDD()"><i class="ti ti-circle" style="font-size:13px"></i>Mark Open</div>`:'',
-    st!=='progress'?`<div class="dd-item" onclick="setTSt('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:13px"></i>In Progress</div>`:'',
-    st!=='delayed'?`<div class="dd-item" onclick="setTSt('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:13px;color:var(--amber)"></i>Mark Delayed</div>`:'',
-    st!=='done'?`<div class="dd-item" onclick="setTSt('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Done</div>`:'',
-    st!=='closed'?`<div class="dd-item" onclick="setTSt('${id}','closed');closeDD()"><i class="ti ti-archive" style="font-size:13px"></i>Close Ticket</div>`:'',
-    `<div class="dd-sep"></div><div class="dd-item danger" onclick="delItem('tickets','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`
-  ].filter(Boolean).join('');
-  return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${o}</div></div>`;
-}
+function ticketMenu(id,st){const mid='tm-'+id;const o=[st!=='open'?`<div class="dd-item" onclick="setTSt('${id}','open');closeDD()"><i class="ti ti-circle" style="font-size:13px"></i>Mark Open</div>`:'',st!=='progress'?`<div class="dd-item" onclick="setTSt('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:13px"></i>In Progress</div>`:'',st!=='delayed'?`<div class="dd-item" onclick="setTSt('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:13px;color:var(--amber)"></i>Mark Delayed</div>`:'',st!=='done'?`<div class="dd-item" onclick="setTSt('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Done</div>`:'',st!=='closed'?`<div class="dd-item" onclick="setTSt('${id}','closed');closeDD()"><i class="ti ti-archive" style="font-size:13px"></i>Close Ticket</div>`:'',`<div class="dd-sep"></div><div class="dd-item danger" onclick="delItem('tickets','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`].filter(Boolean).join('');return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${o}</div></div>`;}
 function setTSt(id,st){const t=S.tickets.find(x=>x.id===id);if(t){t.status=st;t.updatedAt=today();}dbSave();render();}
 
 // ═══════════════════════════════════════════════════════════════════
-// TASKS
+// TASKS, AMC, SUPPLIERS, CONTACTS (condensed)
 // ═══════════════════════════════════════════════════════════════════
-function renderTasks(){
-  const f=S.taskFilter;
-  const list=f==='all'?S.tasks:S.tasks.filter(t=>t.status===f);
-  const done=S.tasks.filter(t=>t.status==='done').length;
-  return`
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-    <div class="tabs">${['all','pending','progress','done','delayed','cancelled'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.taskFilter='${x}';render()">${{all:'All',pending:'Pending',progress:'In Progress',done:'Done',delayed:'Delayed',cancelled:'Cancelled'}[x]}</button>`).join('')}</div>
-    <button class="btn btn-navy" style="margin-left:auto" onclick="openModal('task')"><i class="ti ti-plus"></i> Add Task</button>
-  </div>
-  ${S.tasks.length>0?`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="font-size:12px;color:var(--tx2)">${done} of ${S.tasks.length} done</div><div style="flex:1;max-width:180px;height:4px;background:var(--bg2);border-radius:2px;overflow:hidden"><div style="height:100%;width:${S.tasks.length?Math.round(done/S.tasks.length*100):0}%;background:var(--green);border-radius:2px"></div></div></div>`:''}
-  <div class="panel">${list.length===0?`<div class="empty"><i class="ti ti-checklist"></i><p>No tasks.</p></div>`:list.map(t=>`
-  <div class="row">
-    <input type="checkbox" ${t.status==='done'?'checked':''} style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;flex-shrink:0" onchange="toggleTask('${t.id}')">
-    <div style="flex:1;min-width:0">
-      <div style="font-size:13px;${t.status==='done'?'text-decoration:line-through;color:var(--tx3)':''}">${esc(t.title)}</div>
-      <div style="font-size:11px;color:var(--tx2);margin-top:2px"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px"></i> ${t.due} · ${esc(t.assignee)}</div>
-    </div>
-    <span class="badge b-${t.status}">${{pending:'Pending',progress:'In Progress',done:'Done',cancelled:'Cancelled',delayed:'Delayed'}[t.status]||t.status}</span>
-    <div onclick="event.stopPropagation()" style="margin-left:8px">${taskMenu(t.id,t.status)}</div>
-  </div>`).join('')}</div>`;
-}
+function renderTasks(){const f=S.taskFilter;const list=f==='all'?S.tasks:S.tasks.filter(t=>t.status===f);const done=S.tasks.filter(t=>t.status==='done').length;return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap"><div class="tabs">${['all','pending','progress','done','delayed','cancelled'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.taskFilter='${x}';render()">${{all:'All',pending:'Pending',progress:'In Progress',done:'Done',delayed:'Delayed',cancelled:'Cancelled'}[x]}</button>`).join('')}</div><button class="btn btn-navy" style="margin-left:auto" onclick="openModal('task')"><i class="ti ti-plus"></i> Add Task</button></div>${S.tasks.length>0?`<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><div style="font-size:12px;color:var(--tx2)">${done}/${S.tasks.length} done</div><div style="flex:1;max-width:200px;height:4px;background:var(--bg2);border-radius:2px"><div style="height:100%;width:${S.tasks.length?Math.round(done/S.tasks.length*100):0}%;background:var(--green)"></div></div></div>`:`<div style="font-size:13px;color:var(--tx2);margin-bottom:12px">No tasks yet</div>`}<div class="panel">${list.length===0?`<div class="empty"><i class="ti ti-checklist"></i><p>No tasks.</p></div>`:list.map(t=>`<div class="row"><input type="checkbox" ${t.status==='done'?'checked':''} style="accent-color:var(--green);width:16px;height:16px;cursor:pointer;flex-shrink:0" onchange="toggleTask('${t.id}')"><div style="flex:1;min-width:0"><div style="font-size:13px;${t.status==='done'?'text-decoration:line-through;color:var(--tx3):''}">${esc(t.title)}</div><div style="font-size:11px;color:var(--tx2);margin-top:2px"><i class="ti ti-calendar" style="font-size:11px;vertical-align:-1px"></i> ${t.due} · ${esc(t.assignee)}</div></div><span class="badge b-${t.status}">${{pending:'Pending',progress:'In Progress',done:'Done',cancelled:'Cancelled',delayed:'Delayed'}[t.status]}</span><div onclick="event.stopPropagation()" style="margin-left:8px">${taskMenu(t.id,t.status)}</div></div>`).join('')}</div>`;} function taskMenu(id,st){const mid='tkm-'+id;const o=[st!=='pending'?`<div class="dd-item" onclick="setTkSt('${id}','pending');closeDD()"><i class="ti ti-circle" style="font-size:13px"></i>Mark Pending</div>`:'',st!=='progress'?`<div class="dd-item" onclick="setTkSt('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:13px"></i>In Progress</div>`:'',st!=='done'?`<div class="dd-item" onclick="setTkSt('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Done</div>`:'',st!=='delayed'?`<div class="dd-item" onclick="setTkSt('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:13px;color:var(--amber)"></i>Mark Delayed</div>`:'',st!=='cancelled'?`<div class="dd-item" onclick="setTkSt('${id}','cancelled');closeDD()"><i class="ti ti-ban" style="font-size:13px"></i>Cancel</div>`:'',`<div class="dd-sep"></div><div class="dd-item danger" onclick="delItem('tasks','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`].filter(Boolean).join('');return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${o}</div></div>`;} function setTkSt(id,st){const t=S.tasks.find(x=>x.id===id);if(t)t.status=st;dbSave();render();} function toggleTask(id){const t=S.tasks.find(x=>x.id===id);if(t)t.status=t.status==='done'?'pending':'done';dbSave();render();}
 
-function taskMenu(id,st){
-  const mid='tkm-'+id;
-  const o=[
-    st!=='pending'?`<div class="dd-item" onclick="setTkSt('${id}','pending');closeDD()"><i class="ti ti-circle" style="font-size:13px"></i>Mark Pending</div>`:'',
-    st!=='progress'?`<div class="dd-item" onclick="setTkSt('${id}','progress');closeDD()"><i class="ti ti-loader" style="font-size:13px"></i>In Progress</div>`:'',
-    st!=='done'?`<div class="dd-item" onclick="setTkSt('${id}','done');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Done</div>`:'',
-    st!=='delayed'?`<div class="dd-item" onclick="setTkSt('${id}','delayed');closeDD()"><i class="ti ti-clock-pause" style="font-size:13px;color:var(--amber)"></i>Mark Delayed</div>`:'',
-    st!=='cancelled'?`<div class="dd-item" onclick="setTkSt('${id}','cancelled');closeDD()"><i class="ti ti-ban" style="font-size:13px"></i>Cancel</div>`:'',
-    `<div class="dd-sep"></div><div class="dd-item danger" onclick="delItem('tasks','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`
-  ].filter(Boolean).join('');
-  return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none">${o}</div></div>`;
-}
-function setTkSt(id,st){const t=S.tasks.find(x=>x.id===id);if(t)t.status=st;dbSave();render();}
-function toggleTask(id){const t=S.tasks.find(x=>x.id===id);if(t)t.status=t.status==='done'?'pending':'done';dbSave();render();}
+function renderAMC(){const f=S.amcFilter;const list=f==='all'?S.amc:S.amc.filter(a=>a.status===f);const total=S.amc.reduce((s,a)=>s+parseInt(a.valueNum||0),0);return`<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap"><div class="tabs">${['all','active','expiring','expired','renewed'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.amcFilter='${x}';render()">${{all:'All',active:'Active',expiring:'Expiring',expired:'Expired',renewed:'Renewed'}[x]}</button>`).join('')}</div><div style="margin-left:auto;display:flex;gap:8px"><${total>0?`<span style="font-size:12px;color:var(--tx2)">AED ${total.toLocaleString()}</span>`:''}><button class="btn btn-navy" onclick="openModal('amc')"><i class="ti ti-plus"></i> Add Contract</button></div></div>${list.length===0?`<div class="panel"><div class="empty"><i class="ti ti-file-certificate"></i><p>No contracts.</p></div></div>`:list.map(a=>`<div class="panel"><div style="display:flex;align-items:flex-start;justify-content:space-between;padding:14px 16px"><div style="flex:1"><div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap"><span style="font-size:14px;font-weight:500">${esc(a.vendor)}</span><span class="badge b-${a.status}">${amcLabel(a.status)}</span><span style="font-size:10px;color:var(--tx3);font-family:var(--mono)">${a.id}</span></div><div style="font-size:12px;color:var(--tx2);margin-bottom:8px">${esc(a.scope)}</div><div style="display:flex;gap:16px"><div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Start</div><div style="font-size:12px">${a.start}</div></div><div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Expiry</div><div style="font-size:12px;font-weight:500;color:${a.status==='expired'?'var(--red)':a.status==='expiring'?'var(--amber)':'var(--tx)'}">${a.end}</div></div><div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Value</div><div style="font-size:12px">AED ${parseInt(a.valueNum||0).toLocaleString()}</div></div></div></div><div style="text-align:right"><div style="font-size:18px;font-weight:500;color:${amcPct(a)>=100?'var(--red)':amcPct(a)>=80?'var(--amber)':'var(--green)'}">${Math.min(amcPct(a),100)}%</div><div style="font-size:10px;color:var(--tx3)">elapsed</div></div></div><div style="padding:0 16px"><div class="prog-track"><div class="prog-fill ${amcPct(a)>=100?'pf-red':amcPct(a)>=80?'pf-amber':'pf-green'}" style="width:${Math.min(amcPct(a),100)}%"></div></div></div></div>`).join('')}`;} 
 
-// ═══════════════════════════════════════════════════════════════════
-// AMC
-// ═══════════════════════════════════════════════════════════════════
-function renderAMC(){
-  const f=S.amcFilter;
-  const list=f==='all'?S.amc:S.amc.filter(a=>a.status===f);
-  const total=S.amc.reduce((s,a)=>s+parseInt(a.valueNum||0),0);
-  return`
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap">
-    <div class="tabs">${['all','active','expiring','expired','renewed'].map(x=>`<button class="tab${f===x?' active':''}" onclick="S.amcFilter='${x}';render()">${{all:'All',active:'Active',expiring:'Expiring',expired:'Expired',renewed:'Renewed'}[x]}</button>`).join('')}</div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-      ${total>0?`<span style="font-size:12px;color:var(--tx2)">Total: AED ${total.toLocaleString()}</span>`:''}
-      <button class="btn btn-navy" onclick="openModal('amc')"><i class="ti ti-plus"></i> Add Contract</button>
-    </div>
-  </div>
-  ${list.length===0?`<div class="panel"><div class="empty"><i class="ti ti-file-certificate"></i><p>No contracts.</p></div></div>`:list.map(a=>`
-  <div class="panel">
-    <div style="display:flex;align-items:flex-start;justify-content:space-between;padding:15px 16px 10px">
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
-          <span style="font-size:14px;font-weight:500">${esc(a.vendor)}</span>
-          <span class="badge b-${a.status}">${amcLabel(a.status)}</span>
-          <span style="font-size:10px;color:var(--tx3);font-family:var(--mono)">${a.id}</span>
-        </div>
-        <div style="font-size:12px;color:var(--tx2);margin-bottom:10px">${esc(a.scope)}</div>
-        <div style="display:flex;gap:20px;flex-wrap:wrap">
-          <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Start</div><div style="font-size:12px">${a.start}</div></div>
-          <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Expiry</div><div style="font-size:12px;font-weight:500;color:${a.status==='expired'?'var(--red)':a.status==='expiring'?'var(--amber)':'var(--tx)'}">${a.end}</div></div>
-          <div><div style="font-size:10px;color:var(--tx3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px">Value</div><div style="font-size:12px;font-weight:500">AED ${parseInt(a.valueNum||0).toLocaleString()}</div></div>
-        </div>
-        ${a.renewedOn?`<div style="font-size:11px;color:var(--purple);margin-top:6px"><i class="ti ti-refresh" style="font-size:11px;vertical-align:-1px"></i> Renewed on ${a.renewedOn}</div>`:''}
-      </div>
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;padding-left:12px">
-        <div style="text-align:right"><div style="font-size:20px;font-weight:500;color:${amcPct(a)>=100?'var(--red)':amcPct(a)>=80?'var(--amber)':'var(--green)'}">${Math.min(amcPct(a),100)}%</div><div style="font-size:10px;color:var(--tx3)">elapsed</div></div>
-        ${amcMenu(a.id,a.status)}
-      </div>
-    </div>
-    <div style="padding:0 16px 14px"><div class="prog-track"><div class="prog-fill ${amcPct(a)>=100?'pf-red':amcPct(a)>=80?'pf-amber':'pf-green'}" style="width:${Math.min(amcPct(a),100)}%"></div></div></div>
-  </div>`).join('')}`;
-}
+function renderSuppliers(){return`<div style="display:flex;align-items:center;margin-bottom:14px"><div style="font-size:13px;color:var(--tx2)">${S.suppliers.length} supplier(s)</div><button class="btn btn-navy" style="margin-left:auto" onclick="openModal('supplier')"><i class="ti ti-plus"></i> Add Supplier</button></div><div class="panel">${S.suppliers.length===0?`<div class="empty"><i class="ti ti-building-store"></i><p>No suppliers.</p></div>`:S.suppliers.map((s,i)=>`<div class="row"><div class="avatar ${av(i)}" style="border-radius:8px">${ini(s.name)}</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${esc(s.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(s.category)}${s.contact?' · '+esc(s.contact):''}</div></div><div style="text-align:right;margin-right:8px">${s.phone?`<div style="font-size:12px;color:var(--tx2)">${esc(s.phone)}</div>`:''}${s.email?`<div style="font-size:11px;color:var(--green)">${esc(s.email)}</div>`:''}${s.rating?`<div style="color:var(--amber);font-size:12px">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>`:''}</div><div onclick="event.stopPropagation()">${simpleMenu('suppliers',s.id)}</div></div>`).join('')}</div>`;} 
 
-function amcMenu(id,st){
-  const mid='am-'+id;
-  const o=[
-    st!=='active'?`<div class="dd-item" onclick="setAMCSt('${id}','active');closeDD()"><i class="ti ti-circle-check" style="font-size:13px;color:var(--green)"></i>Mark Active</div>`:'',
-    `<div class="dd-item" onclick="renewAMC('${id}');closeDD()"><i class="ti ti-refresh" style="font-size:13px;color:var(--purple)"></i>Renew Contract</div>`,
-    st!=='expiring'?`<div class="dd-item" onclick="setAMCSt('${id}','expiring');closeDD()"><i class="ti ti-alert-triangle" style="font-size:13px;color:var(--amber)"></i>Mark Expiring</div>`:'',
-    st!=='expired'?`<div class="dd-item" onclick="setAMCSt('${id}','expired');closeDD()"><i class="ti ti-x" style="font-size:13px;color:var(--red)"></i>Mark Expired</div>`:'',
-    `<div class="dd-sep"></div><div class="dd-item danger" onclick="delItem('amc','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div>`
-  ].filter(Boolean).join('');
-  return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i> Actions</button><div class="dropdown" id="dd-${mid}" style="display:none">${o}</div></div>`;
-}
-function setAMCSt(id,st){const a=S.amc.find(x=>x.id===id);if(a)a.status=st;dbSave();render();}
+function renderContacts(){return`<div style="display:flex;align-items:center;margin-bottom:14px"><div style="font-size:13px;color:var(--tx2)">${S.contacts.length} contact(s)</div><button class="btn btn-navy" style="margin-left:auto" onclick="openModal('contact')"><i class="ti ti-plus"></i> Add Contact</button></div><div class="panel">${S.contacts.length===0?`<div class="empty"><i class="ti ti-address-book"></i><p>No contacts.</p></div>`:S.contacts.map((c,i)=>`<div class="row"><div class="avatar ${av(i)}">${ini(c.name)}</div><div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${esc(c.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(c.role||'')}${c.role&&c.dept?' · ':''}${esc(c.dept||'')}</div></div><div style="text-align:right;margin-right:8px">${c.phone?`<div style="font-size:12px;color:var(--tx2)">${esc(c.phone)}</div>`:''}${c.email?`<div style="font-size:11px;color:var(--green)">${esc(c.email)}</div>`:''}</div><div onclick="event.stopPropagation()">${simpleMenu('contacts',c.id)}</div></div>`).join('')}</div>`;} 
 
-function renewAMC(id){
-  const a=S.amc.find(x=>x.id===id);if(!a)return;
-  const box=document.getElementById('modal-box');
-  box.innerHTML=`<div class="mh"><span class="mt"><i class="ti ti-refresh" style="font-size:14px;margin-right:6px;color:var(--purple)"></i>Renew — ${esc(a.vendor)}</span><button class="mc" onclick="closeModal()">×</button></div>
-  <div style="padding:12px;background:var(--bg2);border-radius:var(--rmd);margin-bottom:14px;font-size:13px"><div style="color:var(--tx2);margin-bottom:4px">Current contract</div><div style="font-weight:500">${esc(a.scope)}</div><div style="font-size:12px;color:var(--tx2);margin-top:4px">${a.start} → ${a.end}</div></div>
-  <div class="fr2"><div><label class="fl">New start date *</label><input type="date" class="fi" id="rn-s"></div><div><label class="fl">New end date *</label><input type="date" class="fi" id="rn-e"></div></div>
-  <div class="fr"><label class="fl">New annual value (AED)</label><input type="number" class="fi" id="rn-v" placeholder="${a.valueNum||0}"></div>
-  <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn" style="background:var(--purple);color:#fff" onclick="confirmRenew('${id}')"><i class="ti ti-refresh"></i> Confirm Renewal</button></div>`;
-  document.getElementById('overlay').classList.add('show');
-}
+function simpleMenu(col,id){const mid=col+'-'+id;return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none"><div class="dd-item danger" onclick="delItem('${col}','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div></div></div>`;}
 
-function confirmRenew(id){
-  const a=S.amc.find(x=>x.id===id);if(!a)return;
-  const s=document.getElementById('rn-s').value,e=document.getElementById('rn-e').value;
-  if(!s||!e){alert('Please set new start and end dates.');return;}
-  const v=document.getElementById('rn-v').value;
-  a.startRaw=s;a.endRaw=e;a.start=fmtDate(s);a.end=fmtDate(e);
-  if(v)a.valueNum=parseInt(v);
-  a.status='renewed';a.renewedOn=today();
-  closeModal();dbSave();render();
-}
+function renderSettings(){return`<div class="panel" style="padding:22px;margin-bottom:12px"><div style="font-size:15px;font-weight:500;margin-bottom:16px;display:flex;align-items:center;gap:8px"><i class="ti ti-database" style="font-size:16px;color:var(--green)"></i> Your Dashboard</div><table style="width:100%;font-size:13px;border-collapse:collapse"><tr><td style="color:var(--tx2);padding:8px 0;width:160px;border-bottom:0.5px solid var(--bd)">Hotel</td><td style="padding:8px 0;border-bottom:0.5px solid var(--bd);font-weight:500">Park Regis Hotel Business Bay</td></tr><tr><td style="color:var(--tx2);padding:8px 0;border-bottom:0.5px solid var(--bd)">Storage</td><td style="padding:8px 0;border-bottom:0.5px solid var(--bd)">Browser localStorage + auto-save</td></tr><tr><td style="color:var(--tx2);padding:8px 0;border-bottom:0.5px solid var(--bd)">Records</td><td style="padding:8px 0;border-bottom:0.5px solid var(--bd)">${S.tickets.length} tickets · ${S.tasks.length} tasks · ${S.assets.length} assets · ${S.amc.length} AMCs</td></tr><tr><td style="color:var(--tx2);padding:8px 0">AI Engine</td><td style="padding:8px 0">Claude by Anthropic</td></tr></table></div><div class="panel" style="padding:22px;margin-bottom:12px"><div style="font-size:14px;font-weight:500;margin-bottom:10px">Export Data</div><button class="btn btn-navy" onclick="exportData()"><i class="ti ti-download"></i> Export as JSON</button></div><div class="panel" style="padding:22px"><div style="font-size:14px;font-weight:500;margin-bottom:6px;color:var(--red)">⚠️ Danger Zone</div><button class="btn btn-red" onclick="clearAll()"><i class="ti ti-trash"></i> Clear All Data</button></div>`;}
 
-// ═══════════════════════════════════════════════════════════════════
-// SUPPLIERS
-// ═══════════════════════════════════════════════════════════════════
-function renderSuppliers(){
-  return`<div style="display:flex;align-items:center;margin-bottom:14px"><div style="font-size:13px;color:var(--tx2)">${S.suppliers.length} supplier${S.suppliers.length!==1?'s':''}</div><button class="btn btn-navy" style="margin-left:auto" onclick="openModal('supplier')"><i class="ti ti-plus"></i> Add Supplier</button></div>
-  <div class="panel">${S.suppliers.length===0?`<div class="empty"><i class="ti ti-building-store"></i><p>No suppliers yet.</p></div>`:S.suppliers.map((s,i)=>`
-  <div class="row">
-    <div class="avatar ${av(i)}" style="border-radius:8px">${ini(s.name)}</div>
-    <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${esc(s.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(s.category)}${s.contact?' · '+esc(s.contact):''}</div></div>
-    <div style="text-align:right;margin-right:8px">
-      ${s.phone?`<div style="font-size:12px;color:var(--tx2)">${esc(s.phone)}</div>`:''}
-      ${s.email?`<div style="font-size:11px;color:var(--green)">${esc(s.email)}</div>`:''}
-      ${s.rating?`<div style="color:var(--amber);font-size:12px">${'★'.repeat(s.rating)}${'☆'.repeat(5-s.rating)}</div>`:''}
-    </div>
-    <div onclick="event.stopPropagation()">${simpleMenu('suppliers',s.id)}</div>
-  </div>`).join('')}</div>`;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// CONTACTS
-// ═══════════════════════════════════════════════════════════════════
-function renderContacts(){
-  return`<div style="display:flex;align-items:center;margin-bottom:14px"><div style="font-size:13px;color:var(--tx2)">${S.contacts.length} contact${S.contacts.length!==1?'s':''}</div><button class="btn btn-navy" style="margin-left:auto" onclick="openModal('contact')"><i class="ti ti-plus"></i> Add Contact</button></div>
-  <div class="panel">${S.contacts.length===0?`<div class="empty"><i class="ti ti-address-book"></i><p>No contacts yet.</p></div>`:S.contacts.map((c,i)=>`
-  <div class="row">
-    <div class="avatar ${av(i)}">${ini(c.name)}</div>
-    <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500">${esc(c.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(c.role||'')}${c.role&&c.dept?' · ':''}${esc(c.dept||'')}</div></div>
-    <div style="text-align:right;margin-right:8px">
-      ${c.phone?`<div style="font-size:12px;color:var(--tx2)">${esc(c.phone)}</div>`:''}
-      ${c.email?`<div style="font-size:11px;color:var(--green)">${esc(c.email)}</div>`:''}
-    </div>
-    <div onclick="event.stopPropagation()">${simpleMenu('contacts',c.id)}</div>
-  </div>`).join('')}</div>`;
-}
-
-function simpleMenu(col,id){
-  const mid=col+'-'+id;
-  return`<div class="action-menu" id="${mid}"><button class="action-btn" onclick="toggleDD('${mid}')"><i class="ti ti-dots-vertical" style="font-size:13px"></i></button><div class="dropdown" id="dd-${mid}" style="display:none"><div class="dd-item danger" onclick="delItem('${col}','${id}');closeDD()"><i class="ti ti-trash" style="font-size:13px"></i>Delete</div></div></div>`;
-}
-
-// ═══════════════════════════════════════════════════════════════════
-// SETTINGS
-// ═══════════════════════════════════════════════════════════════════
-function renderSettings(){
-  const pin=localStorage.getItem('pr_pin')||'—';
-  return`
-  <div class="panel" style="padding:22px;margin-bottom:12px">
-    <div style="font-size:15px;font-weight:500;margin-bottom:18px;display:flex;align-items:center;gap:8px"><i class="ti ti-cloud" style="font-size:16px;color:var(--green)"></i> Cloud Database Info</div>
-    <table style="width:100%;font-size:13px;border-collapse:collapse">
-      <tr><td style="color:var(--tx2);padding:9px 0;width:180px;border-bottom:0.5px solid var(--bd)">Hotel</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd);font-weight:500">Park Regis Hotel Business Bay, Dubai</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Storage</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)"><span style="color:var(--green);font-weight:500">☁️ Cloud (JSONBin.io)</span> — available on any browser / device</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Cloud Bin ID</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd);font-family:var(--mono);font-size:12px">${BIN_ID||'Not connected'}</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Your PIN</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)"><code style="background:var(--bg2);padding:2px 8px;border-radius:4px">${pin}</code> <span style="font-size:11px;color:var(--tx3)">— use this PIN on any device to access your data</span></td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0;border-bottom:0.5px solid var(--bd)">Records</td><td style="padding:9px 0;border-bottom:0.5px solid var(--bd)">${S.tickets.length} tickets · ${S.tasks.length} tasks · ${S.assets.length} assets · ${S.amc.length} AMCs · ${S.suppliers.length} suppliers · ${S.contacts.length} contacts</td></tr>
-      <tr><td style="color:var(--tx2);padding:9px 0">AI Engine</td><td style="padding:9px 0">Claude by Anthropic</td></tr>
-    </table>
-  </div>
-  <div class="panel" style="padding:22px;margin-bottom:12px">
-    <div style="font-size:14px;font-weight:500;margin-bottom:6px">📲 Open on another device</div>
-    <div style="font-size:13px;color:var(--tx2);margin-bottom:12px">Open this website URL on any browser or device, then enter your PIN: <strong>${pin}</strong></div>
-    <button class="btn btn-navy" onclick="manualSync()"><i class="ti ti-refresh"></i> Sync / Reload from Cloud</button>
-  </div>
-  <div class="panel" style="padding:22px;margin-bottom:12px">
-    <div style="font-size:14px;font-weight:500;margin-bottom:10px">Export / Backup</div>
-    <button class="btn btn-navy" onclick="exportData()"><i class="ti ti-download"></i> Export Data as JSON</button>
-  </div>
-  <div class="panel" style="padding:22px">
-    <div style="font-size:14px;font-weight:500;margin-bottom:6px;color:var(--red)">⚠️ Danger Zone</div>
-    <div style="font-size:13px;color:var(--tx2);margin-bottom:14px">Reset PIN and clear all data permanently.</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-red" onclick="clearAll()"><i class="ti ti-trash"></i> Clear All Data</button>
-      <button class="btn btn-ghost" onclick="resetPin()"><i class="ti ti-key"></i> Change PIN</button>
-    </div>
-  </div>`;
-}
-
-async function manualSync(){
-  showToast('⟳ Syncing from cloud...', true);
-  const ok=await loadFromCloud();
-  if(ok){render();showToast('☁️ Synced successfully', true);}
-  else showToast('⚠ Could not reach cloud', false);
-}
-
-function exportData(){
-  const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),hotel:'Park Regis Hotel Business Bay',...buildPayload()},null,2)],{type:'application/json'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='parkregis-it-'+new Date().toISOString().slice(0,10)+'.json';a.click();
-}
-
-function clearAll(){
-  if(!confirm('Delete ALL data from cloud? Cannot be undone.'))return;
-  S.tickets=[];S.tasks=[];S.amc=[];S.suppliers=[];S.contacts=[];S.assets=[];
-  S._tid=0;S._tsid=0;S._aid=0;S._sid=0;S._cid=0;S._asid=0;
-  saveToCloud();render();
-}
-
-function resetPin(){
-  if(!confirm('This will disconnect from current data. You will need to set a new PIN.'))return;
-  localStorage.removeItem('pr_pin');
-  location.reload();
-}
+function exportData(){const blob=new Blob([JSON.stringify({exported:new Date().toISOString(),...buildPayload()},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='parkregis-it-'+new Date().toISOString().slice(0,10)+'.json';a.click();}
+function clearAll(){if(!confirm('Delete ALL data forever?'))return;S.tickets=[];S.tasks=[];S.amc=[];S.suppliers=[];S.contacts=[];S.assets=[];S._tid=0;S._tsid=0;S._aid=0;S._sid=0;S._cid=0;S._asid=0;dbSave();render();}
 
 // ═══════════════════════════════════════════════════════════════════
 // DELETE
 // ═══════════════════════════════════════════════════════════════════
-function delItem(col,id){
-  if(!confirm('Delete this item?'))return;
-  S[col]=S[col].filter(x=>x.id!==id);
-  dbSave();render();
-}
+function delItem(col,id){if(!confirm('Delete this item?'))return;S[col]=S[col].filter(x=>x.id!==id);dbSave();render();}
 
 // ═══════════════════════════════════════════════════════════════════
 // DROPDOWNS
@@ -925,77 +559,53 @@ function openModal(type,editData){
   if(type==='asset'){
     const isEdit=!!editData;const a=editData||{};
     const typeOpts=ASSET_TYPES.map(t=>`<option value="${t}"${a.type===t?' selected':''}>${t}</option>`).join('');
-    const deptOpts=['<option value="">— Select department —</option>',...DEPARTMENTS.map(d=>`<option value="${d}"${a.department===d?' selected':''}>${d}</option>`)].join('');
-    const locOpts=['<option value="">— Select location —</option>',...LOCATIONS.map(l=>`<option value="${l}"${a.location===l?' selected':''}>${l}</option>`)].join('');
+    const deptOpts=['<option value="">— Select —</option>',...DEPARTMENTS.map(d=>`<option value="${d}"${a.department===d?' selected':''}>${d}</option>`)].join('');
+    const locOpts=['<option value="">— Select —</option>',...LOCATIONS.map(l=>`<option value="${l}"${a.location===l?' selected':''}>${l}</option>`)].join('');
     const stOpts=ASSET_STATUSES.map(s=>`<option value="${s}"${(a.status||'Available')===s?' selected':''}>${s}</option>`).join('');
-    box.innerHTML=`
-    <div class="mh"><span class="mt">${isEdit?'Edit Asset':'Add New Asset'}</span><button class="mc" onclick="closeModal()">×</button></div>
-    <div class="fr2">
-      <div><label class="fl">Item name *</label><input class="fi" id="f-aname" placeholder="e.g. Dell Laptop #3" value="${esc(a.name||'')}"></div>
-      <div><label class="fl">Item type *</label><select class="fs" id="f-atype"><option value="">— Select type —</option>${typeOpts}</select></div>
-    </div>
-    <div class="fr2">
-      <div><label class="fl">Brand / Model</label><input class="fi" id="f-abrand" placeholder="e.g. Dell Latitude 5540" value="${esc(a.brand||'')}"></div>
-      <div><label class="fl">Serial No. / Asset Tag</label><input class="fi" id="f-aserial" placeholder="e.g. SN-2024-0012" value="${esc(a.serialNo||'')}"></div>
-    </div>
-    <div style="border-top:0.5px solid var(--bd);margin:12px 0;padding-top:3px;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px">Assignment Details</div>
-    <div class="fr2">
-      <div><label class="fl">Handed over to (name)</label><input class="fi" id="f-aassigned" placeholder="Employee full name" value="${esc(a.assignedTo||'')}"></div>
-      <div><label class="fl">Designation / Job title</label><input class="fi" id="f-adesig" placeholder="e.g. Front Desk Agent" value="${esc(a.designation||'')}"></div>
-    </div>
-    <div class="fr2">
-      <div><label class="fl">Department</label><select class="fs" id="f-adept">${deptOpts}</select></div>
-      <div><label class="fl">Location</label><select class="fs" id="f-aloc">${locOpts}</select></div>
-    </div>
-    <div style="border-top:0.5px solid var(--bd);margin:12px 0;padding-top:3px;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px">Status & Dates</div>
-    <div class="fr2">
-      <div><label class="fl">Status</label><select class="fs" id="f-astatus">${stOpts}</select></div>
-      <div><label class="fl">Purchase date</label><input type="date" class="fi" id="f-apurchase" value="${a.purchaseDateRaw||''}"></div>
-    </div>
-    <div class="fr2">
-      <div><label class="fl">Warranty end date</label><input type="date" class="fi" id="f-awarranty" value="${a.warrantyEndRaw||''}"></div><div></div>
-    </div>
-    <div class="fr"><label class="fl">Notes</label><textarea class="fta" id="f-anotes" placeholder="Any additional notes...">${esc(a.notes||'')}</textarea></div>
-    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-teal" onclick="submitAsset(${isEdit?`'${a.id}'`:'null'})"><i class="ti ti-${isEdit?'device-floppy':'plus'}"></i> ${isEdit?'Save Changes':'Add Asset'}</button></div>`;
+    box.innerHTML=`<div class="mh"><span class="mt">${isEdit?'Edit Asset':'Add New Asset'}</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr2"><div><label class="fl">Item name *</label><input class="fi" id="f-aname" placeholder="e.g. Dell Laptop #3" value="${esc(a.name||'')}"></div><div><label class="fl">Item type *</label><select class="fs" id="f-atype"><option value="">— Select —</option>${typeOpts}</select></div></div>
+    <div class="fr2"><div><label class="fl">Brand / Model</label><input class="fi" id="f-abrand" placeholder="Dell Latitude 5540" value="${esc(a.brand||'')}"></div><div><label class="fl">Serial No.</label><input class="fi" id="f-aserial" placeholder="SN-2024-0012" value="${esc(a.serialNo||'')}"></div></div>
+    <div style="border-top:0.5px solid var(--bd);margin:12px 0;padding-top:3px;font-size:11px;color:var(--tx3);text-transform:uppercase;letter-spacing:.5px">Assignment</div>
+    <div class="fr2"><div><label class="fl">Handed to (name)</label><input class="fi" id="f-aassigned" placeholder="Employee full name" value="${esc(a.assignedTo||'')}"></div><div><label class="fl">Designation</label><input class="fi" id="f-adesig" placeholder="e.g. Front Desk Agent" value="${esc(a.designation||'')}"></div></div>
+    <div class="fr2"><div><label class="fl">Department</label><select class="fs" id="f-adept">${deptOpts}</select></div><div><label class="fl">Location</label><select class="fs" id="f-aloc">${locOpts}</select></div></div>
+    <div class="fr2"><div><label class="fl">Purchase date</label><input type="date" class="fi" id="f-apurchase" value="${a.purchaseDateRaw||''}"></div><div><label class="fl">Warranty end</label><input type="date" class="fi" id="f-awarranty" value="${a.warrantyEndRaw||''}"></div></div>
+    <div class="fr"><label class="fl">Status</label><select class="fs" id="f-astatus">${stOpts}</select></div>
+    <div class="fr"><label class="fl">Notes</label><textarea class="fta" id="f-anotes" placeholder="Any notes...">${esc(a.notes||'')}</textarea></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-teal" onclick="submitAsset(${isEdit?`'${a.id}'`:'null'})"><i class="ti ti-${isEdit?'device-floppy':'plus'}"></i> ${isEdit?'Save':'Add Asset'}</button></div>`;
   } else if(type==='ticket'){
     box.innerHTML=`<div class="mh"><span class="mt">New IT Ticket</span><button class="mc" onclick="closeModal()">×</button></div>
-    <div class="fr"><label class="fl">Issue title *</label><input class="fi" id="f-title" placeholder="Brief description of the issue"></div>
-    <div class="fr2">
-      <div><label class="fl">Priority</label><select class="fs" id="f-priority"><option value="urgent">🔴 Urgent</option><option value="high">🟠 High</option><option value="medium" selected>🔵 Medium</option><option value="low">🟢 Low</option></select></div>
-      <div><label class="fl">Department</label><select class="fs" id="f-dept"><option>Network</option><option>Hardware</option><option>Software</option><option>Security</option><option>Email</option><option>AV / TV</option><option>CCTV</option><option>Server</option><option>Other</option></select></div>
-    </div>
-    <div class="fr"><label class="fl">Assignee</label><input class="fi" id="f-ass" placeholder="Staff name or leave blank"></div>
-    <div class="fr"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Detailed description..."></textarea></div>
-    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create Ticket</button></div>`;
+    <div class="fr"><label class="fl">Issue title *</label><input class="fi" id="f-title" placeholder="Brief description"></div>
+    <div class="fr2"><div><label class="fl">Priority</label><select class="fs" id="f-priority"><option value="urgent">🔴 Urgent</option><option value="high">🟠 High</option><option value="medium" selected>🔵 Medium</option><option value="low">🟢 Low</option></select></div><div><label class="fl">Department</label><select class="fs" id="f-dept"><option>Network</option><option>Hardware</option><option>Software</option><option>Security</option><option>Email</option><option>Other</option></select></div></div>
+    <div class="fr"><label class="fl">Assignee</label><input class="fi" id="f-ass" placeholder="Staff name"></div>
+    <div class="fr"><label class="fl">Description</label><textarea class="fta" id="f-desc" placeholder="Details..."></textarea></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create</button></div>`;
   } else if(type==='task'){
-    box.innerHTML=`<div class="mh"><span class="mt">Add New Task</span><button class="mc" onclick="closeModal()">×</button></div>
+    box.innerHTML=`<div class="mh"><span class="mt">Add Task</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Task name *</label><input class="fi" id="f-task-title" placeholder="What needs to be done?"></div>
-    <div class="fr2"><div><label class="fl">Due date</label><input type="date" class="fi" id="f-due"></div><div><label class="fl">Assignee</label><input class="fi" id="f-task-ass" placeholder="Staff member name"></div></div>
+    <div class="fr2"><div><label class="fl">Due date</label><input type="date" class="fi" id="f-due"></div><div><label class="fl">Assignee</label><input class="fi" id="f-task-ass" placeholder="Staff name"></div></div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTask()"><i class="ti ti-plus"></i> Add Task</button></div>`;
   } else if(type==='amc'){
     box.innerHTML=`<div class="mh"><span class="mt">Add AMC Contract</span><button class="mc" onclick="closeModal()">×</button></div>
-    <div class="fr"><label class="fl">Vendor name *</label><input class="fi" id="f-vendor" placeholder="e.g. Cisco Systems ME"></div>
-    <div class="fr"><label class="fl">Scope *</label><input class="fi" id="f-scope" placeholder="e.g. Network switches maintenance"></div>
-    <div class="fr2"><div><label class="fl">Start date *</label><input type="date" class="fi" id="f-amc-start"></div><div><label class="fl">End / expiry *</label><input type="date" class="fi" id="f-amc-end"></div></div>
-    <div class="fr"><label class="fl">Annual value (AED)</label><input type="number" class="fi" id="f-val" placeholder="e.g. 45000"></div>
-    <div class="fr"><label class="fl">Status</label><select class="fs" id="f-amc-status"><option value="active">Active</option><option value="expiring">Expiring Soon</option><option value="expired">Expired</option></select></div>
-    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitAMC()"><i class="ti ti-plus"></i> Save Contract</button></div>`;
+    <div class="fr"><label class="fl">Vendor name *</label><input class="fi" id="f-vendor" placeholder="Cisco Systems ME"></div>
+    <div class="fr"><label class="fl">Scope *</label><input class="fi" id="f-scope" placeholder="Network switches maintenance"></div>
+    <div class="fr2"><div><label class="fl">Start date *</label><input type="date" class="fi" id="f-amc-start"></div><div><label class="fl">End date *</label><input type="date" class="fi" id="f-amc-end"></div></div>
+    <div class="fr"><label class="fl">Annual value (AED)</label><input type="number" class="fi" id="f-val" placeholder="45000"></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitAMC()"><i class="ti ti-plus"></i> Save</button></div>`;
   } else if(type==='supplier'){
     box.innerHTML=`<div class="mh"><span class="mt">Add Supplier</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Company name *</label><input class="fi" id="f-sname"></div>
-    <div class="fr2"><div><label class="fl">Category</label><select class="fs" id="f-scat"><option>Hardware</option><option>Network</option><option>Software</option><option>CCTV / AV</option><option>Parts</option><option>Telecom</option><option>Other</option></select></div><div><label class="fl">Contact person</label><input class="fi" id="f-scontact"></div></div>
+    <div class="fr2"><div><label class="fl">Category</label><select class="fs" id="f-scat"><option>Hardware</option><option>Network</option><option>Software</option><option>Other</option></select></div><div><label class="fl">Contact</label><input class="fi" id="f-scontact"></div></div>
     <div class="fr2"><div><label class="fl">Phone</label><input class="fi" id="f-sphone" placeholder="+971..."></div><div><label class="fl">Email</label><input class="fi" id="f-semail" type="email"></div></div>
-    <div class="fr"><label class="fl">Rating</label><select class="fs" id="f-srating"><option value="5">★★★★★ Excellent</option><option value="4" selected>★★★★☆ Good</option><option value="3">★★★☆☆ Average</option><option value="2">★★☆☆☆ Poor</option><option value="1">★☆☆☆☆ Very Poor</option></select></div>
-    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitSupplier()"><i class="ti ti-plus"></i> Add Supplier</button></div>`;
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitSupplier()"><i class="ti ti-plus"></i> Add</button></div>`;
   } else if(type==='contact'){
     box.innerHTML=`<div class="mh"><span class="mt">Add Contact</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Full name *</label><input class="fi" id="f-cname"></div>
-    <div class="fr2"><div><label class="fl">Job title</label><input class="fi" id="f-crole" placeholder="e.g. IT Manager"></div><div><label class="fl">Department</label><input class="fi" id="f-cdept" placeholder="e.g. IT, Finance"></div></div>
+    <div class="fr2"><div><label class="fl">Job title</label><input class="fi" id="f-crole" placeholder="IT Manager"></div><div><label class="fl">Department</label><input class="fi" id="f-cdept"></div></div>
     <div class="fr2"><div><label class="fl">Phone</label><input class="fi" id="f-cphone" placeholder="+971..."></div><div><label class="fl">Email</label><input class="fi" id="f-cemail" type="email"></div></div>
-    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitContact()"><i class="ti ti-plus"></i> Add Contact</button></div>`;
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitContact()"><i class="ti ti-plus"></i> Add</button></div>`;
   } else if(type==='ai-full'){
     box.innerHTML=`<div class="mh"><span class="mt"><i class="ti ti-robot" style="font-size:14px;margin-right:6px"></i>AI Assistant</span><button class="mc" onclick="closeModal()">×</button></div>
-    <div id="ai-full-hist" style="max-height:280px;overflow-y:auto;margin-bottom:14px;font-size:13px;line-height:1.7;min-height:60px"><div style="color:var(--tx3);font-size:12px;text-align:center;padding:16px 0">Ask anything about Park Regis IT — tickets, assets, AMCs, tasks, contacts, suppliers.</div></div>
+    <div id="ai-full-hist" style="max-height:280px;overflow-y:auto;margin-bottom:14px;font-size:13px;line-height:1.7;min-height:60px"><div style="color:var(--tx3);text-align:center;padding:16px 0">Ask about your IT operations...</div></div>
     <div style="display:flex;gap:8px"><input class="fi" id="f-ai-full" placeholder="Type your question..." onkeydown="if(event.key==='Enter')askAIFull()" style="flex:1"><button class="btn btn-navy" onclick="askAIFull()">Send ↗</button></div>`;
   }
   document.getElementById('overlay').classList.add('show');
@@ -1010,121 +620,100 @@ function ticketDetail(id){
   box.innerHTML=`<div class="mh"><span class="mt">${t.id}</span><button class="mc" onclick="closeModal()">×</button></div>
   <div style="font-size:15px;font-weight:500;margin-bottom:10px">${esc(t.title)}</div>
   <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px"><span class="badge b-${t.priority}">${t.priority.charAt(0).toUpperCase()+t.priority.slice(1)}</span><span class="badge b-${t.status}">${sLabel(t.status)}</span><span class="badge b-pending">${esc(t.dept)}</span></div>
-  ${t.description?`<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.7;padding:12px;background:var(--bg2);border-radius:var(--rmd)">${esc(t.description)}</div>`:''}
-  <div style="font-size:12px;color:var(--tx2);margin-bottom:16px"><i class="ti ti-user" style="font-size:12px;vertical-align:-1px"></i> ${esc(t.assignee||'Unassigned')} &nbsp;·&nbsp; <i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px"></i> ${t.created}</div>
-  <div style="margin-bottom:16px">
-    <div style="font-size:12px;font-weight:500;margin-bottom:8px">Update status:</div>
-    <div style="display:flex;gap:6px;flex-wrap:wrap">
-      <button class="btn" style="background:var(--al);color:var(--ad)" onclick="setTSt('${t.id}','open');closeModal()">Open</button>
-      <button class="btn" style="background:var(--bl);color:var(--bd3)" onclick="setTSt('${t.id}','progress');closeModal()">In Progress</button>
-      <button class="btn" style="background:var(--rl);color:var(--rd)" onclick="setTSt('${t.id}','delayed');closeModal()">Delayed</button>
-      <button class="btn btn-green" onclick="setTSt('${t.id}','done');closeModal()">Done ✓</button>
-      <button class="btn btn-ghost" onclick="setTSt('${t.id}','closed');closeModal()">Close</button>
-    </div>
-  </div>
-  <div style="border-top:0.5px solid var(--bd);padding-top:14px">
-    <div style="font-size:12px;font-weight:500;margin-bottom:8px;display:flex;align-items:center;gap:6px"><i class="ti ti-robot" style="font-size:13px;color:var(--green)"></i> AI-suggested resolution steps</div>
-    <div id="ai-steps" style="font-size:12px;color:var(--tx2);line-height:1.8"><span style="color:var(--tx3)">Loading...</span></div>
-  </div>
-  <div class="mf" style="margin-top:14px"><button class="btn btn-red" onclick="delItem('tickets','${t.id}');closeModal()"><i class="ti ti-trash"></i> Delete</button></div>`;
+  ${t.description?`<div style="font-size:13px;color:var(--tx2);margin-bottom:12px;line-height:1.6;padding:12px;background:var(--bg2);border-radius:var(--rmd)">${esc(t.description)}</div>`:''}
+  <div style="font-size:12px;color:var(--tx2);margin-bottom:16px"><i class="ti ti-user"></i> ${esc(t.assignee||'Unassigned')} · ${t.created}</div>
+  <div style="margin-bottom:16px"><div style="font-size:12px;font-weight:500;margin-bottom:8px">Status:</div><div style="display:flex;gap:6px;flex-wrap:wrap">${['open','progress','delayed','done','closed'].map(s=>`<button class="btn" style="background:${s==='open'?'var(--al)':s==='progress'?'var(--bl)':s==='delayed'?'var(--rl)':s==='done'?'var(--gl)':'var(--bg2)'};color:${s==='open'?'var(--ad)':s==='progress'?'var(--bd3)':s==='delayed'?'var(--rd)':s==='done'?'var(--gd)':'var(--tx2)'}" onclick="setTSt('${t.id}','${s}');closeModal()">${s==='done'?'✓ Done':s.charAt(0).toUpperCase()+s.slice(1)}</button>`).join('')}</div></div>
+  <div class="mf"><button class="btn btn-red" onclick="delItem('tickets','${t.id}');closeModal()"><i class="ti ti-trash"></i> Delete</button></div>`;
   document.getElementById('overlay').classList.add('show');
-  getAISteps(t);
 }
 
 // ═══════════════════════════════════════════════════════════════════
 // FORM SUBMISSIONS
 // ═══════════════════════════════════════════════════════════════════
 function submitAsset(editId){
-  const name=document.getElementById('f-aname').value.trim();
-  const type=document.getElementById('f-atype').value;
-  if(!name||!type){alert('Please enter item name and select type.');return;}
-  const pr=document.getElementById('f-apurchase').value;
-  const wr=document.getElementById('f-awarranty').value;
+  const name=document.getElementById('f-aname').value.trim(),type=document.getElementById('f-atype').value;
+  if(!name||!type){alert('Enter item name and type.');return;}
+  const pr=document.getElementById('f-apurchase').value,wr=document.getElementById('f-awarranty').value;
   const d={name,type,brand:document.getElementById('f-abrand').value.trim(),serialNo:document.getElementById('f-aserial').value.trim(),assignedTo:document.getElementById('f-aassigned').value.trim(),designation:document.getElementById('f-adesig').value.trim(),department:document.getElementById('f-adept').value,location:document.getElementById('f-aloc').value,status:document.getElementById('f-astatus').value,purchaseDateRaw:pr,warrantyEndRaw:wr,purchaseDate:pr?fmtDate(pr):'',warrantyEnd:wr?fmtDate(wr):'',notes:document.getElementById('f-anotes').value.trim()};
   if(editId){const i=S.assets.findIndex(x=>x.id===editId);if(i>=0)S.assets[i]={...S.assets[i],...d,updatedAt:today()};}
   else S.assets.unshift({id:uid('AS','_asid'),addedOn:today(),...d});
   closeModal();dbSave();render();
 }
 function submitTicket(){
-  const title=document.getElementById('f-title').value.trim();
-  if(!title){alert('Please enter a ticket title.');return;}
+  const title=document.getElementById('f-title').value.trim();if(!title){alert('Enter ticket title.');return;}
   S.tickets.unshift({id:uid('TK','_tid'),title,priority:document.getElementById('f-priority').value,dept:document.getElementById('f-dept').value,status:'open',assignee:document.getElementById('f-ass').value.trim()||'Unassigned',created:today(),description:document.getElementById('f-desc').value.trim()});
   closeModal();dbSave();render();
 }
 function submitTask(){
-  const title=document.getElementById('f-task-title').value.trim();
-  if(!title){alert('Please enter a task name.');return;}
+  const title=document.getElementById('f-task-title').value.trim();if(!title){alert('Enter task name.');return;}
   const r=document.getElementById('f-due').value;
   S.tasks.push({id:uid('TS','_tsid'),title,due:r?fmtDate(r):'TBD',status:'pending',assignee:document.getElementById('f-task-ass').value.trim()||'Unassigned'});
   closeModal();dbSave();render();
 }
 function submitAMC(){
-  const vendor=document.getElementById('f-vendor').value.trim();
-  const scope=document.getElementById('f-scope').value.trim();
-  if(!vendor||!scope){alert('Please enter vendor name and scope.');return;}
+  const vendor=document.getElementById('f-vendor').value.trim(),scope=document.getElementById('f-scope').value.trim();
+  if(!vendor||!scope){alert('Enter vendor and scope.');return;}
   const s=document.getElementById('f-amc-start').value,e=document.getElementById('f-amc-end').value;
-  if(!s||!e){alert('Please enter start and end dates.');return;}
-  S.amc.push({id:uid('AMC','_aid'),vendor,scope,startRaw:s,endRaw:e,start:fmtDate(s),end:fmtDate(e),valueNum:parseInt(document.getElementById('f-val').value)||0,status:document.getElementById('f-amc-status').value});
+  if(!s||!e){alert('Enter start and end dates.');return;}
+  S.amc.push({id:uid('AMC','_aid'),vendor,scope,startRaw:s,endRaw:e,start:fmtDate(s),end:fmtDate(e),valueNum:parseInt(document.getElementById('f-val').value)||0,status:'active'});
   closeModal();dbSave();render();
 }
 function submitSupplier(){
-  const name=document.getElementById('f-sname').value.trim();
-  if(!name){alert('Please enter the company name.');return;}
-  S.suppliers.push({id:uid('SP','_sid'),name,category:document.getElementById('f-scat').value,contact:document.getElementById('f-scontact').value.trim(),phone:document.getElementById('f-sphone').value.trim(),email:document.getElementById('f-semail').value.trim(),rating:parseInt(document.getElementById('f-srating').value)});
+  const name=document.getElementById('f-sname').value.trim();if(!name){alert('Enter company name.');return;}
+  S.suppliers.push({id:uid('SP','_sid'),name,category:document.getElementById('f-scat').value,contact:document.getElementById('f-scontact').value.trim(),phone:document.getElementById('f-sphone').value.trim(),email:document.getElementById('f-semail').value.trim(),rating:4});
   closeModal();dbSave();render();
 }
 function submitContact(){
-  const name=document.getElementById('f-cname').value.trim();
-  if(!name){alert('Please enter the contact name.');return;}
+  const name=document.getElementById('f-cname').value.trim();if(!name){alert('Enter contact name.');return;}
   S.contacts.push({id:uid('CT','_cid'),name,role:document.getElementById('f-crole').value.trim(),dept:document.getElementById('f-cdept').value.trim(),phone:document.getElementById('f-cphone').value.trim(),email:document.getElementById('f-cemail').value.trim()});
   closeModal();dbSave();render();
 }
 
 // ═══════════════════════════════════════════════════════════════════
-// AI
+// AI ASSISTANT
 // ═══════════════════════════════════════════════════════════════════
 function fillAI(q){const i=document.getElementById('ai-q');if(i){i.value=q;askAI();}}
+
 function buildCtx(){
-  return`You are the AI assistant for the IT Command Centre at Park Regis Hotel Business Bay, Dubai.
-TICKETS(${S.tickets.length}): ${JSON.stringify(S.tickets.map(t=>({id:t.id,title:t.title,priority:t.priority,status:t.status,assignee:t.assignee,dept:t.dept})))}
-TASKS(${S.tasks.length}): ${JSON.stringify(S.tasks.map(t=>({id:t.id,title:t.title,due:t.due,status:t.status,assignee:t.assignee})))}
-ASSETS(${S.assets.length}): ${JSON.stringify(S.assets.map(a=>({id:a.id,name:a.name,type:a.type,serialNo:a.serialNo,assignedTo:a.assignedTo,designation:a.designation,department:a.department,location:a.location,status:a.status})))}
-AMC(${S.amc.length}): ${JSON.stringify(S.amc.map(a=>({id:a.id,vendor:a.vendor,scope:a.scope,end:a.end,status:a.status,value:'AED '+parseInt(a.valueNum||0).toLocaleString()})))}
-SUPPLIERS(${S.suppliers.length}): ${JSON.stringify(S.suppliers.map(s=>({name:s.name,category:s.category,contact:s.contact,phone:s.phone})))}
-CONTACTS(${S.contacts.length}): ${JSON.stringify(S.contacts.map(c=>({name:c.name,role:c.role,dept:c.dept,phone:c.phone,email:c.email})))}
-Today: ${new Date().toDateString()}. Be concise and actionable.`;
+  return `You are the IT assistant for Park Regis Hotel Business Bay Dubai. Answer about:
+TICKETS: ${JSON.stringify(S.tickets.slice(0,10))}\nTASKS: ${JSON.stringify(S.tasks.slice(0,10))}\nASSETS: ${JSON.stringify(S.assets.slice(0,10).map(a=>({name:a.name,type:a.type,assignedTo:a.assignedTo,status:a.status})))}\nAMC: ${JSON.stringify(S.amc.slice(0,5))}\nBe brief and helpful.`;
 }
-async function callAI(prompt){
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:600,messages:[{role:'user',content:prompt}]})});
-  const d=await r.json();
-  return d.content[0].text||'No response.';
-}
+
 async function askAI(){
   const inp=document.getElementById('ai-q'),resp=document.getElementById('ai-resp');
   if(!inp||!resp)return;const q=inp.value.trim();if(!q)return;
-  resp.innerHTML='<em style="color:rgba(255,255,255,0.35)">Thinking...</em>';inp.value='';
-  try{resp.innerHTML=(await callAI(buildCtx()+'\n\nQuestion: '+q)).replace(/\n/g,'<br>');}
-  catch(e){resp.innerHTML='<span style="color:rgba(255,100,100,0.7)">Could not reach AI.</span>';}
+  resp.innerHTML='<em style="color:rgba(255,255,255,0.35)">Asking Claude...</em>';inp.value='';
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:buildCtx()+'\n\n'+q}]})});
+    const d=await r.json();
+    if(resp)resp.innerHTML=(d.content[0]?.text||'No response.').replace(/\n/g,'<br>');
+  }catch(e){
+    if(resp)resp.innerHTML='<span style="color:#fa8">⚠ Claude API error — check if internet is connected.</span>';
+  }
 }
+
 async function askAIFull(){
   const inp=document.getElementById('f-ai-full'),hist=document.getElementById('ai-full-hist');
   if(!inp||!hist)return;const q=inp.value.trim();if(!q)return;inp.value='';
   hist.innerHTML+=`<div style="margin-bottom:8px;padding:9px 12px;background:var(--bg2);border-radius:var(--rmd)"><strong>You:</strong> ${esc(q)}</div>`;
   const lid='ail-'+Date.now();
-  hist.innerHTML+=`<div id="${lid}" style="margin-bottom:10px;padding:9px 12px;border-left:2px solid var(--green);border-radius:0 var(--rmd) var(--rmd) 0"><em style="color:var(--tx3)">Thinking...</em></div>`;
+  hist.innerHTML+=`<div id="${lid}" style="margin-bottom:10px;padding:9px 12px;border-left:2px solid var(--green);border-radius:0 var(--rmd) var(--rmd) 0;color:rgba(255,255,255,0.6)"><em>Asking Claude...</em></div>`;
   hist.scrollTop=hist.scrollHeight;
-  try{const el=document.getElementById(lid);if(el)el.innerHTML=`<strong style="color:var(--green)">AI:</strong><br>${(await callAI(buildCtx()+'\n\n'+q)).replace(/\n/g,'<br>')}`;}
-  catch(e){const el=document.getElementById(lid);if(el)el.innerHTML='<span style="color:var(--red)">AI unavailable.</span>';}
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:500,messages:[{role:'user',content:buildCtx()+'\n\n'+q}]})});
+    const d=await r.json();
+    const el=document.getElementById(lid);
+    if(el)el.innerHTML=`<strong style="color:var(--green)">Claude:</strong><br>${(d.content[0]?.text||'Error').replace(/\n/g,'<br>')}`;
+  }catch(e){
+    const el=document.getElementById(lid);
+    if(el)el.innerHTML='<span style="color:#fa8">⚠ Could not reach Claude API</span>';
+  }
   hist.scrollTop=hist.scrollHeight;
-}
-async function getAISteps(t){
-  const el=document.getElementById('ai-steps');if(!el)return;
-  try{el.innerHTML=(await callAI(`IT support at Park Regis Hotel Business Bay Dubai. Give 4 numbered troubleshooting steps for: "${t.title}" (${t.dept}). Brief. No preamble.`)).replace(/\n/g,'<br>');}
-  catch(e){if(el)el.innerHTML='<span style="color:var(--tx3)">Connect to internet for AI suggestions.</span>';}
 }
 
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
 </script>
 </body>
 </html>
+
 
