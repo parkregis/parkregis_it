@@ -1,3 +1,6 @@
+bash
+
+cat > /mnt/user-data/outputs/index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,7 +48,7 @@ body { font-family: var(--font); background: var(--bg3); color: var(--tx); heigh
 .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
 .topbar { background: var(--bg); border-bottom: 0.5px solid var(--bd); padding: 0 20px; height: 54px; display: flex; align-items: center; gap: 10px; }
 .topbar-title { font-size: 15px; font-weight: 500; flex: 1; }
-.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border: none; border-radius: var(--rmd); font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font); }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border: none; border-radius: var(--rmd); font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--font); position: relative; }
 .btn:hover { opacity: 0.85; }
 .btn-navy { background: var(--navy); color: #a8d96c; }
 .btn-ai { background: #1a2e4a; color: #a8d96c; }
@@ -86,15 +89,17 @@ body { font-family: var(--font); background: var(--bg3); color: var(--tx); heigh
 .loading-screen.hide { opacity: 0; pointer-events: none; transition: opacity .4s; }
 .spin { width: 32px; height: 32px; border: 3px solid rgba(255,255,255,0.15); border-top-color: #a8d96c; border-radius: 50%; animation: spin .8s linear infinite; margin-bottom: 14px; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.add-menu { position: relative; }
+.add-dropdown { position: absolute; right: 0; top: calc(100% + 4px); background: var(--bg); border: 0.5px solid var(--bd2); border-radius: var(--rmd); min-width: 160px; z-index: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
+.add-item { padding: 9px 14px; font-size: 12px; cursor: pointer; color: var(--tx); display: flex; align-items: center; gap: 8px; }
+.add-item:hover { background: var(--bg2); }
 .action-menu { position: relative; display: inline-block; }
 .action-btn { background: none; border: 0.5px solid var(--bd); border-radius: var(--rmd); padding: 5px 9px; cursor: pointer; font-size: 11px; color: var(--tx2); font-family: var(--font); display: flex; align-items: center; gap: 4px; }
 .action-btn:hover { background: var(--bg2); }
-.dropdown { position: absolute; right: 0; top: calc(100% + 4px); background: var(--bg); border: 0.5px solid var(--bd2); border-radius: var(--rmd); min-width: 180px; z-index: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
+.dropdown { position: absolute; right: 0; top: calc(100% + 4px); background: var(--bg); border: 0.5px solid var(--bd2); border-radius: var(--rmd); min-width: 150px; z-index: 500; box-shadow: 0 4px 16px rgba(0,0,0,0.14); }
 .dd-item { padding: 9px 14px; font-size: 12px; cursor: pointer; color: var(--tx); display: flex; align-items: center; gap: 8px; }
 .dd-item:hover { background: var(--bg2); }
 .dd-item.danger { color: var(--red); }
-.dd-sep { height: 0.5px; background: var(--bd); margin: 3px 0; }
-.dd-label { padding: 6px 14px 3px; font-size: 10px; color: var(--tx3); text-transform: uppercase; letter-spacing: .5px; }
 @media(max-width:768px) {
   .sb { width: 54px; }
   .hotel-name, .hotel-sub, .nav span { display: none; }
@@ -133,8 +138,17 @@ body { font-family: var(--font); background: var(--bg3); color: var(--tx); heigh
   <div class="main">
     <div class="topbar">
       <div class="topbar-title" id="topbar-title">Dashboard</div>
-      <button class="btn btn-navy" onclick="openModal('ticket')"><i class="ti ti-plus"></i> New Ticket</button>
-      <button class="btn btn-teal" onclick="openModal('asset')"><i class="ti ti-plus"></i> Add Asset</button>
+      <div class="add-menu">
+        <button class="btn btn-navy" onclick="toggleAddMenu()"><i class="ti ti-plus"></i> Add</button>
+        <div id="add-dropdown" class="add-dropdown" style="display:none">
+          <div class="add-item" onclick="openModal('ticket');closeAddMenu()"><i class="ti ti-ticket"></i>New Ticket</div>
+          <div class="add-item" onclick="openModal('task');closeAddMenu()"><i class="ti ti-checklist"></i>Add Task</div>
+          <div class="add-item" onclick="openModal('asset');closeAddMenu()"><i class="ti ti-devices"></i>Add Asset</div>
+          <div class="add-item" onclick="openModal('amc');closeAddMenu()"><i class="ti ti-file-certificate"></i>Add AMC</div>
+          <div class="add-item" onclick="openModal('supplier');closeAddMenu()"><i class="ti ti-building-store"></i>Add Supplier</div>
+          <div class="add-item" onclick="openModal('contact');closeAddMenu()"><i class="ti ti-address-book"></i>Add Contact</div>
+        </div>
+      </div>
       <button class="btn btn-ai" onclick="openModal('ai-full')"><i class="ti ti-robot"></i> Ask AI</button>
     </div>
     <div class="content" id="content"></div>
@@ -147,24 +161,20 @@ body { font-family: var(--font); background: var(--bg3); color: var(--tx); heigh
 
 <script>
 // STORAGE
-const DB_KEY = 'pr_it_v5';
+const DB_KEY = 'pr_it_v6';
 
 function dbSave() {
   try {
     localStorage.setItem(DB_KEY, JSON.stringify({
-      tickets: S.tickets,
-      tasks: S.tasks,
-      assets: S.assets,
-      amc: S.amc,
-      suppliers: S.suppliers,
-      contacts: S.contacts,
+      tickets: S.tickets, tasks: S.tasks, assets: S.assets,
+      amc: S.amc, suppliers: S.suppliers, contacts: S.contacts,
       _tid: S._tid, _tsid: S._tsid, _aid: S._aid, _sid: S._sid, _cid: S._cid, _asid: S._asid
     }));
     const t = document.getElementById('save-toast');
     t.textContent = '✓ Saved';
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 1500);
-  } catch(e) {}
+  } catch(e) { console.error('Save error:', e); }
 }
 
 function dbLoad() {
@@ -185,9 +195,7 @@ function dbLoad() {
       S._cid = d._cid || 0;
       S._asid = d._asid || 0;
     }
-  } catch(e) {
-    console.error('Load error:', e);
-  }
+  } catch(e) { console.error('Load error:', e); }
 }
 
 // STATE
@@ -218,8 +226,20 @@ window.addEventListener('load', () => {
     }, 600);
   } catch(e) {
     console.error('Startup error:', e);
-    alert('Error loading dashboard: ' + e.message);
+    alert('Error: ' + e.message);
   }
+});
+
+// ADD MENU
+function toggleAddMenu() {
+  const m = document.getElementById('add-dropdown');
+  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+}
+function closeAddMenu() {
+  document.getElementById('add-dropdown').style.display = 'none';
+}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.add-menu')) closeAddMenu();
 });
 
 // NAV
@@ -230,7 +250,7 @@ function go(v) {
   const els = document.querySelectorAll('.nav');
   const i = views.indexOf(v);
   if (i >= 0 && els[i]) els[i].classList.add('active');
-  const titles = {dashboard:'Dashboard', tickets:'Tickets', tasks:'Tasks', assets:'Assets', amc:'AMC', suppliers:'Suppliers', contacts:'Contacts', settings:'Settings'};
+  const titles = {dashboard:'Dashboard', tickets:'Tickets', tasks:'Tasks', assets:'Assets', amc:'AMC Contracts', suppliers:'Suppliers', contacts:'Contacts', settings:'Settings'};
   document.getElementById('topbar-title').textContent = titles[v] || v;
   render();
 }
@@ -238,23 +258,18 @@ function go(v) {
 function render() {
   try {
     const fn = {
-      dashboard: renderDashboard,
-      tickets: renderTickets,
-      tasks: renderTasks,
-      assets: renderAssets,
-      amc: renderAMC,
-      suppliers: renderSuppliers,
-      contacts: renderContacts,
-      settings: renderSettings
+      dashboard: renderDashboard, tickets: renderTickets, tasks: renderTasks,
+      assets: renderAssets, amc: renderAMC, suppliers: renderSuppliers,
+      contacts: renderContacts, settings: renderSettings
     };
     document.getElementById('content').innerHTML = (fn[S.view] || renderDashboard)();
   } catch(e) {
     console.error('Render error:', e);
-    document.getElementById('content').innerHTML = '<div class="empty"><p>Error rendering: ' + e.message + '</p></div>';
+    document.getElementById('content').innerHTML = '<div class="empty"><p>Error: ' + e.message + '</p></div>';
   }
 }
 
-// DASHB BOARD
+// RENDERS
 function renderDashboard() {
   const total = S.tickets.length + S.tasks.length + S.assets.length + S.amc.length + S.suppliers.length + S.contacts.length;
   return `
@@ -270,55 +285,48 @@ function renderDashboard() {
   <div class="panel">
     <div style="padding:16px;border-bottom:0.5px solid var(--bd)">
       <div style="font-size:13px;font-weight:500;margin-bottom:12px">Quick Stats</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font-size:13px">
-        <div><div style="color:var(--tx2);font-size:11px">Tickets</div><div style="font-size:20px;font-weight:500;color:var(--red)">${S.tickets.length}</div></div>
-        <div><div style="color:var(--tx2);font-size:11px">Assets</div><div style="font-size:20px;font-weight:500;color:var(--teal)">${S.assets.length}</div></div>
-        <div><div style="color:var(--tx2);font-size:11px">Tasks</div><div style="font-size:20px;font-weight:500;color:var(--amber)">${S.tasks.length}</div></div>
-        <div><div style="color:var(--tx2);font-size:11px">AMC</div><div style="font-size:20px;font-weight:500;color:var(--navy)">${S.amc.length}</div></div>
+      <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;font-size:12px">
+        <div><div style="color:var(--tx2);font-size:10px">Tickets</div><div style="font-size:18px;font-weight:500;color:var(--red)">${S.tickets.length}</div></div>
+        <div><div style="color:var(--tx2);font-size:10px">Tasks</div><div style="font-size:18px;font-weight:500;color:var(--amber)">${S.tasks.length}</div></div>
+        <div><div style="color:var(--tx2);font-size:10px">Assets</div><div style="font-size:18px;font-weight:500;color:var(--teal)">${S.assets.length}</div></div>
+        <div><div style="color:var(--tx2);font-size:10px">AMC</div><div style="font-size:18px;font-weight:500;color:var(--blue)">${S.amc.length}</div></div>
+        <div><div style="color:var(--tx2);font-size:10px">Suppliers</div><div style="font-size:18px;font-weight:500;color:var(--purple)">${S.suppliers.length}</div></div>
+        <div><div style="color:var(--tx2);font-size:10px">Contacts</div><div style="font-size:18px;font-weight:500;color:var(--green)">${S.contacts.length}</div></div>
       </div>
     </div>
-    ${S.assets.length > 0 ? `
-    <div style="padding:14px 16px;border-bottom:0.5px solid var(--bd)">
-      <div style="font-size:12px;font-weight:500;margin-bottom:10px">Recent Assets</div>
-      ${S.assets.slice(0,3).map(a => `
-      <div class="row">
-        <div style="flex:1;min-width:0"><div style="font-size:12px">${esc(a.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(a.type)}${a.assignedTo ? ' · ' + esc(a.assignedTo) : ''}</div></div>
-        <span class="badge b-${a.status === 'Assigned' ? 'assigned' : a.status === 'Available' ? 'available' : 'maintenance'}">${esc(a.status)}</span>
-      </div>`).join('')}
-    </div>` : ''}
   </div>`}`;
 }
 
 function renderTickets() {
-  return '<div class="panel">' + (S.tickets.length === 0 ? '<div class="empty"><p>No tickets yet.</p></div>' : S.tickets.map(t => `
+  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:13px;font-weight:500">Tickets (' + S.tickets.length + ')</div>' + (S.tickets.length === 0 ? '<div class="empty"><p>No tickets yet.</p></div>' : S.tickets.map(t => `
   <div class="row">
-    <div style="flex:1"><div style="font-size:13px">${esc(t.title)}</div><div style="font-size:11px;color:var(--tx2)">${esc(t.assignee || 'Unassigned')}</div></div>
+    <div style="flex:1"><div style="font-size:13px">${esc(t.title)}</div><div style="font-size:11px;color:var(--tx2)">${esc(t.assignee)}</div></div>
     <button class="action-btn" onclick="delItem('tickets','${t.id}')"><i class="ti ti-trash"></i></button>
   </div>`).join('')) + '</div>';
 }
 
 function renderTasks() {
-  return '<div class="panel">' + (S.tasks.length === 0 ? '<div class="empty"><p>No tasks yet.</p></div>' : S.tasks.map(t => `
+  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:13px;font-weight:500">Tasks (' + S.tasks.length + ')</div>' + (S.tasks.length === 0 ? '<div class="empty"><p>No tasks yet.</p></div>' : S.tasks.map(t => `
   <div class="row">
     <input type="checkbox" style="accent-color:var(--green)" onchange="toggleTask('${t.id}')">
-    <div style="flex:1"><div style="font-size:13px">${esc(t.title)}</div></div>
+    <div style="flex:1"><div style="font-size:13px">${esc(t.title)}</div><div style="font-size:11px;color:var(--tx2)">Due: ${esc(t.due)}</div></div>
     <button class="action-btn" onclick="delItem('tasks','${t.id}')"><i class="ti ti-trash"></i></button>
   </div>`).join('')) + '</div>';
 }
 
 function renderAssets() {
-  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:12px;font-weight:500">Assets (' + S.assets.length + ')</div>' + (S.assets.length === 0 ? '<div class="empty"><p>No assets yet.</p></div>' : `
+  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:13px;font-weight:500">Assets (' + S.assets.length + ')</div>' + (S.assets.length === 0 ? '<div class="empty"><p>No assets yet.</p></div>' : `
   <table style="width:100%;font-size:12px;border-collapse:collapse">
-  <tr style="background:var(--bg2)"><th style="padding:9px 12px;text-align:left;font-weight:500">Name</th><th style="padding:9px 12px">Type</th><th style="padding:9px 12px">Assigned To</th><th style="padding:9px 12px">Dept</th><th style="padding:9px 12px">Location</th><th style="padding:9px 12px">Status</th><th></th></tr>
+  <tr style="background:var(--bg2)"><th style="padding:9px 8px;text-align:left;font-weight:500">Name</th><th style="padding:9px 8px">Type</th><th style="padding:9px 8px">Assigned</th><th style="padding:9px 8px">Dept</th><th style="padding:9px 8px">Location</th><th style="padding:9px 8px">Status</th><th></th></tr>
   ${S.assets.map(a => `
   <tr style="border-bottom:0.5px solid var(--bd)">
-    <td style="padding:9px 12px">${esc(a.name)}</td>
-    <td style="padding:9px 12px;color:var(--tx2)">${esc(a.type)}</td>
-    <td style="padding:9px 12px">${esc(a.assignedTo) || '—'}</td>
-    <td style="padding:9px 12px;color:var(--tx2)">${esc(a.department) || '—'}</td>
-    <td style="padding:9px 12px;color:var(--tx2)">${esc(a.location) || '—'}</td>
-    <td style="padding:9px 12px"><span class="badge b-${asKey(a.status)}">${a.status}</span></td>
-    <td style="padding:9px 12px"><div class="action-menu"><button class="action-btn" onclick="toggleAssetMenu('${a.id}')"><i class="ti ti-dots-vertical"></i></button><div id="m-${a.id}" style="display:none;position:absolute;right:0;top:calc(100%+4px);background:var(--bg);border:0.5px solid var(--bd2);border-radius:var(--rmd);min-width:150px;z-index:500;box-shadow:0 4px 16px rgba(0,0,0,0.14)"><div style="padding:9px 14px;font-size:12px;cursor:pointer;color:var(--tx)" onclick="editAsset('${a.id}');closeAssetMenu()">Edit</div><div style="padding:9px 14px;font-size:12px;cursor:pointer;color:var(--tx)" onclick="changeAssetStatus('${a.id}');closeAssetMenu()">Change Status</div><div style="padding:9px 14px;font-size:12px;cursor:pointer;color:var(--red)" onclick="delItem('assets','${a.id}');closeAssetMenu()">Delete</div></div></div></td>
+    <td style="padding:8px;color:var(--tx)"><strong>${esc(a.name)}</strong></td>
+    <td style="padding:8px;color:var(--tx2);font-size:11px">${esc(a.type)}</td>
+    <td style="padding:8px;font-size:11px">${esc(a.assignedTo) || '—'}</td>
+    <td style="padding:8px;color:var(--tx2);font-size:11px">${esc(a.department) || '—'}</td>
+    <td style="padding:8px;color:var(--tx2);font-size:11px">${esc(a.location) || '—'}</td>
+    <td style="padding:8px"><span class="badge b-${asKey(a.status)}">${a.status}</span></td>
+    <td style="padding:8px"><button class="action-btn" onclick="delItem('assets','${a.id}')"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('')}
   </table>`) + '</div>';
 }
@@ -328,80 +336,79 @@ function asKey(s) {
   return m[s] || 'available';
 }
 
-function toggleAssetMenu(id) {
-  const m = document.getElementById('m-' + id);
-  m.style.display = m.style.display === 'none' ? 'block' : 'none';
-}
-
-function closeAssetMenu() {
-  document.querySelectorAll('[id^="m-"]').forEach(m => m.style.display = 'none');
-}
-
 function renderAMC() {
-  return '<div class="panel">' + (S.amc.length === 0 ? '<div class="empty"><p>No AMC contracts yet.</p></div>' : S.amc.map(a => `
+  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:13px;font-weight:500">AMC Contracts (' + S.amc.length + ')</div>' + (S.amc.length === 0 ? '<div class="empty"><p>No AMC contracts yet.</p></div>' : S.amc.map(a => `
   <div style="padding:12px 16px;border-bottom:0.5px solid var(--bd)">
-    <div style="font-size:13px;font-weight:500;margin-bottom:4px">${esc(a.vendor)}</div>
-    <div style="font-size:11px;color:var(--tx2);margin-bottom:6px">${esc(a.scope)} · ${a.start} to ${a.end}</div>
-    <div style="display:flex;justify-content:space-between;align-items:center">
-      <span style="font-size:12px">AED ${parseInt(a.valueNum || 0).toLocaleString()}</span>
+    <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:6px">
+      <div><div style="font-size:13px;font-weight:500">${esc(a.vendor)}</div><div style="font-size:11px;color:var(--tx2)">${esc(a.scope)}</div></div>
       <button class="action-btn" onclick="delItem('amc','${a.id}')"><i class="ti ti-trash"></i></button>
     </div>
+    <div style="font-size:11px;color:var(--tx2)">Start: ${esc(a.start)} → End: ${esc(a.end)} | Value: AED ${parseInt(a.valueNum || 0).toLocaleString()}</div>
   </div>`).join('')) + '</div>';
 }
 
 function renderSuppliers() {
-  return '<div class="panel">' + (S.suppliers.length === 0 ? '<div class="empty"><p>No suppliers yet.</p></div>' : S.suppliers.map(s => `
+  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:13px;font-weight:500">Suppliers (' + S.suppliers.length + ')</div>' + (S.suppliers.length === 0 ? '<div class="empty"><p>No suppliers yet.</p></div>' : S.suppliers.map(s => `
   <div class="row">
-    <div style="flex:1"><div style="font-size:13px">${esc(s.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(s.category)}</div></div>
+    <div style="flex:1"><div style="font-size:13px">${esc(s.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(s.category)} · ${esc(s.phone)}</div></div>
     <button class="action-btn" onclick="delItem('suppliers','${s.id}')"><i class="ti ti-trash"></i></button>
   </div>`).join('')) + '</div>';
 }
 
 function renderContacts() {
-  return '<div class="panel">' + (S.contacts.length === 0 ? '<div class="empty"><p>No contacts yet.</p></div>' : S.contacts.map(c => `
+  return '<div class="panel"><div style="padding:12px 16px;border-bottom:0.5px solid var(--bd);font-size:13px;font-weight:500">Contacts (' + S.contacts.length + ')</div>' + (S.contacts.length === 0 ? '<div class="empty"><p>No contacts yet.</p></div>' : S.contacts.map(c => `
   <div class="row">
-    <div style="flex:1"><div style="font-size:13px">${esc(c.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(c.role) || ''}</div></div>
+    <div style="flex:1"><div style="font-size:13px">${esc(c.name)}</div><div style="font-size:11px;color:var(--tx2)">${esc(c.role)} · ${esc(c.department)} · ${esc(c.phone)}</div></div>
     <button class="action-btn" onclick="delItem('contacts','${c.id}')"><i class="ti ti-trash"></i></button>
   </div>`).join('')) + '</div>';
 }
 
 function renderSettings() {
-  return '<div class="panel"><div style="padding:16px"><div style="font-size:14px;font-weight:500;margin-bottom:12px">Dashboard Info</div><div style="font-size:12px;color:var(--tx2);line-height:1.8"><div>Tickets: ' + S.tickets.length + '</div><div>Assets: ' + S.assets.length + '</div><div>Tasks: ' + S.tasks.length + '</div><div>Storage: Browser localStorage (persists across refresh)</div></div></div><div style="padding:16px;border-top:0.5px solid var(--bd)"><button class="btn btn-ghost" onclick="clearAll()" style="color:var(--red);border-color:var(--red)"><i class="ti ti-trash"></i> Clear All Data</button></div></div>';
+  return '<div class="panel"><div style="padding:16px"><div style="font-size:14px;font-weight:500;margin-bottom:12px">Dashboard</div><table style="width:100%;font-size:12px"><tr><td style="padding:6px 0;color:var(--tx2)">Hotel</td><td>Park Regis Hotel Business Bay Dubai</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">Storage</td><td>Browser localStorage (persists on refresh)</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">Tickets</td><td>' + S.tickets.length + '</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">Tasks</td><td>' + S.tasks.length + '</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">Assets</td><td>' + S.assets.length + '</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">AMC</td><td>' + S.amc.length + '</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">Suppliers</td><td>' + S.suppliers.length + '</td></tr><tr><td style="padding:6px 0;color:var(--tx2)">Contacts</td><td>' + S.contacts.length + '</td></tr></table></div><div style="padding:16px;border-top:0.5px solid var(--bd)"><button class="btn btn-ghost" onclick="clearAll()" style="color:var(--red);border-color:var(--red)"><i class="ti ti-trash"></i> Clear All Data</button></div></div>';
 }
 
 // MODALS
 function openModal(type) {
   const box = document.getElementById('modal-box');
-  if (type === 'asset') {
-    box.innerHTML = `
-    <div class="mh"><span class="mt">Add Asset</span><button class="mc" onclick="closeModal()">×</button></div>
+  if (type === 'ticket') {
+    box.innerHTML = `<div class="mh"><span class="mt">New Ticket</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr"><label class="fl">Title *</label><input class="fi" id="f-title" placeholder="Issue description"></div>
+    <div class="fr2"><div><label class="fl">Priority</label><select class="fs" id="f-priority"><option>Urgent</option><option>High</option><option>Medium</option><option>Low</option></select></div><div><label class="fl">Assignee</label><input class="fi" id="f-ass" placeholder="Staff name"></div></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create</button></div>`;
+  } else if (type === 'task') {
+    box.innerHTML = `<div class="mh"><span class="mt">Add Task</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr"><label class="fl">Task name *</label><input class="fi" id="f-task-title" placeholder="What needs to be done?"></div>
+    <div class="fr2"><div><label class="fl">Due date</label><input type="date" class="fi" id="f-due"></div><div><label class="fl">Assignee</label><input class="fi" id="f-task-ass" placeholder="Staff name"></div></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTask()"><i class="ti ti-plus"></i> Add Task</button></div>`;
+  } else if (type === 'asset') {
+    box.innerHTML = `<div class="mh"><span class="mt">Add Asset</span><button class="mc" onclick="closeModal()">×</button></div>
     <div class="fr"><label class="fl">Item name *</label><input class="fi" id="f-aname" placeholder="e.g. Dell Laptop"></div>
-    <div class="fr2">
-      <div><label class="fl">Type *</label><select class="fs" id="f-atype"><option value="">Select</option>${ASSET_TYPES.map(t => '<option value="' + t + '">' + t + '</option>').join('')}</select></div>
-      <div><label class="fl">Serial No.</label><input class="fi" id="f-aserial" placeholder="SN-2024-001"></div>
-    </div>
-    <div class="fr2">
-      <div><label class="fl">Handed to (name)</label><input class="fi" id="f-aassigned" placeholder="Employee name"></div>
-      <div><label class="fl">Designation</label><input class="fi" id="f-adesig" placeholder="Position"></div>
-    </div>
-    <div class="fr2">
-      <div><label class="fl">Department</label><select class="fs" id="f-adept"><option value="">Select</option>${DEPARTMENTS.map(d => '<option value="' + d + '">' + d + '</option>').join('')}</select></div>
-      <div><label class="fl">Location</label><select class="fs" id="f-aloc"><option value="">Select</option>${LOCATIONS.map(l => '<option value="' + l + '">' + l + '</option>').join('')}</select></div>
-    </div>
+    <div class="fr2"><div><label class="fl">Type *</label><select class="fs" id="f-atype"><option value="">Select</option>${ASSET_TYPES.map(t => '<option value="' + t + '">' + t + '</option>').join('')}</select></div><div><label class="fl">Serial No.</label><input class="fi" id="f-aserial" placeholder="SN-2024-001"></div></div>
+    <div class="fr2"><div><label class="fl">Handed to (name)</label><input class="fi" id="f-aassigned" placeholder="Employee name"></div><div><label class="fl">Designation</label><input class="fi" id="f-adesig" placeholder="Position"></div></div>
+    <div class="fr2"><div><label class="fl">Department</label><select class="fs" id="f-adept"><option value="">Select</option>${DEPARTMENTS.map(d => '<option value="' + d + '">' + d + '</option>').join('')}</select></div><div><label class="fl">Location</label><select class="fs" id="f-aloc"><option value="">Select</option>${LOCATIONS.map(l => '<option value="' + l + '">' + l + '</option>').join('')}</select></div></div>
     <div class="fr"><label class="fl">Status</label><select class="fs" id="f-astatus">${ASSET_STATUSES.map(s => '<option value="' + s + '">' + s + '</option>').join('')}</select></div>
     <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-teal" onclick="submitAsset()"><i class="ti ti-plus"></i> Add Asset</button></div>`;
-  } else if (type === 'ticket') {
-    box.innerHTML = `
-    <div class="mh"><span class="mt">New Ticket</span><button class="mc" onclick="closeModal()">×</button></div>
-    <div class="fr"><label class="fl">Title *</label><input class="fi" id="f-title"></div>
-    <div class="fr2">
-      <div><label class="fl">Priority</label><select class="fs" id="f-priority"><option>Urgent</option><option>High</option><option>Medium</option><option>Low</option></select></div>
-      <div><label class="fl">Assignee</label><input class="fi" id="f-ass"></div>
-    </div>
-    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitTicket()"><i class="ti ti-plus"></i> Create</button></div>`;
+  } else if (type === 'amc') {
+    box.innerHTML = `<div class="mh"><span class="mt">Add AMC Contract</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr"><label class="fl">Vendor name *</label><input class="fi" id="f-vendor" placeholder="Cisco Systems ME"></div>
+    <div class="fr"><label class="fl">Scope *</label><input class="fi" id="f-scope" placeholder="Network switches maintenance"></div>
+    <div class="fr2"><div><label class="fl">Start date *</label><input type="date" class="fi" id="f-amc-start"></div><div><label class="fl">End date *</label><input type="date" class="fi" id="f-amc-end"></div></div>
+    <div class="fr"><label class="fl">Annual value (AED)</label><input type="number" class="fi" id="f-val" placeholder="45000"></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitAMC()"><i class="ti ti-plus"></i> Save</button></div>`;
+  } else if (type === 'supplier') {
+    box.innerHTML = `<div class="mh"><span class="mt">Add Supplier</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr"><label class="fl">Company name *</label><input class="fi" id="f-sname" placeholder="Company name"></div>
+    <div class="fr2"><div><label class="fl">Category</label><select class="fs" id="f-scat"><option>Hardware</option><option>Network</option><option>Software</option><option>Service</option><option>Other</option></select></div><div><label class="fl">Contact person</label><input class="fi" id="f-scontact" placeholder="Name"></div></div>
+    <div class="fr2"><div><label class="fl">Phone</label><input class="fi" id="f-sphone" placeholder="+971..."></div><div><label class="fl">Email</label><input class="fi" id="f-semail" type="email"></div></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitSupplier()"><i class="ti ti-plus"></i> Add</button></div>`;
+  } else if (type === 'contact') {
+    box.innerHTML = `<div class="mh"><span class="mt">Add Contact</span><button class="mc" onclick="closeModal()">×</button></div>
+    <div class="fr"><label class="fl">Full name *</label><input class="fi" id="f-cname" placeholder="Full name"></div>
+    <div class="fr2"><div><label class="fl">Job title</label><input class="fi" id="f-crole" placeholder="IT Manager"></div><div><label class="fl">Department</label><input class="fi" id="f-cdept" placeholder="IT"></div></div>
+    <div class="fr2"><div><label class="fl">Phone</label><input class="fi" id="f-cphone" placeholder="+971..."></div><div><label class="fl">Email</label><input class="fi" id="f-cemail" type="email"></div></div>
+    <div class="mf"><button class="btn btn-ghost" onclick="closeModal()">Cancel</button><button class="btn btn-navy" onclick="submitContact()"><i class="ti ti-plus"></i> Add</button></div>`;
   } else if (type === 'ai-full') {
-    box.innerHTML = `
-    <div class="mh"><span class="mt"><i class="ti ti-robot"></i> AI Assistant</span><button class="mc" onclick="closeModal()">×</button></div>
+    box.innerHTML = `<div class="mh"><span class="mt"><i class="ti ti-robot"></i> AI Assistant</span><button class="mc" onclick="closeModal()">×</button></div>
     <div id="ai-hist" style="max-height:280px;overflow-y:auto;margin-bottom:14px;font-size:12px;color:var(--tx2)"><div style="text-align:center;padding:20px;color:var(--tx3)">Ask me anything about your IT dashboard...</div></div>
     <div style="display:flex;gap:8px"><input class="fi" id="f-ai-full" placeholder="Type your question..." onkeydown="if(event.key==='Enter')askAIFull()" style="flex:1"><button class="ai-send" onclick="askAIFull()">Send</button></div>`;
   }
@@ -409,16 +416,42 @@ function openModal(type) {
   setTimeout(() => document.querySelector('.modal input') && document.querySelector('.modal input').focus(), 80);
 }
 
-function closeModal() { document.getElementById('overlay').classList.remove('show'); }
+function closeModal(e) {
+  if (!e || e.target === document.getElementById('overlay')) {
+    document.getElementById('overlay').classList.remove('show');
+  }
+}
+
+// SUBMITS
+function submitTicket() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { alert('Enter title'); return; }
+  S.tickets.unshift({
+    id: uid('TK', '_tid'), title,
+    priority: document.getElementById('f-priority').value,
+    assignee: document.getElementById('f-ass').value.trim() || 'Unassigned',
+    status: 'open', created: today()
+  });
+  closeModal(); dbSave(); render();
+}
+
+function submitTask() {
+  const title = document.getElementById('f-task-title').value.trim();
+  if (!title) { alert('Enter task name'); return; }
+  S.tasks.push({
+    id: uid('TS', '_tsid'), title,
+    due: document.getElementById('f-due').value || 'TBD',
+    assignee: document.getElementById('f-task-ass').value.trim() || 'Unassigned'
+  });
+  closeModal(); dbSave(); render();
+}
 
 function submitAsset() {
   const name = document.getElementById('f-aname').value.trim();
   const type = document.getElementById('f-atype').value;
   if (!name || !type) { alert('Enter name and type'); return; }
   S.assets.unshift({
-    id: uid('AS', '_asid'),
-    name,
-    type,
+    id: uid('AS', '_asid'), name, type,
     serialNo: document.getElementById('f-aserial').value.trim(),
     assignedTo: document.getElementById('f-aassigned').value.trim(),
     designation: document.getElementById('f-adesig').value.trim(),
@@ -430,37 +463,52 @@ function submitAsset() {
   closeModal(); dbSave(); render();
 }
 
-function submitTicket() {
-  const title = document.getElementById('f-title').value.trim();
-  if (!title) { alert('Enter title'); return; }
-  S.tickets.unshift({
-    id: uid('TK', '_tid'),
-    title,
-    priority: document.getElementById('f-priority').value,
-    assignee: document.getElementById('f-ass').value.trim() || 'Unassigned',
-    status: 'open',
-    created: today()
+function submitAMC() {
+  const vendor = document.getElementById('f-vendor').value.trim();
+  const scope = document.getElementById('f-scope').value.trim();
+  const start = document.getElementById('f-amc-start').value;
+  const end = document.getElementById('f-amc-end').value;
+  if (!vendor || !scope || !start || !end) { alert('Enter vendor, scope, and dates'); return; }
+  S.amc.push({
+    id: uid('AMC', '_aid'), vendor, scope,
+    start: new Date(start).toLocaleDateString('en-GB'),
+    end: new Date(end).toLocaleDateString('en-GB'),
+    startRaw: start, endRaw: end,
+    valueNum: parseInt(document.getElementById('f-val').value) || 0
   });
   closeModal(); dbSave(); render();
 }
 
+function submitSupplier() {
+  const name = document.getElementById('f-sname').value.trim();
+  if (!name) { alert('Enter company name'); return; }
+  S.suppliers.push({
+    id: uid('SP', '_sid'), name,
+    category: document.getElementById('f-scat').value,
+    contact: document.getElementById('f-scontact').value.trim(),
+    phone: document.getElementById('f-sphone').value.trim(),
+    email: document.getElementById('f-semail').value.trim()
+  });
+  closeModal(); dbSave(); render();
+}
+
+function submitContact() {
+  const name = document.getElementById('f-cname').value.trim();
+  if (!name) { alert('Enter contact name'); return; }
+  S.contacts.push({
+    id: uid('CT', '_cid'), name,
+    role: document.getElementById('f-crole').value.trim(),
+    department: document.getElementById('f-cdept').value.trim(),
+    phone: document.getElementById('f-cphone').value.trim(),
+    email: document.getElementById('f-cemail').value.trim()
+  });
+  closeModal(); dbSave(); render();
+}
+
+// ACTIONS
 function toggleTask(id) {
   const t = S.tasks.find(x => x.id === id);
   if (t) { t.done = !t.done; dbSave(); render(); }
-}
-
-function editAsset(id) {
-  alert('Edit feature coming soon');
-}
-
-function changeAssetStatus(id) {
-  const a = S.assets.find(x => x.id === id);
-  if (!a) return;
-  const newStatus = prompt('New status: Assigned, Available, In Maintenance, Retired, Lost / Stolen', a.status);
-  if (newStatus && ASSET_STATUSES.includes(newStatus)) {
-    a.status = newStatus;
-    dbSave(); render();
-  }
 }
 
 function delItem(col, id) {
@@ -480,11 +528,6 @@ function clearAll() {
 }
 
 // AI
-function fillAI(q) {
-  const inp = document.getElementById('ai-q');
-  if (inp) { inp.value = q; askAI(); }
-}
-
 function askAI() {
   const inp = document.getElementById('ai-q');
   const resp = document.getElementById('ai-resp');
@@ -493,15 +536,11 @@ function askAI() {
   if (!q) return;
   resp.innerHTML = 'Asking Claude...';
   inp.value = '';
-  const ctx = `IT dashboard data:\nTickets: ${JSON.stringify(S.tickets.slice(0, 5))}\nAssets: ${JSON.stringify(S.assets.slice(0, 5).map(a => ({name: a.name, type: a.type, assignedTo: a.assignedTo, status: a.status})))}\n`;
+  const ctx = `IT dashboard: ${S.tickets.length} tickets, ${S.assets.length} assets, ${S.tasks.length} tasks, ${S.amc.length} AMCs, ${S.suppliers.length} suppliers, ${S.contacts.length} contacts.`;
   fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 400,
-      messages: [{role: 'user', content: ctx + 'Question: ' + q}]
-    })
+    body: JSON.stringify({model: 'claude-sonnet-4-20250514', max_tokens: 300, messages: [{role: 'user', content: ctx + ' ' + q}]})
   }).then(r => r.json()).then(d => {
     if (resp) resp.innerHTML = (d.content[0]?.text || 'No response').replace(/\n/g, '<br>');
   }).catch(e => {
@@ -515,6 +554,36 @@ function askAIFull() {
   if (!inp || !hist) return;
   const q = inp.value.trim();
   if (!q) return;
+  inp.value = '';
+  hist.innerHTML += '<div style="margin-bottom:8px;padding:8px;background:var(--bg2);border-radius:var(--rmd)"><strong>You:</strong> ' + esc(q) + '</div>';
+  const lid = 'ail-' + Date.now();
+  hist.innerHTML += '<div id="' + lid + '" style="margin-bottom:8px;padding:8px;border-left:2px solid var(--green)"><em>Thinking...</em></div>';
+  hist.scrollTop = hist.scrollHeight;
+  
+  const ctx = `Park Regis Hotel IT Dashboard: ${S.tickets.length} tickets, ${S.assets.length} assets, ${S.tasks.length} tasks, ${S.amc.length} AMCs.`;
+  fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({model: 'claude-sonnet-4-20250514', max_tokens: 300, messages: [{role: 'user', content: ctx + ' ' + q}]})
+  }).then(r => r.json()).then(d => {
+    const el = document.getElementById(lid);
+    if (el) el.innerHTML = '<strong style="color:var(--green)">Claude:</strong><br>' + (d.content[0]?.text || 'Error').replace(/\n/g, '<br>');
+  }).catch(e => {
+    const el = document.getElementById(lid);
+    if (el) el.innerHTML = '<span style="color:var(--red)">⚠ AI error</span>';
+  });
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
+EOF
+echo "Complete — $(wc -c < /mnt/user-data/outputs/index.html) bytes"
+Output
+
+Complete — 37074 bytes
+
   inp.value = '';
   hist.innerHTML += '<div style="margin-bottom:8px;padding:8px;background:var(--bg2);border-radius:var(--rmd)"><strong>You:</strong> ' + esc(q) + '</div>';
   const lid = 'ail-' + Date.now();
